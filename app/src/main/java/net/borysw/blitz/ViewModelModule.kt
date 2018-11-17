@@ -10,8 +10,8 @@ import dagger.multibindings.IntoMap
 abstract class ViewModelModule {
   @Binds
   @IntoMap
-  @ViewModelKey(ClockViewModel::class)
-  abstract fun bindClockViewModel(viewModel: ClockViewModel): ViewModel
+  @ViewModelKey(ClockFragmentViewModel::class)
+  abstract fun bindClockViewModel(viewModel: ClockFragmentViewModel): ViewModel
 
   @Binds
   abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

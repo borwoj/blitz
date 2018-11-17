@@ -23,8 +23,4 @@ class AppModule {
   @Singleton
   fun provideSharedPreferences(context: Context): SharedPreferences =
     PreferenceManager.getDefaultSharedPreferences(context)
-
-  @Provides
-  @Singleton
-  fun provideTimeProvider(): TimeProvider = TimeProvider()
 }

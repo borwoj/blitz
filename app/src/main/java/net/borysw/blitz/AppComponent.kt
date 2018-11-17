@@ -3,7 +3,6 @@ package net.borysw.blitz
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -20,6 +19,6 @@ interface AppComponent {
     fun build(): AppComponent
   }
 
-  fun inject(app: BlitzApp)
+  fun inject(app: App)
 }
 

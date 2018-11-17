@@ -1,7 +1,9 @@
 package net.borysw.blitz
 
-class TimeProvider {
-  fun currentTimeMillis(): Long {
-    return System.currentTimeMillis()
-  }
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class TimeProvider @Inject constructor() {
+  fun currentTimeMillis(): Long = System.currentTimeMillis()
 }

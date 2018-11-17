@@ -12,7 +12,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import timber.log.Timber
 import javax.inject.Inject
 
-class BlitzApp : Application(), HasActivityInjector, HasSupportFragmentInjector, HasServiceInjector {
+class App : Application(), HasActivityInjector, HasSupportFragmentInjector, HasServiceInjector {
 
   @Inject
   lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>

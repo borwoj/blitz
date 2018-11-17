@@ -7,4 +7,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class BindModule {
   @ContributesAndroidInjector()
   abstract fun bindMainActivity(): MainActivity
+
+  @ContributesAndroidInjector
+  abstract fun bindClockFragment(): ClockFragment
 }

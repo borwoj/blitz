@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  >
+
+
+  <View
+    android:id="@+id/a"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@color/a"
+    app:layout_constraintBottom_toTopOf="@id/b"
+    app:layout_constraintTop_toTopOf="parent"
+    />
+
+  <View
+    android:id="@+id/b"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@color/b"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/a"
+    />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:backgroundTint="@color/b"
+    app:borderWidth="0dp"
+    android:src="@drawable/ic_settings_black_24dp"
+    android:tint="@color/a"
+    app:fabSize="mini"
+    app:layout_constraintBottom_toTopOf="@id/b"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/a"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
