@@ -3,7 +3,7 @@ package net.borysw.blitz
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
-class Timer(initialTime: Long) {
+class Timer(private val initialTime: Long) {
   private var timeLeft = initialTime
 
   private var isPaused = true
@@ -13,6 +13,7 @@ class Timer(initialTime: Long) {
   }
 
   fun reset() {
+    timeLeft = initialTime
   }
 
   val timeLeftOsb = Observable.interval(1, MILLISECONDS).filter { !isPaused }.map {
