@@ -1,7 +1,8 @@
-package net.borysw.blitz
+package net.borysw.blitz.game
 
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit.MILLISECONDS
+import java.util.concurrent.TimeUnit.SECONDS
 
 class Timer(private val initialTime: Long) {
   private var timeLeft = initialTime
@@ -16,7 +17,7 @@ class Timer(private val initialTime: Long) {
     timeLeft = initialTime
   }
 
-  val timeLeftOsb = Observable.interval(1, MILLISECONDS).filter { !isPaused }.map {
+  val timeLeftOsb: Observable<Long> = Observable.interval(1, MILLISECONDS).filter { !isPaused }.map {
     --timeLeft
   }.takeUntil { timeLeft == 0L }.startWith(timeLeft)
 

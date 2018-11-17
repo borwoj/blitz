@@ -1,4 +1,4 @@
-package net.borysw.blitz
+package net.borysw.blitz.app
 
 import android.app.Application
 import dagger.BindsInstance

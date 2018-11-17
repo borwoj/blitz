@@ -1,5 +1,6 @@
 package net.borysw.blitz
 
+import net.borysw.blitz.game.Timer
 import org.junit.Test
 
 class TimerTest {

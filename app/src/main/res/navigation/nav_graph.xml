@@ -7,7 +7,7 @@
 
   <fragment
     android:id="@+id/gameFragment"
-    android:name="net.borysw.blitz.GameFragment"
+    android:name="net.borysw.blitz.game.presentation.GameFragment"
     android:label="fragment_game"
     tools:layout="@layout/fragment_game">
     <action
@@ -17,7 +17,7 @@
 
   <fragment
     android:id="@+id/settingsFragment"
-    android:name="net.borysw.blitz.SettingsFragment"
+    android:name="net.borysw.blitz.settings.SettingsFragment"
     android:label="fragment_settings"
     tools:layout="@layout/fragment_settings" />
 

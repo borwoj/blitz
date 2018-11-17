@@ -1,4 +1,4 @@
-package net.borysw.blitz
+package net.borysw.blitz.game.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,8 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_game.start
 import kotlinx.android.synthetic.main.fragment_game.timerA
 import kotlinx.android.synthetic.main.fragment_game.timerB
+import net.borysw.blitz.R
+import net.borysw.blitz.app.ViewModelFactory
 import javax.inject.Inject
 
 class GameFragment : Fragment() {

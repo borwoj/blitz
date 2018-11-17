@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.borysw.blitz
+package net.borysw.blitz.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

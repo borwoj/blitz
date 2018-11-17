@@ -1,4 +1,4 @@
-package net.borysw.blitz
+package net.borysw.blitz.game
 
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction

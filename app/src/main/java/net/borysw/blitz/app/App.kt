@@ -1,4 +1,4 @@
-package net.borysw.blitz
+package net.borysw.blitz.app
 
 import android.app.Activity
 import android.app.Application
@@ -9,6 +9,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
 import dagger.android.support.HasSupportFragmentInjector
+import net.borysw.blitz.BuildConfig
 import timber.log.Timber
 import javax.inject.Inject
 

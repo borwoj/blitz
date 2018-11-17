@@ -1,4 +1,4 @@
-package net.borysw.blitz;
+package net.borysw.blitz.app;
 
 import androidx.lifecycle.ViewModel;
 import dagger.MapKey;

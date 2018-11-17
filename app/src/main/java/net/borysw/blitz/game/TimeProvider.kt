@@ -1,4 +1,4 @@
-package net.borysw.blitz
+package net.borysw.blitz.game
 
 import javax.inject.Inject
 import javax.inject.Singleton
