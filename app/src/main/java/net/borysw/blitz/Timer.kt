@@ -15,12 +15,15 @@ class Timer(initialTime: Long) {
   fun reset() {
   }
 
-  fun start(): Observable<Long> {
-    return Observable.interval(1, MILLISECONDS).map {
-      --timeLeft
-    }.takeUntil { timeLeft == 0L }.startWith(timeLeft)
+  val timeLeftOsb = Observable.interval(1, MILLISECONDS).filter { !isPaused }.map {
+    --timeLeft
+  }.takeUntil { timeLeft == 0L }.startWith(timeLeft)
+
+  fun start() {
+    isPaused = false
   }
 
   fun stop() {
+    isPaused = true
   }
 }

@@ -19,19 +19,18 @@ class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter
   private val initialTime: Long = TimeUnit.SECONDS.toMillis(60)
 
   private val clock = Clock(initialTime)
-  private var isRunning = false
+
+  init {
+    gameStatusDisposable =
+        clock.gameStatus.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe {
+          aTime.value = timeFormatter.format(it.timeA)
+          bTime.value = timeFormatter.format(it.timeB)
+        }
+  }
 
   fun onStartClicked() {
-    if (isRunning) {
-      gameStatusDisposable?.dispose()
-      isRunning=false
-    } else {
-      isRunning = true
-      gameStatusDisposable =
-          clock.start().subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-              aTime.value = timeFormatter.format(it.timeA)
-              bTime.value = timeFormatter.format(it.timeB)
-            }
+    if (!clock.isRunning()) {
+      clock.start()
     }
   }
 
