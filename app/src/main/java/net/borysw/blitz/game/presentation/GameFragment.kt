@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_game.timerA
 import kotlinx.android.synthetic.main.fragment_game.timerB
 import net.borysw.blitz.R
 import net.borysw.blitz.app.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class GameFragment : Fragment() {
@@ -36,13 +37,14 @@ class GameFragment : Fragment() {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
     start.setOnClickListener { viewModel.onStartClicked() }
-    timerA.setOnClickListener { viewModel.onSwitchClicked() }
-    timerB.setOnClickListener { viewModel.onSwitchClicked() }
+    timerA.setOnClickListener { viewModel.timerAClicked() }
+    timerB.setOnClickListener { viewModel.timberBClicked() }
     subscribe()
   }
 
   private fun subscribe() {
     viewModel.gameStatus.observe(viewLifecycleOwner, Observer { gameStatus ->
+      Timber.d("Game status: $gameStatus")
       timerA.setTime(gameStatus.timeA)
       timerB.setTime(gameStatus.timeB)
       if (gameStatus.isFinished) {

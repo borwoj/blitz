@@ -12,8 +12,12 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
       ClockStatus(timeLeftA, timeLeftB)
     })
 
-  fun start() {
+  fun startA() {
     timerA.start()
+  }
+
+  fun startB(){
+    timerB.start()
   }
 
   fun stop() {
