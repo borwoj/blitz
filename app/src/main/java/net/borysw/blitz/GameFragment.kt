@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_game.start
 import kotlinx.android.synthetic.main.fragment_game.timerA
@@ -39,11 +40,16 @@ class GameFragment : Fragment() {
   }
 
   private fun subscribe() {
-    viewModel.aTime.observe(viewLifecycleOwner, Observer {
-      timerA.setTime(it)
+    viewModel.gameStatus.observe(viewLifecycleOwner, Observer { gameStatus ->
+      timerA.setTime(gameStatus.timeA)
+      timerB.setTime(gameStatus.timeB)
+      if (gameStatus.isFinished) {
+        showGameFinished()
+      }
     })
-    viewModel.bTime.observe(viewLifecycleOwner, Observer {
-      timerB.setTime(it)
-    })
+  }
+
+  private fun showGameFinished() {
+    Snackbar.make(timerA, "Game finished", Snackbar.LENGTH_INDEFINITE).show()
   }
 }

@@ -10,21 +10,21 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter) : ViewModel() {
-  val aTime = MutableLiveData<String>()
-  val bTime = MutableLiveData<String>()
+  val gameStatus = MutableLiveData<GameStatus>()
 
   private val disposables = CompositeDisposable()
   private var gameStatusDisposable: Disposable? = null
 
-  private val initialTime: Long = TimeUnit.SECONDS.toMillis(60)
+  private val initialTime: Long = TimeUnit.SECONDS.toMillis(5)
 
   private val clock = Clock(initialTime)
 
   init {
     gameStatusDisposable =
         clock.gameStatus.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-          aTime.value = timeFormatter.format(it.timeA)
-          bTime.value = timeFormatter.format(it.timeB)
+          gameStatus.value = GameStatus(
+            it.timeA == 0L || it.timeB == 0L, timeFormatter.format(it.timeA), timeFormatter.format(it.timeB)
+          )
         }
   }
 
