@@ -12,20 +12,18 @@
     android:id="@+id/timerA"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:background="@color/a"
-    android:foreground="?android:selectableItemBackgroundBorderless"
     app:layout_constraintBottom_toTopOf="@id/timerB"
     app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="1"
     />
 
   <net.borysw.blitz.game.presentation.TimeView
     android:id="@+id/timerB"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:background="@color/b"
-    android:foreground="?android:selectableItemBackgroundBorderless"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toBottomOf="@id/timerA"
+    app:layout_constraintVertical_weight="2"
     />
 
 
@@ -34,11 +32,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:backgroundTint="@color/a"
-    app:borderWidth="0dp"
-    android:src="@drawable/ic_play_arrow_black_24dp"
-    android:tint="@color/white"
-    app:fabSize="normal"
     app:layout_constraintBottom_toTopOf="@id/timerB"
     app:layout_constraintEnd_toStartOf="@id/settings"
     app:layout_constraintTop_toBottomOf="@id/timerA"
@@ -49,11 +42,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:backgroundTint="@color/b"
-    app:borderWidth="0dp"
-    android:src="@drawable/ic_settings_black_24dp"
-    android:tint="@color/a"
-    app:fabSize="mini"
     app:layout_constraintBottom_toTopOf="@id/timerB"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@id/timerA"

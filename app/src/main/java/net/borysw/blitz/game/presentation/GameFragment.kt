@@ -4,16 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnticipateInterpolator
+import android.view.animation.AnticipateOvershootInterpolator
+import android.view.animation.DecelerateInterpolator
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_game.root
 import kotlinx.android.synthetic.main.fragment_game.start
 import kotlinx.android.synthetic.main.fragment_game.timerA
 import kotlinx.android.synthetic.main.fragment_game.timerB
 import net.borysw.blitz.R
 import net.borysw.blitz.app.ViewModelFactory
+import net.borysw.blitz.game.presentation.PlayerMove.PLAYER_A
+import net.borysw.blitz.game.presentation.PlayerMove.PLAYER_B
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -50,7 +60,24 @@ class GameFragment : Fragment() {
       if (gameStatus.isFinished) {
         showGameFinished()
       }
+      showPlayerMove(gameStatus.playerMove)
     })
+  }
+
+  private fun showPlayerMove(playerMove: PlayerMove) {
+    val constraintSet = ConstraintSet()
+    constraintSet.clone(context, getConstraintSet(playerMove))
+    val transition = ChangeBounds()
+    transition.interpolator = AccelerateDecelerateInterpolator()
+    transition.duration = 250
+    TransitionManager.beginDelayedTransition(root, transition)
+    TransitionManager.beginDelayedTransition(root)
+    constraintSet.applyTo(root)
+  }
+
+  private fun getConstraintSet(playerMove: PlayerMove) = when (playerMove) {
+    PLAYER_A -> R.layout.fragment_game_player_a
+    PLAYER_B -> R.layout.fragment_game_player_b
   }
 
   private fun showGameFinished() {
