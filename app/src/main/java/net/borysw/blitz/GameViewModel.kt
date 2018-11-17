@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -13,16 +14,25 @@ class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter
   val bTime = MutableLiveData<String>()
 
   private val disposables = CompositeDisposable()
+  private var gameStatusDisposable: Disposable? = null
 
   private val initialTime: Long = TimeUnit.SECONDS.toMillis(60)
 
   private val clock = Clock(initialTime)
+  private var isRunning = false
 
   fun onStartClicked() {
-    clock.start().subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-      aTime.value = TimeUnit.MILLISECONDS.toSeconds(it.timeA).toString()
-      bTime.value = TimeUnit.MILLISECONDS.toSeconds(it.timeB).toString()
-    }.apply { disposables.add(this) }
+    if (isRunning) {
+      gameStatusDisposable?.dispose()
+      isRunning=false
+    } else {
+      isRunning = true
+      gameStatusDisposable =
+          clock.start().subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe {
+              aTime.value = timeFormatter.format(it.timeA)
+              bTime.value = timeFormatter.format(it.timeB)
+            }
+    }
   }
 
   fun onSwitchClicked() {

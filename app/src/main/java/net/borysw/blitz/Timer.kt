@@ -1,23 +1,25 @@
 package net.borysw.blitz
 
 import io.reactivex.Observable
-import timber.log.Timber
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
-class Timer(private val initialTime: Long) {
+class Timer(initialTime: Long) {
   private var timeLeft = initialTime
 
+  private var isPaused = true
+
   fun isRunning(): Boolean {
-    return false
+    return !isPaused
   }
 
   fun reset() {
   }
 
-  fun start(): Observable<Long> = Observable.interval(1, MILLISECONDS).map { timePassed ->
-    timeLeft = initialTime - timePassed
-    timeLeft
-  }.takeUntil { timeLeft == 0L }.startWith(timeLeft)
+  fun start(): Observable<Long> {
+    return Observable.interval(1, MILLISECONDS).map {
+      --timeLeft
+    }.takeUntil { timeLeft == 0L }.startWith(timeLeft)
+  }
 
   fun stop() {
   }
