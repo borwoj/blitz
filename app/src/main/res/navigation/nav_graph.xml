@@ -3,13 +3,13 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/nav_graph"
-  app:startDestination="@id/clockFragment">
+  app:startDestination="@id/gameFragment">
 
   <fragment
-    android:id="@+id/clockFragment"
-    android:name="net.borysw.blitz.ClockFragment"
-    android:label="fragment_clock"
-    tools:layout="@layout/fragment_clock">
+    android:id="@+id/gameFragment"
+    android:name="net.borysw.blitz.GameFragment"
+    android:label="fragment_game"
+    tools:layout="@layout/fragment_game">
     <action
       android:id="@+id/action_clockFragment_to_settingsFragment"
       app:destination="@id/settingsFragment" />

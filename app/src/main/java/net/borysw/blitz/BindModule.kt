@@ -9,5 +9,5 @@ abstract class BindModule {
   abstract fun bindMainActivity(): MainActivity
 
   @ContributesAndroidInjector
-  abstract fun bindClockFragment(): ClockFragment
+  abstract fun bindClockFragment(): GameFragment
 }

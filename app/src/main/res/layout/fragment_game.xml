@@ -6,25 +6,42 @@
   >
 
 
-  <View
-    android:id="@+id/a"
+  <net.borysw.blitz.TimeView
+    android:id="@+id/timerA"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:background="@color/a"
-    app:layout_constraintBottom_toTopOf="@id/b"
+    app:layout_constraintBottom_toTopOf="@id/timerB"
     app:layout_constraintTop_toTopOf="parent"
     />
 
-  <View
-    android:id="@+id/b"
+  <net.borysw.blitz.TimeView
+    android:id="@+id/timerB"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:background="@color/b"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/a"
+    app:layout_constraintTop_toBottomOf="@id/timerA"
+    />
+
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/start"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:backgroundTint="@color/a"
+    app:borderWidth="0dp"
+    android:src="@drawable/ic_play_arrow_black_24dp"
+    android:tint="@color/white"
+    app:fabSize="normal"
+    app:layout_constraintBottom_toTopOf="@id/timerB"
+    app:layout_constraintEnd_toStartOf="@id/settings"
+    app:layout_constraintTop_toBottomOf="@id/timerA"
     />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
+   android:id="@+id/settings"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
@@ -33,9 +50,9 @@
     android:src="@drawable/ic_settings_black_24dp"
     android:tint="@color/a"
     app:fabSize="mini"
-    app:layout_constraintBottom_toTopOf="@id/b"
+    app:layout_constraintBottom_toTopOf="@id/timerB"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/a"
+    app:layout_constraintTop_toBottomOf="@id/timerA"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

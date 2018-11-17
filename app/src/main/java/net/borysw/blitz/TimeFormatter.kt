@@ -1,5 +1,9 @@
 package net.borysw.blitz
 
-class TimeFormatter{
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class TimeFormatter @Inject constructor(){
 
 }
