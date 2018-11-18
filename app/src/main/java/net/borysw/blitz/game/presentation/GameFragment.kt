@@ -71,7 +71,6 @@ class GameFragment : Fragment() {
     transition.interpolator = OvershootInterpolator(1f)
     transition.duration = 250
     TransitionManager.beginDelayedTransition(root, transition)
-    TransitionManager.beginDelayedTransition(root)
     constraintSet.applyTo(root)
   }
 
@@ -88,7 +87,6 @@ class GameFragment : Fragment() {
     transition.interpolator = AnticipateOvershootInterpolator()
     transition.duration = 1000
     TransitionManager.beginDelayedTransition(root, transition)
-    TransitionManager.beginDelayedTransition(root)
     constraintSet.applyTo(root)
   }
 }
