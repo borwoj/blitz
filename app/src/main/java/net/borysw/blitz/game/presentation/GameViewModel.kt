@@ -20,14 +20,19 @@ class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter
   private val disposables = CompositeDisposable()
   private var gameStatusDisposable: Disposable? = null
 
-  private val initialTime: Long = SECONDS.toMillis(60)
+  private val initialTime: Long = SECONDS.toMillis(3)
 
   private val clock = Clock(initialTime)
 
   private var lastClockStatus: ClockStatus? = null
 
   init {
-    gameStatusDisposable = clock.gameStatus.map {clockStatus ->
+    subscribeToClockStatus()
+  }
+
+  private fun subscribeToClockStatus() {
+    gameStatusDisposable?.dispose()
+    gameStatusDisposable = clock.gameStatus.map { clockStatus ->
       Timber.d("Clock status: $clockStatus")
       val playerMove = getPlayerMove(clockStatus)
       GameStatus(
@@ -36,10 +41,9 @@ class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter
         timeFormatter.format(clockStatus.timeB),
         playerMove
       )
-    }.distinctUntilChanged().subscribeOn(computation()).observeOn(mainThread())
-      .subscribe { gameStatus ->
-        this.gameStatus.value =gameStatus
-      }
+    }.distinctUntilChanged().subscribeOn(computation()).observeOn(mainThread()).subscribe { gameStatus ->
+      this.gameStatus.value = gameStatus
+    }
   }
 
   private fun getPlayerMove(clockStatus: ClockStatus): PlayerMove {
@@ -55,6 +59,10 @@ class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter
   fun onStartClicked() {
     if (!clock.isRunning()) {
       clock.startA()
+    }else {
+      clock.stop()
+      clock.reset()
+      subscribeToClockStatus()
     }
   }
 

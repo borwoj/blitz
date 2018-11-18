@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AnticipateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
-import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -59,8 +58,9 @@ class GameFragment : Fragment() {
       timerB.setTime(gameStatus.timeB)
       if (gameStatus.isFinished) {
         showGameFinished()
+      } else {
+        showPlayerMove(gameStatus.playerMove)
       }
-      showPlayerMove(gameStatus.playerMove)
     })
   }
 
@@ -68,7 +68,7 @@ class GameFragment : Fragment() {
     val constraintSet = ConstraintSet()
     constraintSet.clone(context, getConstraintSet(playerMove))
     val transition = ChangeBounds()
-    transition.interpolator = AccelerateDecelerateInterpolator()
+    transition.interpolator = OvershootInterpolator(1f)
     transition.duration = 250
     TransitionManager.beginDelayedTransition(root, transition)
     TransitionManager.beginDelayedTransition(root)
@@ -82,5 +82,13 @@ class GameFragment : Fragment() {
 
   private fun showGameFinished() {
     Snackbar.make(timerA, "Game finished", Snackbar.LENGTH_INDEFINITE).show()
+    val constraintSet = ConstraintSet()
+    constraintSet.clone(context, R.layout.fragment_game_player_finish)
+    val transition = ChangeBounds()
+    transition.interpolator = AnticipateOvershootInterpolator()
+    transition.duration = 1000
+    TransitionManager.beginDelayedTransition(root, transition)
+    TransitionManager.beginDelayedTransition(root)
+    constraintSet.applyTo(root)
   }
 }
