@@ -2,6 +2,7 @@ package net.borysw.blitz.game
 
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
+import net.borysw.blitz.game.ActiveTimer.*
 
 class Clock(time: Long, private val initialTimeA: Long = 0, private val initialTimeB: Long = 0) {
   private val timerA = Timer(time)
@@ -9,7 +10,7 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
 
   val gameStatus: Observable<ClockStatus> =
     Observable.combineLatest(timerA.timeLeftOsb, timerB.timeLeftOsb, BiFunction { timeLeftA, timeLeftB ->
-      ClockStatus(timeLeftA, timeLeftB, if (timerA.isRunning()) ActiveTimer.A else ActiveTimer.B)
+      ClockStatus(timeLeftA, timeLeftB, if (timerA.isRunning()) A else B)
     })
 
   fun startA() {

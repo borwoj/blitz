@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_game.start
 import kotlinx.android.synthetic.main.fragment_game.timerA
 import kotlinx.android.synthetic.main.fragment_game.timerB
 import net.borysw.blitz.R
+import net.borysw.blitz.R.layout.*
 import net.borysw.blitz.app.ViewModelFactory
 import net.borysw.blitz.game.presentation.GameStatus.Status.*
 import timber.log.Timber
@@ -26,9 +27,9 @@ import javax.inject.Inject
 
 class GameFragment : Fragment() {
 
-  private lateinit var viewModel: GameViewModel
   @Inject
   lateinit var viewModelFactory: ViewModelFactory
+  private lateinit var viewModel: GameViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
     AndroidSupportInjection.inject(this)
@@ -36,7 +37,7 @@ class GameFragment : Fragment() {
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-    return inflater.inflate(R.layout.fragment_game, container, false)
+    return inflater.inflate(fragment_game, container, false)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,14 +53,18 @@ class GameFragment : Fragment() {
   private fun subscribe() {
     viewModel.gameStatus.observe(viewLifecycleOwner, Observer { gameStatus ->
       Timber.d("Game status: $gameStatus")
-      when (gameStatus.status) {
-        INITIAL -> showGameInitial()
-        FINISHED -> showGameFinished()
-        PLAYER_A, PLAYER_B -> showPlayerActive(gameStatus.status)
-      }
-      timerA.setTime(gameStatus.timeA)
-      timerB.setTime(gameStatus.timeB)
+      showGameStatus(gameStatus)
     })
+  }
+
+  private fun showGameStatus(gameStatus: GameStatus) {
+    when (gameStatus.status) {
+      INITIAL -> showGameInitial()
+      FINISHED -> showGameFinished()
+      PLAYER_A, PLAYER_B -> showPlayerActive(gameStatus.status)
+    }
+    timerA.setTime(gameStatus.timeA)
+    timerB.setTime(gameStatus.timeB)
   }
 
   private fun showGameInitial() {
@@ -76,18 +81,17 @@ class GameFragment : Fragment() {
 
     if (gameStatus == PLAYER_A) {
       timerA.isActive = true
-      timerB.isActive = false
     } else if (gameStatus == PLAYER_B) {
       timerA.isActive = false
-      timerB.isActive = true
     }
+    timerB.isActive = !timerA.isActive
   }
 
   private fun getConstraintSet(gameStatus: GameStatus.Status) = when (gameStatus) {
-    INITIAL -> R.layout.fragment_game
-    FINISHED -> R.layout.fragment_game_player_finish
-    PLAYER_A -> R.layout.fragment_game_player_a
-    PLAYER_B -> R.layout.fragment_game_player_b
+    INITIAL -> fragment_game
+    FINISHED -> fragment_game_player_finish
+    PLAYER_A -> fragment_game_player_a
+    PLAYER_B -> fragment_game_player_b
   }
 
   private fun showGameFinished() {
