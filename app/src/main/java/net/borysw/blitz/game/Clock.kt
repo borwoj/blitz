@@ -9,14 +9,14 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
 
   val gameStatus: Observable<ClockStatus> =
     Observable.combineLatest(timerA.timeLeftOsb, timerB.timeLeftOsb, BiFunction { timeLeftA, timeLeftB ->
-      ClockStatus(timeLeftA, timeLeftB)
+      ClockStatus(timeLeftA, timeLeftB, if (timerA.isRunning()) ActiveTimer.A else ActiveTimer.B)
     })
 
   fun startA() {
     timerA.start()
   }
 
-  fun startB(){
+  fun startB() {
     timerB.start()
   }
 

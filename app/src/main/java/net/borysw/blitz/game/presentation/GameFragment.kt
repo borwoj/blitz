@@ -20,8 +20,7 @@ import kotlinx.android.synthetic.main.fragment_game.timerA
 import kotlinx.android.synthetic.main.fragment_game.timerB
 import net.borysw.blitz.R
 import net.borysw.blitz.app.ViewModelFactory
-import net.borysw.blitz.game.presentation.PlayerMove.PLAYER_A
-import net.borysw.blitz.game.presentation.PlayerMove.PLAYER_B
+import net.borysw.blitz.game.presentation.GameStatus.Status.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -53,37 +52,40 @@ class GameFragment : Fragment() {
   private fun subscribe() {
     viewModel.gameStatus.observe(viewLifecycleOwner, Observer { gameStatus ->
       Timber.d("Game status: $gameStatus")
+      when (gameStatus.status) {
+        INITIAL -> showGameInitial()
+        FINISHED -> showGameFinished()
+        PLAYER_A, PLAYER_B -> showPlayerActive(gameStatus.status)
+      }
       timerA.setTime(gameStatus.timeA)
       timerB.setTime(gameStatus.timeB)
-      if (gameStatus.isFinished) {
-        showGameFinished()
-      } else {
-        showPlayerMove(gameStatus.playerMove)
-      }
     })
   }
 
-  private fun showPlayerMove(playerMove: PlayerMove) {
+  private fun showGameInitial() {
+  }
+
+  private fun showPlayerActive(gameStatus: GameStatus.Status) {
     val constraintSet = ConstraintSet()
-    constraintSet.clone(context, getConstraintSet(playerMove))
+    constraintSet.clone(context, getConstraintSet(gameStatus))
     val transition = ChangeBounds()
     transition.interpolator = OvershootInterpolator(1f)
     transition.duration = 250
     TransitionManager.beginDelayedTransition(root, transition)
     constraintSet.applyTo(root)
-    when (playerMove) {
-      PLAYER_A -> {
-        timerA.isActive = true
-        timerB.isActive = false
-      }
-      PLAYER_B -> {
-        timerA.isActive = false
-        timerB.isActive = true
-      }
+
+    if (gameStatus == PLAYER_A) {
+      timerA.isActive = true
+      timerB.isActive = false
+    } else if (gameStatus == PLAYER_B) {
+      timerA.isActive = false
+      timerB.isActive = true
     }
   }
 
-  private fun getConstraintSet(playerMove: PlayerMove) = when (playerMove) {
+  private fun getConstraintSet(gameStatus: GameStatus.Status) = when (gameStatus) {
+    INITIAL -> R.layout.fragment_game
+    FINISHED -> R.layout.fragment_game_player_finish
     PLAYER_A -> R.layout.fragment_game_player_a
     PLAYER_B -> R.layout.fragment_game_player_b
   }
@@ -91,7 +93,7 @@ class GameFragment : Fragment() {
   private fun showGameFinished() {
     Snackbar.make(timerA, "Game finished", Snackbar.LENGTH_INDEFINITE).show()
     val constraintSet = ConstraintSet()
-    constraintSet.clone(context, R.layout.fragment_game_player_finish)
+    constraintSet.clone(context, getConstraintSet(FINISHED))
     val transition = ChangeBounds()
     transition.interpolator = AnticipateOvershootInterpolator()
     transition.duration = 1000

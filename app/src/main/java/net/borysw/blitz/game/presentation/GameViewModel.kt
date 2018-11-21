@@ -8,13 +8,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers.computation
 import net.borysw.blitz.game.Clock
 import net.borysw.blitz.game.ClockStatus
-import net.borysw.blitz.game.presentation.PlayerMove.PLAYER_A
-import net.borysw.blitz.game.presentation.PlayerMove.PLAYER_B
 import timber.log.Timber
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
-class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter) : ViewModel() {
+class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatusFactory) : ViewModel() {
   val gameStatus = MutableLiveData<GameStatus>()
 
   private val disposables = CompositeDisposable()
@@ -24,8 +22,6 @@ class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter
 
   private val clock = Clock(initialTime)
 
-  private var lastClockStatus: ClockStatus? = null
-
   init {
     subscribeToClockStatus()
   }
@@ -34,32 +30,16 @@ class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter
     gameStatusDisposable?.dispose()
     gameStatusDisposable = clock.gameStatus.map { clockStatus ->
       Timber.d("Clock status: $clockStatus")
-      val playerMove = getPlayerMove(clockStatus)
-      GameStatus(
-        clockStatus.timeA == 0L || clockStatus.timeB == 0L,
-        timeFormatter.format(clockStatus.timeA),
-        timeFormatter.format(clockStatus.timeB),
-        playerMove
-      )
+      gameStatusFactory.getGameStatus(clockStatus, initialTime)
     }.distinctUntilChanged().subscribeOn(computation()).observeOn(mainThread()).subscribe { gameStatus ->
       this.gameStatus.value = gameStatus
     }
   }
 
-  private fun getPlayerMove(clockStatus: ClockStatus): PlayerMove {
-    val playerMove = when {
-      lastClockStatus == null -> PLAYER_A
-      lastClockStatus!!.timeA == clockStatus.timeA -> PLAYER_B
-      else -> PLAYER_A
-    }
-    lastClockStatus = clockStatus
-    return playerMove
-  }
-
   fun onStartClicked() {
     if (!clock.isRunning()) {
       clock.startA()
-    }else {
+    } else {
       clock.stop()
       clock.reset()
       subscribeToClockStatus()
