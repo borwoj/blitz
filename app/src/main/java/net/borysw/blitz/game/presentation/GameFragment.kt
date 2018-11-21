@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.constraintlayout.widget.ConstraintSet
@@ -72,6 +71,16 @@ class GameFragment : Fragment() {
     transition.duration = 250
     TransitionManager.beginDelayedTransition(root, transition)
     constraintSet.applyTo(root)
+    when (playerMove) {
+      PLAYER_A -> {
+        timerA.isActive = true
+        timerB.isActive = false
+      }
+      PLAYER_B -> {
+        timerA.isActive = false
+        timerB.isActive = true
+      }
+    }
   }
 
   private fun getConstraintSet(playerMove: PlayerMove) = when (playerMove) {
@@ -88,5 +97,7 @@ class GameFragment : Fragment() {
     transition.duration = 1000
     TransitionManager.beginDelayedTransition(root, transition)
     constraintSet.applyTo(root)
+
+    start.setImageResource(R.drawable.ic_replay_black_24dp)
   }
 }

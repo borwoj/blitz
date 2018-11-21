@@ -20,7 +20,7 @@ class GameViewModel @Inject constructor(private val timeFormatter: TimeFormatter
   private val disposables = CompositeDisposable()
   private var gameStatusDisposable: Disposable? = null
 
-  private val initialTime: Long = SECONDS.toMillis(3)
+  private val initialTime: Long = SECONDS.toMillis(10)
 
   private val clock = Clock(initialTime)
 
