@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.presentation
+package net.borysw.blitz.game
 
 import java.util.concurrent.TimeUnit.*
 import javax.inject.Inject

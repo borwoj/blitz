@@ -2,7 +2,8 @@ package net.borysw.blitz.game
 
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
-import net.borysw.blitz.game.ActiveTimer.*
+import net.borysw.blitz.game.ClockStatus.ActiveTimer.A
+import net.borysw.blitz.game.ClockStatus.ActiveTimer.B
 
 class Clock(time: Long, private val initialTimeA: Long = 0, private val initialTimeB: Long = 0) {
   private val timerA = Timer(time)
@@ -34,10 +35,10 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
   fun switch() {
     if (timerA.isRunning()) {
       timerA.stop()
-      timerB.start()
+     startB()
     } else {
       timerB.stop()
-      timerA.start()
+      startA()
     }
   }
 

@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 class Timer(private val initialTime: Long) {
   private var timeLeft = initialTime
-
   private var isPaused = true
 
   fun isRunning(): Boolean {
@@ -17,10 +16,6 @@ class Timer(private val initialTime: Long) {
     timeLeft = initialTime
   }
 
-  val timeLeftOsb: Observable<Long> = Observable.interval(1, MILLISECONDS).filter { !isPaused }.map {
-    --timeLeft
-  }.takeUntil { timeLeft == 0L }.startWith(timeLeft)
-
   fun start() {
     isPaused = false
   }
@@ -28,4 +23,9 @@ class Timer(private val initialTime: Long) {
   fun stop() {
     isPaused = true
   }
+
+  val timeLeftOsb: Observable<Long> = Observable.interval(1, MILLISECONDS).filter { !isPaused }.map {
+    --timeLeft
+  }.takeUntil { timeLeft == 0L }.startWith(timeLeft)
+
 }

@@ -21,12 +21,12 @@ import kotlinx.android.synthetic.main.fragment_game.timerB
 import net.borysw.blitz.R
 import net.borysw.blitz.R.layout.*
 import net.borysw.blitz.app.ViewModelFactory
-import net.borysw.blitz.game.presentation.GameStatus.Status.*
+import net.borysw.blitz.game.GameStatus
+import net.borysw.blitz.game.GameStatus.Status.*
 import timber.log.Timber
 import javax.inject.Inject
 
 class GameFragment : Fragment() {
-
   @Inject
   lateinit var viewModelFactory: ViewModelFactory
   private lateinit var viewModel: GameViewModel

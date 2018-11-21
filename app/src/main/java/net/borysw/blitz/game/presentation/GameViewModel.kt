@@ -7,7 +7,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers.computation
 import net.borysw.blitz.game.Clock
-import net.borysw.blitz.game.ClockStatus
+import net.borysw.blitz.game.GameStatus
+import net.borysw.blitz.game.GameStatusFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
@@ -46,11 +47,6 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
     }
   }
 
-  override fun onCleared() {
-    super.onCleared()
-    disposables.dispose()
-  }
-
   fun timerAClicked() {
     if (clock.isRunning()) {
       clock.switch()
@@ -65,5 +61,10 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
     } else {
       clock.startB()
     }
+  }
+
+  override fun onCleared() {
+    super.onCleared()
+    disposables.dispose()
   }
 }
