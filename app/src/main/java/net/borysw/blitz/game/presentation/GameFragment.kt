@@ -68,22 +68,33 @@ class GameFragment : Fragment() {
   }
 
   private fun showGameInitial() {
+    start.setImageResource(R.drawable.ic_play_arrow_black_24dp)
   }
 
   private fun showPlayerActive(gameStatus: GameStatus.Status) {
-    val transition = ChangeBounds().apply {
-      interpolator = OvershootInterpolator(1f)
-      duration = 250
-    }
-    beginDelayedTransition(root, transition)
-    getConstraintSet(gameStatus).applyTo(root)
-
     if (gameStatus == PLAYER_A) {
       timerA.isActive = true
     } else if (gameStatus == PLAYER_B) {
       timerA.isActive = false
     }
     timerB.isActive = !timerA.isActive
+
+    beginDelayedTransition(root, ChangeBounds().apply {
+      interpolator = OvershootInterpolator(1f)
+      duration = 250
+    })
+    getConstraintSet(gameStatus).applyTo(root)
+  }
+
+  private fun showGameFinished() {
+    Snackbar.make(timerA, "Game finished", Snackbar.LENGTH_INDEFINITE).show()
+    start.setImageResource(R.drawable.ic_replay_black_24dp)
+
+    beginDelayedTransition(root, ChangeBounds().apply {
+      interpolator = AnticipateOvershootInterpolator()
+      duration = 1000
+    })
+    getConstraintSet(FINISHED).applyTo(root)
   }
 
   private fun getConstraintSet(gameStatus: GameStatus.Status): ConstraintSet {
@@ -94,17 +105,5 @@ class GameFragment : Fragment() {
       PLAYER_B -> fragment_game_player_b
     }
     return ConstraintSet().apply { clone(context, layoutResId) }
-  }
-
-  private fun showGameFinished() {
-    Snackbar.make(timerA, "Game finished", Snackbar.LENGTH_INDEFINITE).show()
-    val transition = ChangeBounds().apply {
-      interpolator = AnticipateOvershootInterpolator()
-      duration = 1000
-    }
-    beginDelayedTransition(root, transition)
-    getConstraintSet(FINISHED).applyTo(root)
-
-    start.setImageResource(R.drawable.ic_replay_black_24dp)
   }
 }
