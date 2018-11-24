@@ -18,7 +18,7 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
     publishGameStatus()
   }
 
-  private fun isTimeOver() = clockA.timeLeft == 0L || clockB.timeLeft == 0L
+  private fun isTimeOver() = clockA.isTimeOver()  || clockB.isTimeOver()
 
   private fun start() {
     subscribeToTimer()
@@ -35,8 +35,8 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
     timerDisposable?.dispose()
     timerDisposable = Observable.interval(1, TimeUnit.MILLISECONDS).doOnNext {
       when (activeClock) {
-        CLOCK_A -> clockA.timeLeft--
-        CLOCK_B -> clockB.timeLeft--
+        CLOCK_A -> clockA.decrementTime()
+        CLOCK_B -> clockB.decrementTime()
         NONE -> throw IllegalStateException("No clock is active")
       }
       publishGameStatus()
@@ -47,7 +47,7 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
   }
 
   private fun publishGameStatus() {
-    val gameStatus = gameStatusFactory.getStatus(initialTime, clockA.timeLeft, clockB.timeLeft, activeClock)
+    val gameStatus = gameStatusFactory.getStatus(initialTime, clockA.getTimeLeft(), clockB.getTimeLeft(), activeClock)
     this.gameStatus.onNext(gameStatus)
   }
 
