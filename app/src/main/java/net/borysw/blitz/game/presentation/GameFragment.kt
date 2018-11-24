@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager.beginDelayedTransition
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_game.root
-import kotlinx.android.synthetic.main.fragment_game.start
-import kotlinx.android.synthetic.main.fragment_game.timerViewA
-import kotlinx.android.synthetic.main.fragment_game.timerViewB
+import kotlinx.android.synthetic.main.fragment_game_initial.root
+import kotlinx.android.synthetic.main.fragment_game_initial.start
+import kotlinx.android.synthetic.main.fragment_game_initial.timerViewA
+import kotlinx.android.synthetic.main.fragment_game_initial.timerViewB
 import net.borysw.blitz.R
 import net.borysw.blitz.R.layout.*
 import net.borysw.blitz.app.ViewModelFactory
@@ -36,7 +36,7 @@ class GameFragment : Fragment() {
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-    return inflater.inflate(fragment_game, container, false)
+    return inflater.inflate(fragment_game_initial, container, false)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +58,8 @@ class GameFragment : Fragment() {
 
   private fun showGameStatus(gameStatus: GameStatus) {
     when (gameStatus.status) {
-      PAUSED -> showGameInitial()
+      INITIAL -> showGameInitial()
+      PAUSED -> showGamePaused()
       IN_PROGRESS_PLAYER_A, IN_PROGRESS_PLAYER_B -> showGameInProgress(gameStatus.status)
       FINISHED_PLAYER_A, FINISHED_PLAYER_B -> showGameFinished(gameStatus.status)
     }
@@ -67,7 +68,19 @@ class GameFragment : Fragment() {
   }
 
   private fun showGameInitial() {
-    //start.setImageResource(R.drawable.ic_play_arrow_black_24dp)
+    timerViewA.setActive(false)
+    timerViewB.setActive(false)
+
+    beginDelayedTransition(root, ChangeBounds().apply {
+      interpolator = AnticipateOvershootInterpolator()
+      duration = 500
+    })
+    getConstraintSet(INITIAL).applyTo(root)
+  }
+
+  private fun showGamePaused() {
+    start.setImageResource(R.drawable.ic_replay_black_24dp)
+
     timerViewA.setActive(false)
     timerViewB.setActive(false)
 
@@ -116,7 +129,8 @@ class GameFragment : Fragment() {
 
   private fun getConstraintSet(gameStatus: GameStatus.Status): ConstraintSet {
     val layoutResId = when (gameStatus) {
-      PAUSED -> fragment_game
+      INITIAL -> fragment_game_initial
+      PAUSED -> fragment_game_paused
       IN_PROGRESS_PLAYER_A -> fragment_game_player_a
       IN_PROGRESS_PLAYER_B -> fragment_game_player_b
       FINISHED_PLAYER_A, FINISHED_PLAYER_B -> fragment_game_finish

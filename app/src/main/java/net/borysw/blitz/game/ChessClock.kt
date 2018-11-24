@@ -27,6 +27,7 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
   fun reset() {
     clockA.reset()
     clockB.reset()
+    activeClock = NONE
     publishGameStatus()
   }
 
@@ -39,7 +40,10 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
         NONE -> throw IllegalStateException("No clock is active")
       }
       publishGameStatus()
-    }.takeUntil { clockA.timeLeft == 0L || clockB.timeLeft == 0L }.subscribe()
+      if (isTimeOver()) {
+        activeClock = NONE
+      }
+    }.takeUntil { isTimeOver() }.subscribe()
   }
 
   private fun publishGameStatus() {

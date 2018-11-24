@@ -10,7 +10,8 @@ import javax.inject.Singleton
 class GameStatusFactory @Inject constructor(private val timeFormatter: TimeFormatter) {
   fun getStatus(initialTime: Long, timeLeftA: Long, timeLeftB: Long, activeClock: ActiveClock): GameStatus {
     val status = when {
-      (initialTime == timeLeftA && initialTime == timeLeftB) || (activeClock == NONE) -> PAUSED
+      (initialTime == timeLeftA && initialTime == timeLeftB) -> INITIAL
+      activeClock == NONE -> PAUSED
       timeLeftA == 0L -> FINISHED_PLAYER_A
       timeLeftB == 0L -> FINISHED_PLAYER_B
       activeClock == CLOCK_A -> IN_PROGRESS_PLAYER_A

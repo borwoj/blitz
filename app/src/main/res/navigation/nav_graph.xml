@@ -9,7 +9,7 @@
     android:id="@+id/gameFragment"
     android:name="net.borysw.blitz.game.presentation.GameFragment"
     android:label="fragment_game"
-    tools:layout="@layout/fragment_game">
+    tools:layout="@layout/fragment_game_initial">
     <action
       android:id="@+id/action_clockFragment_to_settingsFragment"
       app:destination="@id/settingsFragment" />
