@@ -3,7 +3,6 @@ package net.borysw.blitz.game.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers.computation
 import net.borysw.blitz.game.Clock
@@ -16,8 +15,7 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatusFactory) : ViewModel() {
   val gameStatus = MutableLiveData<GameStatus>()
 
-  private val disposables = CompositeDisposable()
-  private var gameStatusDisposable: Disposable? = null
+  private var clockStatusDisposable: Disposable? = null
 
   private val initialTime: Long = SECONDS.toMillis(10)
 
@@ -28,8 +26,8 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
   }
 
   private fun subscribeToClockStatus() {
-    gameStatusDisposable?.dispose()
-    gameStatusDisposable = clock.gameStatus.map { clockStatus ->
+    clockStatusDisposable?.dispose()
+    clockStatusDisposable = clock.clockStatus.map { clockStatus ->
       Timber.d("Clock status: $clockStatus")
       gameStatusFactory.getGameStatus(clockStatus, initialTime)
     }.distinctUntilChanged().subscribeOn(computation()).observeOn(mainThread()).subscribe { gameStatus ->
@@ -65,6 +63,6 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
 
   override fun onCleared() {
     super.onCleared()
-    disposables.dispose()
+    clockStatusDisposable?.dispose()
   }
 }
