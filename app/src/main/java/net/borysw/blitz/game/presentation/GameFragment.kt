@@ -58,7 +58,7 @@ class GameFragment : Fragment() {
 
   private fun showGameStatus(gameStatus: GameStatus) {
     when (gameStatus.status) {
-      INITIAL -> showGameInitial()
+      PAUSED -> showGameInitial()
       IN_PROGRESS_PLAYER_A, IN_PROGRESS_PLAYER_B -> showGameInProgress(gameStatus.status)
       FINISHED_PLAYER_A, FINISHED_PLAYER_B -> showGameFinished(gameStatus.status)
     }
@@ -75,7 +75,7 @@ class GameFragment : Fragment() {
       interpolator = AnticipateOvershootInterpolator()
       duration = 500
     })
-    getConstraintSet(INITIAL).applyTo(root)
+    getConstraintSet(PAUSED).applyTo(root)
   }
 
   private fun showGameInProgress(gameStatus: GameStatus.Status) {
@@ -116,7 +116,7 @@ class GameFragment : Fragment() {
 
   private fun getConstraintSet(gameStatus: GameStatus.Status): ConstraintSet {
     val layoutResId = when (gameStatus) {
-      INITIAL -> fragment_game
+      PAUSED -> fragment_game
       IN_PROGRESS_PLAYER_A -> fragment_game_player_a
       IN_PROGRESS_PLAYER_B -> fragment_game_player_b
       FINISHED_PLAYER_A, FINISHED_PLAYER_B -> fragment_game_finish
