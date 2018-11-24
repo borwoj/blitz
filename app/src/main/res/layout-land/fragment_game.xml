@@ -37,6 +37,7 @@
     android:backgroundTint="@color/player_active"
     android:src="@drawable/ic_play_arrow_black_24dp"
     android:tint="@color/white"
+    android:visibility="invisible"
     app:borderWidth="0dp"
     app:fabSize="normal"
     app:layout_constraintBottom_toTopOf="@id/settings"

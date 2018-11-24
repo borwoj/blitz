@@ -52,7 +52,7 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
     if (clock.isRunning()) {
       clock.switch()
     } else if(!clock.hasFinished()) {
-      clock.startA()
+      clock.startB()
     }
   }
 
@@ -60,7 +60,7 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
     if (clock.isRunning()) {
       clock.switch()
     } else if(!clock.hasFinished()){
-      clock.startB()
+      clock.startA()
     }
   }
 

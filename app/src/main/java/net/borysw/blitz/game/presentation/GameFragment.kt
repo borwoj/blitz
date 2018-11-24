@@ -60,7 +60,7 @@ class GameFragment : Fragment() {
   private fun showGameStatus(gameStatus: GameStatus) {
     when (gameStatus.status) {
       INITIAL -> showGameInitial()
-      IN_PROGRESS_PLAYER_A, IN_PROGRESS_PLAYER_B -> showPlayerActive(gameStatus.status)
+      IN_PROGRESS_PLAYER_A, IN_PROGRESS_PLAYER_B -> showGameInProgress(gameStatus.status)
       FINISHED_PLAYER_A, FINISHED_PLAYER_B -> showGameFinished(gameStatus.status)
     }
     timerViewA.setTime(gameStatus.timeA)
@@ -68,16 +68,23 @@ class GameFragment : Fragment() {
   }
 
   private fun showGameInitial() {
-    start.setImageResource(R.drawable.ic_play_arrow_black_24dp)
+    //start.setImageResource(R.drawable.ic_play_arrow_black_24dp)
+    beginDelayedTransition(root, ChangeBounds().apply {
+      interpolator = AnticipateOvershootInterpolator()
+      duration = 500
+    })
+    getConstraintSet(INITIAL).applyTo(root)
   }
 
-  private fun showPlayerActive(gameStatus: GameStatus.Status) {
+  private fun showGameInProgress(gameStatus: GameStatus.Status) {
+    start.setImageResource(R.drawable.ic_pause_black_24dp)
     if (gameStatus == IN_PROGRESS_PLAYER_A) {
-      timerViewA.isActive = true
+      timerViewA.setActive(true)
+      timerViewB.setActive(false)
     } else if (gameStatus == IN_PROGRESS_PLAYER_B) {
-      timerViewA.isActive = false
+      timerViewA.setActive(false)
+      timerViewB.setActive(true)
     }
-    timerViewB.isActive = !timerViewA.isActive
 
     beginDelayedTransition(root, ChangeBounds().apply {
       interpolator = OvershootInterpolator(1f)

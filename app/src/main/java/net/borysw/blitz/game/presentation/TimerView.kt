@@ -3,6 +3,7 @@ package net.borysw.blitz.game.presentation
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
@@ -19,20 +20,16 @@ class TimerView : ConstraintLayout {
     const val FADE_DURATION_MS = 500L
   }
 
-  var isActive: Boolean = false
-    set(value) {
-      if (value != field) {
-        field = value
-        animateActiveStatus(field)
-      }
-    }
+  fun setActive(active: Boolean) {
+    animateActiveStatus(active)
+  }
 
   fun setLoser() {
-    animateColorChange(getColor(context, R.color.player_active), getColor(context, R.color.player_loser))
+    animateColorChange(getColor(context, R.color.player_loser))
   }
 
   fun setWinner() {
-    animateColorChange(getColor(context, R.color.player_inactive), getColor(context, R.color.player_active))
+    animateColorChange(getColor(context, R.color.player_active))
   }
 
   init {
@@ -40,13 +37,12 @@ class TimerView : ConstraintLayout {
   }
 
   private fun animateActiveStatus(active: Boolean) {
-    val fromColor = if (active) getColor(context, R.color.player_inactive) else getColor(context, R.color.player_active)
-    val toColor = if (active) getColor(context, R.color.player_active) else getColor(context, R.color.player_inactive)
-    animateColorChange(fromColor, toColor)
+    val endColor = if (active) getColor(context, R.color.player_active) else getColor(context, R.color.player_inactive)
+    animateColorChange(endColor)
   }
 
-  private fun animateColorChange(fromColor: Int, toColor: Int) {
-    ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor).apply {
+  private fun animateColorChange(endColor: Int) {
+    ValueAnimator.ofObject(ArgbEvaluator(), (background as ColorDrawable).color, endColor).apply {
       duration = 250
       addUpdateListener { animator -> setBackgroundColor(animator.animatedValue as Int) }
     }.start()

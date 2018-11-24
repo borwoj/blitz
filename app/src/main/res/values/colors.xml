@@ -6,7 +6,7 @@
 
   <color name ="player_active">#FFC107</color>
   <color name="player_inactive">#607D8B</color>
-  <color name="player_loser">#FFDD2C00</color>
+  <color name="player_loser">#FFD84315</color>
   <color name="player_winner">#FF64DD17</color>
 
   <color name="white">@android:color/white</color>
