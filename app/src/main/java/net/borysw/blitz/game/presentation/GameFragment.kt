@@ -78,6 +78,7 @@ class GameFragment : Fragment() {
 
   private fun showGameInProgress(gameStatus: GameStatus.Status) {
     start.setImageResource(R.drawable.ic_pause_black_24dp)
+
     if (gameStatus == IN_PROGRESS_PLAYER_A) {
       timerViewA.setActive(true)
       timerViewB.setActive(false)
@@ -94,7 +95,6 @@ class GameFragment : Fragment() {
   }
 
   private fun showGameFinished(gameStatus: GameStatus.Status) {
-    Snackbar.make(timerViewA, "Game finished", Snackbar.LENGTH_SHORT).show()
     start.setImageResource(R.drawable.ic_replay_black_24dp)
 
     if (gameStatus == FINISHED_PLAYER_A) {
