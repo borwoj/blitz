@@ -7,9 +7,9 @@ class Timer(private val initialTime: Long) {
   private var timeLeft = initialTime
   private var isPaused = true
 
-  fun isRunning(): Boolean = !isPaused
+  fun isRunning(): Boolean = !isPaused && !hasFinished()
 
-  fun isFinished(): Boolean = timeLeft == 0L
+  fun hasFinished(): Boolean = timeLeft == 0L
 
   fun start() {
     isPaused = false
@@ -25,5 +25,5 @@ class Timer(private val initialTime: Long) {
 
   val timeLeftOsb: Observable<Long> = Observable.interval(1, MILLISECONDS).filter { !isPaused }.map {
     --timeLeft
-  }.takeUntil { isFinished() }.startWith(timeLeft)
+  }.takeUntil { hasFinished() }.doOnComplete { stop() }.startWith(timeLeft)
 }

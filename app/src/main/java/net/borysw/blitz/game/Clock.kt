@@ -33,14 +33,18 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
   }
 
   fun switch() {
-    if (timerA.isRunning()) {
-      timerA.stop()
-     startB()
-    } else {
-      timerB.stop()
-      startA()
+    if (!timerA.hasFinished() && !timerB.hasFinished()) {
+      if (timerA.isRunning()) {
+        timerA.stop()
+        startB()
+      } else {
+        timerB.stop()
+        startA()
+      }
     }
   }
 
   fun isRunning() = timerA.isRunning() || timerB.isRunning()
+
+  fun hasFinished() = timerA.hasFinished() || timerB.hasFinished()
 }

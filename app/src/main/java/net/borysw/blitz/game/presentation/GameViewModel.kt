@@ -17,7 +17,7 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
 
   private var clockStatusDisposable: Disposable? = null
 
-  private val initialTime: Long = SECONDS.toMillis(10)
+  private val initialTime: Long = SECONDS.toMillis(5)
 
   private val clock = Clock(initialTime)
 
@@ -37,18 +37,21 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
 
   fun onStartClicked() {
     if (!clock.isRunning()) {
-      clock.startA()
+      if (clock.hasFinished()) {
+        clock.reset()
+        subscribeToClockStatus()
+      } else {
+        //clock.startLastActive()
+      }
     } else {
       clock.stop()
-      clock.reset()
-      subscribeToClockStatus()
     }
   }
 
   fun onTimerAClicked() {
     if (clock.isRunning()) {
       clock.switch()
-    } else {
+    } else if(!clock.hasFinished()) {
       clock.startA()
     }
   }
@@ -56,7 +59,7 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
   fun onTimerBClicked() {
     if (clock.isRunning()) {
       clock.switch()
-    } else {
+    } else if(!clock.hasFinished()){
       clock.startB()
     }
   }
