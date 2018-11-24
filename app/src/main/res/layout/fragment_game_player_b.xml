@@ -15,6 +15,7 @@
     app:layout_constraintBottom_toTopOf="@id/timerB"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_weight="1"
+    android:rotation="180"
     />
 
   <net.borysw.blitz.game.presentation.TimeView

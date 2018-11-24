@@ -100,7 +100,7 @@ class GameFragment : Fragment() {
   private fun getConstraintSet(gameStatus: GameStatus.Status): ConstraintSet {
     val layoutResId = when (gameStatus) {
       INITIAL -> fragment_game
-      FINISHED -> fragment_game_player_finish
+      FINISHED -> fragment_game_finish
       PLAYER_A -> fragment_game_player_a
       PLAYER_B -> fragment_game_player_b
     }

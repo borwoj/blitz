@@ -10,21 +10,20 @@
 
   <net.borysw.blitz.game.presentation.TimeView
     android:id="@+id/timerA"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    app:layout_constraintBottom_toTopOf="@id/timerB"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_weight="2"
-    android:rotation="180"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    app:layout_constraintEnd_toStartOf="@id/timerB"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintHorizontal_weight="2"
     />
 
   <net.borysw.blitz.game.presentation.TimeView
     android:id="@+id/timerB"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/timerA"
-    app:layout_constraintVertical_weight="1"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/timerA"
+    app:layout_constraintHorizontal_weight="1"
     />
 
 
@@ -33,9 +32,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    app:layout_constraintBottom_toTopOf="@id/timerB"
-    app:layout_constraintEnd_toStartOf="@id/settings"
-    app:layout_constraintTop_toBottomOf="@id/timerA"
+    app:layout_constraintBottom_toTopOf="@id/settings"
+    app:layout_constraintEnd_toStartOf="@id/timerB"
+    app:layout_constraintStart_toEndOf="@id/timerA"
     />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -43,9 +42,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    app:layout_constraintBottom_toTopOf="@id/timerB"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/timerA"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/timerB"
+    app:layout_constraintStart_toEndOf="@id/timerA"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
