@@ -2,8 +2,8 @@ package net.borysw.blitz.game
 
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
-import net.borysw.blitz.game.ClockStatus.ActiveTimer.A
-import net.borysw.blitz.game.ClockStatus.ActiveTimer.B
+import net.borysw.blitz.game.ClockStatus.ActiveTimer.TIMER_A
+import net.borysw.blitz.game.ClockStatus.ActiveTimer.TIMER_B
 
 class Clock(time: Long, private val initialTimeA: Long = 0, private val initialTimeB: Long = 0) {
   private val timerA = Timer(time)
@@ -11,7 +11,7 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
 
   val clockStatus: Observable<ClockStatus> =
     Observable.combineLatest(timerA.timeLeftOsb, timerB.timeLeftOsb, BiFunction { timeLeftA, timeLeftB ->
-      ClockStatus(timeLeftA, timeLeftB, if (timerA.isRunning()) A else B)
+      ClockStatus(timeLeftA, timeLeftB, if (timerA.isRunning()) TIMER_A else TIMER_B)
     })
 
   fun startA() {

@@ -60,8 +60,8 @@ class GameFragment : Fragment() {
   private fun showGameStatus(gameStatus: GameStatus) {
     when (gameStatus.status) {
       INITIAL -> showGameInitial()
-      FINISHED -> showGameFinished()
-      PLAYER_A, PLAYER_B -> showPlayerActive(gameStatus.status)
+      IN_PROGRESS_PLAYER_A, IN_PROGRESS_PLAYER_B -> showPlayerActive(gameStatus.status)
+      FINISHED_PLAYER_A, FINISHED_PLAYER_B -> showGameFinished(gameStatus.status)
     }
     timerViewA.setTime(gameStatus.timeA)
     timerViewB.setTime(gameStatus.timeB)
@@ -72,9 +72,9 @@ class GameFragment : Fragment() {
   }
 
   private fun showPlayerActive(gameStatus: GameStatus.Status) {
-    if (gameStatus == PLAYER_A) {
+    if (gameStatus == IN_PROGRESS_PLAYER_A) {
       timerViewA.isActive = true
-    } else if (gameStatus == PLAYER_B) {
+    } else if (gameStatus == IN_PROGRESS_PLAYER_B) {
       timerViewA.isActive = false
     }
     timerViewB.isActive = !timerViewA.isActive
@@ -86,23 +86,31 @@ class GameFragment : Fragment() {
     getConstraintSet(gameStatus).applyTo(root)
   }
 
-  private fun showGameFinished() {
+  private fun showGameFinished(gameStatus: GameStatus.Status) {
     Snackbar.make(timerViewA, "Game finished", Snackbar.LENGTH_SHORT).show()
     start.setImageResource(R.drawable.ic_replay_black_24dp)
+
+    if (gameStatus == FINISHED_PLAYER_A) {
+      timerViewA.setLoser()
+      timerViewB.setWinner()
+    } else if (gameStatus == FINISHED_PLAYER_B) {
+      timerViewA.setWinner()
+      timerViewB.setLoser()
+    }
 
     beginDelayedTransition(root, ChangeBounds().apply {
       interpolator = AnticipateOvershootInterpolator()
       duration = 1000
     })
-    getConstraintSet(FINISHED).applyTo(root)
+    getConstraintSet(gameStatus).applyTo(root)
   }
 
   private fun getConstraintSet(gameStatus: GameStatus.Status): ConstraintSet {
     val layoutResId = when (gameStatus) {
       INITIAL -> fragment_game
-      FINISHED -> fragment_game_finish
-      PLAYER_A -> fragment_game_player_a
-      PLAYER_B -> fragment_game_player_b
+      IN_PROGRESS_PLAYER_A -> fragment_game_player_a
+      IN_PROGRESS_PLAYER_B -> fragment_game_player_b
+      FINISHED_PLAYER_A, FINISHED_PLAYER_B -> fragment_game_finish
     }
     return ConstraintSet().apply { clone(context, layoutResId) }
   }

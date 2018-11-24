@@ -1,6 +1,6 @@
 package net.borysw.blitz.game
 
-import net.borysw.blitz.game.ClockStatus.ActiveTimer.A
+import net.borysw.blitz.game.ClockStatus.ActiveTimer.TIMER_A
 import net.borysw.blitz.game.GameStatus.Status.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -10,9 +10,10 @@ class GameStatusFactory @Inject constructor(private val timeFormatter: TimeForma
   fun getGameStatus(clockStatus: ClockStatus, initialTime: Long): GameStatus {
     val status = when {
       clockStatus.timeA == clockStatus.timeB && clockStatus.timeA == initialTime -> INITIAL
-      clockStatus.timeA == 0L || clockStatus.timeB == 0L -> FINISHED
-      clockStatus.activeTimer == A -> PLAYER_A
-      else -> PLAYER_B
+      clockStatus.timeA == 0L -> FINISHED_PLAYER_A
+      clockStatus.timeB == 0L -> FINISHED_PLAYER_B
+      clockStatus.activeTimer == TIMER_A -> IN_PROGRESS_PLAYER_A
+      else -> IN_PROGRESS_PLAYER_B
     }
     val timeA = timeFormatter.format(clockStatus.timeA)
     val timeB = timeFormatter.format(clockStatus.timeB)

@@ -1,7 +1,9 @@
 package net.borysw.blitz.game
 
-data class GameStatus(val status: Status, val timeA: String, val timeB: String) {
+data class GameStatus(
+  val status: Status, val timeA: String, val timeB: String
+) {
   enum class Status {
-    INITIAL, FINISHED, PLAYER_A, PLAYER_B
+    INITIAL, IN_PROGRESS_PLAYER_A, IN_PROGRESS_PLAYER_B, FINISHED_PLAYER_A, FINISHED_PLAYER_B
   }
 }
