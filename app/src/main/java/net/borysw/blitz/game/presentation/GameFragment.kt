@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager.beginDelayedTransition
-import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_game.root
 import kotlinx.android.synthetic.main.fragment_game.start
@@ -44,7 +43,7 @@ class GameFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
-    start.setOnClickListener { viewModel.onStartClicked() }
+    start.setOnClickListener { viewModel.onPauseClicked() }
     timerViewA.setOnClickListener { viewModel.onTimerAClicked() }
     timerViewB.setOnClickListener { viewModel.onTimerBClicked() }
     subscribe()
@@ -69,6 +68,9 @@ class GameFragment : Fragment() {
 
   private fun showGameInitial() {
     //start.setImageResource(R.drawable.ic_play_arrow_black_24dp)
+    timerViewA.setActive(false)
+    timerViewB.setActive(false)
+
     beginDelayedTransition(root, ChangeBounds().apply {
       interpolator = AnticipateOvershootInterpolator()
       duration = 500

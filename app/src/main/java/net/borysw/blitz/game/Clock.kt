@@ -10,15 +10,17 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
   private val timerB = Timer(time)
 
   val clockStatus: Observable<ClockStatus> =
-    Observable.combineLatest(timerA.timeLeftOsb, timerB.timeLeftOsb, BiFunction { timeLeftA, timeLeftB ->
-      ClockStatus(timeLeftA, timeLeftB, if (timerA.isRunning()) TIMER_A else TIMER_B)
+    Observable.combineLatest(timerA.timeLeftSub, timerB.timeLeftSub, BiFunction { timeLeftA, timeLeftB ->
+      ClockStatus(isRunning(), timeLeftA, timeLeftB, if (timerA.isRunning()) TIMER_A else TIMER_B)
     })
 
   fun startA() {
     timerA.start()
+    timerB.stop()
   }
 
   fun startB() {
+    timerA.stop()
     timerB.start()
   }
 
@@ -31,9 +33,9 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
     timerA.reset()
     timerB.reset()
   }
-
+/*
   fun switch() {
-    if (!timerA.hasFinished() && !timerB.hasFinished()) {
+    if (!hasFinished()) {
       if (timerA.isRunning()) {
         timerA.stop()
         startB()
@@ -42,7 +44,7 @@ class Clock(time: Long, private val initialTimeA: Long = 0, private val initialT
         startA()
       }
     }
-  }
+  }*/
 
   fun isRunning() = timerA.isRunning() || timerB.isRunning()
 

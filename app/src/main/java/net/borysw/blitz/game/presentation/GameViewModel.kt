@@ -30,36 +30,30 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
     clockStatusDisposable = clock.clockStatus.map { clockStatus ->
       Timber.d("Clock status: $clockStatus")
       gameStatusFactory.getGameStatus(clockStatus, initialTime)
-    }.distinctUntilChanged().subscribeOn(computation()).observeOn(mainThread()).subscribe { gameStatus ->
+    }.distinctUntilChanged().doOnNext {}.subscribeOn(computation()).observeOn(mainThread()).subscribe { gameStatus ->
       this.gameStatus.value = gameStatus
     }
   }
 
-  fun onStartClicked() {
-    if (!clock.isRunning()) {
-      if (clock.hasFinished()) {
-        clock.reset()
-        subscribeToClockStatus()
-      } else {
-        //clock.startLastActive()
-      }
-    } else {
+  fun onPauseClicked() {
+    /* Timber.d("Timer A time left: ${clock.timerA.timeLeft}")
+     Timber.d("Timer B time left: ${clock.timerB.timeLeft}")*/
+    if (clock.isRunning()) {
       clock.stop()
+    } else {
+      clock.reset()
     }
+    //subscribeToClockStatus()
   }
 
   fun onTimerAClicked() {
-    if (clock.isRunning()) {
-      clock.switch()
-    } else if(!clock.hasFinished()) {
+    if (!clock.hasFinished()) {
       clock.startB()
     }
   }
 
   fun onTimerBClicked() {
-    if (clock.isRunning()) {
-      clock.switch()
-    } else if(!clock.hasFinished()){
+    if (!clock.hasFinished()) {
       clock.startA()
     }
   }
