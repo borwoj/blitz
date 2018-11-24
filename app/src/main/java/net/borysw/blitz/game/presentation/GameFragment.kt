@@ -45,8 +45,8 @@ class GameFragment : Fragment() {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
     start.setOnClickListener { viewModel.onStartClicked() }
-    timerA.setOnClickListener { viewModel.timerAClicked() }
-    timerB.setOnClickListener { viewModel.timberBClicked() }
+    timerA.setOnClickListener { viewModel.onTimerAClicked() }
+    timerB.setOnClickListener { viewModel.onTimerBClicked() }
     subscribe()
   }
 

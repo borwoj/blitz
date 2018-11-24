@@ -47,7 +47,7 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
     }
   }
 
-  fun timerAClicked() {
+  fun onTimerAClicked() {
     if (clock.isRunning()) {
       clock.switch()
     } else {
@@ -55,7 +55,7 @@ class GameViewModel @Inject constructor(private val gameStatusFactory: GameStatu
     }
   }
 
-  fun timberBClicked() {
+  fun onTimerBClicked() {
     if (clock.isRunning()) {
       clock.switch()
     } else {
