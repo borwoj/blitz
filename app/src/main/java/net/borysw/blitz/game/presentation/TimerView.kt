@@ -7,8 +7,11 @@ import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
-import kotlinx.android.synthetic.main.view_time.view.time
+import kotlinx.android.synthetic.main.view_timer.view.time
 import net.borysw.blitz.R
+import net.borysw.blitz.R.color.player_active
+import net.borysw.blitz.R.color.player_inactive
+import net.borysw.blitz.R.layout.view_timer
 
 class TimerView : ConstraintLayout {
 
@@ -29,15 +32,15 @@ class TimerView : ConstraintLayout {
   }
 
   fun setWinner() {
-    animateColorChange(getColor(context, R.color.player_active))
+    animateColorChange(getColor(context, player_active))
   }
 
   init {
-    inflate(context, R.layout.view_time, this)
+    inflate(context, view_timer, this)
   }
 
   private fun animateActiveStatus(active: Boolean) {
-    val endColor = if (active) getColor(context, R.color.player_active) else getColor(context, R.color.player_inactive)
+    val endColor = if (active) getColor(context, player_active) else getColor(context, player_inactive)
     animateColorChange(endColor)
   }
 
