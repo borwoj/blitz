@@ -16,8 +16,8 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_game.root
 import kotlinx.android.synthetic.main.fragment_game.start
-import kotlinx.android.synthetic.main.fragment_game.timerA
-import kotlinx.android.synthetic.main.fragment_game.timerB
+import kotlinx.android.synthetic.main.fragment_game.timerViewA
+import kotlinx.android.synthetic.main.fragment_game.timerViewB
 import net.borysw.blitz.R
 import net.borysw.blitz.R.layout.*
 import net.borysw.blitz.app.ViewModelFactory
@@ -45,8 +45,8 @@ class GameFragment : Fragment() {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
     start.setOnClickListener { viewModel.onStartClicked() }
-    timerA.setOnClickListener { viewModel.onTimerAClicked() }
-    timerB.setOnClickListener { viewModel.onTimerBClicked() }
+    timerViewA.setOnClickListener { viewModel.onTimerAClicked() }
+    timerViewB.setOnClickListener { viewModel.onTimerBClicked() }
     subscribe()
   }
 
@@ -63,8 +63,8 @@ class GameFragment : Fragment() {
       FINISHED -> showGameFinished()
       PLAYER_A, PLAYER_B -> showPlayerActive(gameStatus.status)
     }
-    timerA.setTime(gameStatus.timeA)
-    timerB.setTime(gameStatus.timeB)
+    timerViewA.setTime(gameStatus.timeA)
+    timerViewB.setTime(gameStatus.timeB)
   }
 
   private fun showGameInitial() {
@@ -73,11 +73,11 @@ class GameFragment : Fragment() {
 
   private fun showPlayerActive(gameStatus: GameStatus.Status) {
     if (gameStatus == PLAYER_A) {
-      timerA.isActive = true
+      timerViewA.isActive = true
     } else if (gameStatus == PLAYER_B) {
-      timerA.isActive = false
+      timerViewA.isActive = false
     }
-    timerB.isActive = !timerA.isActive
+    timerViewB.isActive = !timerViewA.isActive
 
     beginDelayedTransition(root, ChangeBounds().apply {
       interpolator = OvershootInterpolator(1f)
@@ -87,7 +87,7 @@ class GameFragment : Fragment() {
   }
 
   private fun showGameFinished() {
-    Snackbar.make(timerA, "Game finished", Snackbar.LENGTH_SHORT).show()
+    Snackbar.make(timerViewA, "Game finished", Snackbar.LENGTH_SHORT).show()
     start.setImageResource(R.drawable.ic_replay_black_24dp)
 
     beginDelayedTransition(root, ChangeBounds().apply {

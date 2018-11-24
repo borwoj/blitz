@@ -8,21 +8,21 @@
   >
 
 
-  <net.borysw.blitz.game.presentation.TimeView
-    android:id="@+id/timerA"
+  <net.borysw.blitz.game.presentation.TimerView
+    android:id="@+id/timerViewA"
     android:layout_width="0dp"
     android:layout_height="match_parent"
-    app:layout_constraintEnd_toStartOf="@id/timerB"
+    app:layout_constraintEnd_toStartOf="@id/timerViewB"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintHorizontal_weight="2"
     />
 
-  <net.borysw.blitz.game.presentation.TimeView
-    android:id="@+id/timerB"
+  <net.borysw.blitz.game.presentation.TimerView
+    android:id="@+id/timerViewB"
     android:layout_width="0dp"
     android:layout_height="match_parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@id/timerA"
+    app:layout_constraintStart_toEndOf="@id/timerViewA"
     app:layout_constraintHorizontal_weight="1"
     />
 
@@ -33,8 +33,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     app:layout_constraintBottom_toTopOf="@id/settings"
-    app:layout_constraintEnd_toStartOf="@id/timerB"
-    app:layout_constraintStart_toEndOf="@id/timerA"
+    app:layout_constraintEnd_toStartOf="@id/timerViewB"
+    app:layout_constraintStart_toEndOf="@id/timerViewA"
     />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -43,8 +43,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@id/timerB"
-    app:layout_constraintStart_toEndOf="@id/timerA"
+    app:layout_constraintEnd_toStartOf="@id/timerViewB"
+    app:layout_constraintStart_toEndOf="@id/timerViewA"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

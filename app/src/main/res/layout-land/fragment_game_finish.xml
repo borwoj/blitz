@@ -8,24 +8,24 @@
   >
 
 
-  <net.borysw.blitz.game.presentation.TimeView
-    android:id="@+id/timerA"
+  <net.borysw.blitz.game.presentation.TimerView
+    android:id="@+id/timerViewA"
     android:layout_width="0dp"
     android:layout_height="match_parent"
     android:background="@color/b"
     android:foreground="?android:selectableItemBackgroundBorderless"
-    app:layout_constraintEnd_toStartOf="@id/timerB"
+    app:layout_constraintEnd_toStartOf="@id/timerViewB"
     app:layout_constraintStart_toStartOf="parent"
     />
 
-  <net.borysw.blitz.game.presentation.TimeView
-    android:id="@+id/timerB"
+  <net.borysw.blitz.game.presentation.TimerView
+    android:id="@+id/timerViewB"
     android:layout_width="0dp"
     android:layout_height="match_parent"
     android:background="@color/b"
     android:foreground="?android:selectableItemBackgroundBorderless"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@id/timerA"
+    app:layout_constraintStart_toEndOf="@id/timerViewA"
     />
 
 
@@ -40,8 +40,8 @@
     app:borderWidth="0dp"
     app:fabSize="normal"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@id/timerB"
-    app:layout_constraintStart_toEndOf="@id/timerA"
+    app:layout_constraintEnd_toStartOf="@id/timerViewB"
+    app:layout_constraintStart_toEndOf="@id/timerViewA"
     app:layout_constraintTop_toTopOf="parent"
     />
 
@@ -55,8 +55,8 @@
     android:tint="@color/a"
     app:borderWidth="0dp"
     app:fabSize="mini"
-    app:layout_constraintEnd_toStartOf="@id/timerB"
-    app:layout_constraintStart_toEndOf="@id/timerA"
+    app:layout_constraintEnd_toStartOf="@id/timerViewB"
+    app:layout_constraintStart_toEndOf="@id/timerViewA"
     app:layout_constraintTop_toBottomOf="@id/start"
     />
 

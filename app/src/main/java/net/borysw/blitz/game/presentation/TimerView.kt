@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.view_time.view.time
 import net.borysw.blitz.R
 
-class TimeView : ConstraintLayout {
+class TimerView : ConstraintLayout {
 
   constructor(context: Context) : super(context)
   constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
