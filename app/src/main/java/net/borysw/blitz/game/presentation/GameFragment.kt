@@ -87,7 +87,7 @@ class GameFragment : Fragment() {
   }
 
   private fun showGameFinished() {
-    Snackbar.make(timerA, "Game finished", Snackbar.LENGTH_INDEFINITE).show()
+    Snackbar.make(timerA, "Game finished", Snackbar.LENGTH_SHORT).show()
     start.setImageResource(R.drawable.ic_replay_black_24dp)
 
     beginDelayedTransition(root, ChangeBounds().apply {
