@@ -32,11 +32,8 @@ internal class GameStatusFactoryTest {
   fun getStatus(
     initialTime: Long, timeLeftA: Long, timeLeftB: Long, activeClock: ActiveClock, expectedGameStatus: Status
   ) {
-    val timeFormatter = TimeFormatter()
-    val testedObj = GameStatusFactory(timeFormatter)
-
+    val testedObj = GameStatusFactory(TimeFormatter())
     val gameStatus = testedObj.getStatus(initialTime, timeLeftA, timeLeftB, activeClock).status
-
     assertEquals(expectedGameStatus, gameStatus)
   }
 }

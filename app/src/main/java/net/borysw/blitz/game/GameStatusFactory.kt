@@ -8,6 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class GameStatusFactory @Inject constructor(private val timeFormatter: TimeFormatter) {
+
   fun getStatus(initialTime: Long, timeLeftA: Long, timeLeftB: Long, activeClock: ActiveClock): GameStatus {
     val status = when {
       (initialTime == timeLeftA && initialTime == timeLeftB) -> INITIAL

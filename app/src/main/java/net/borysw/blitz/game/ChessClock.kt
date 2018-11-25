@@ -35,8 +35,8 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
     timerDisposable?.dispose()
     timerDisposable = Observable.interval(1, TimeUnit.MILLISECONDS).doOnNext {
       when (activeClock) {
-        CLOCK_A -> clockA.decrementTime()
-        CLOCK_B -> clockB.decrementTime()
+        CLOCK_A -> clockA.decrementTimeLeft()
+        CLOCK_B -> clockB.decrementTimeLeft()
         NONE -> throw IllegalStateException("No clock is active")
       }
       publishGameStatus()

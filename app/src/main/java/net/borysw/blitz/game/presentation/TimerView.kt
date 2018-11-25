@@ -23,6 +23,10 @@ class TimerView : ConstraintLayout {
     const val FADE_DURATION_MS = 500L
   }
 
+  init {
+    inflate(context, view_timer, this)
+  }
+
   fun setActive(active: Boolean) {
     animateActiveStatus(active)
   }
@@ -33,10 +37,6 @@ class TimerView : ConstraintLayout {
 
   fun setWinner() {
     animateColorChange(getColor(context, player_active))
-  }
-
-  init {
-    inflate(context, view_timer, this)
   }
 
   private fun animateActiveStatus(active: Boolean) {

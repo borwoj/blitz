@@ -8,7 +8,7 @@ internal class TimerTest {
   @Test
   fun decrementTime() {
     val testedObj = Timer(1)
-    testedObj.decrementTime()
+    testedObj.decrementTimeLeft()
     assertEquals(0, testedObj.getTimeLeft())
   }
 
@@ -28,7 +28,7 @@ internal class TimerTest {
   @Test
   fun reset() {
     val testedObj = Timer(1)
-    testedObj.decrementTime()
+    testedObj.decrementTimeLeft()
     testedObj.reset()
     assertEquals(1, testedObj.getTimeLeft())
   }
@@ -37,7 +37,7 @@ internal class TimerTest {
   fun isTimeOver() {
     val testedObj = Timer(1)
     assertFalse(testedObj.isTimeOver())
-    testedObj.decrementTime()
+    testedObj.decrementTimeLeft()
     assertTrue(testedObj.isTimeOver())
   }
 }
