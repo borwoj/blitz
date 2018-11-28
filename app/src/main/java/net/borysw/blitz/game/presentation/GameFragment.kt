@@ -57,14 +57,15 @@ class GameFragment : Fragment() {
   }
 
   private fun showGameStatus(gameStatus: GameStatus) {
+    timerViewA.setTime(gameStatus.timeA)
+    timerViewB.setTime(gameStatus.timeB)
+
     when (gameStatus.status) {
       INITIAL -> showGameInitial()
       PAUSED -> showGamePaused()
       IN_PROGRESS_PLAYER_A, IN_PROGRESS_PLAYER_B -> showGameInProgress(gameStatus.status)
       FINISHED_PLAYER_A, FINISHED_PLAYER_B -> showGameFinished(gameStatus.status)
     }
-    timerViewA.setTime(gameStatus.timeA)
-    timerViewB.setTime(gameStatus.timeB)
   }
 
   private fun showGameInitial() {

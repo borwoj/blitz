@@ -47,7 +47,7 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
   }
 
   private fun publishGameStatus() {
-    val gameStatus = gameStatusFactory.getStatus(initialTime, clockA.getTimeLeft(), clockB.getTimeLeft(), activeClock)
+    val gameStatus = gameStatusFactory.getStatus(initialTime, clockA.timeLeft, clockB.timeLeft, activeClock)
     this.gameStatus.onNext(gameStatus)
   }
 

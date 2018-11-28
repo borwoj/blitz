@@ -1,13 +1,12 @@
 package net.borysw.blitz.game
 
 class Timer(private var initialTime: Long) {
-  private var timeLeft = initialTime
+  var timeLeft = initialTime
+    private set
 
   fun decrementTimeLeft() {
     timeLeft--
   }
-
-  fun getTimeLeft() = timeLeft
 
   fun addTime(time: Long) {
     timeLeft += time
