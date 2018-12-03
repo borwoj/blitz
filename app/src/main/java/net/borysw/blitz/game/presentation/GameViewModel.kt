@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 class GameViewModel @Inject constructor(gameStatusFactory: GameStatusFactory) : ViewModel() {
   val gameStatus = MutableLiveData<GameStatus>()
+  val showDialog = MutableLiveData<ShowDialog?>()
 
   private var clockStatusDisposable: Disposable? = null
 
@@ -37,8 +38,13 @@ class GameViewModel @Inject constructor(gameStatusFactory: GameStatusFactory) : 
     if (chessClock.isRunning()) {
       chessClock.pause()
     } else {
-      chessClock.reset()
+      showDialog.value = ShowDialog()
+      showDialog.value=null
     }
+  }
+
+  fun onResetConfirmClicked() {
+    chessClock.reset()
   }
 
   fun onTimerAClicked() {

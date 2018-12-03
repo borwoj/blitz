@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.OvershootInterpolator
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -54,6 +55,15 @@ class GameFragment : Fragment() {
       Timber.d("Game status: $gameStatus")
       showGameStatus(gameStatus)
     })
+    viewModel.showDialog.observe(viewLifecycleOwner, Observer {
+      it?.let { showResetConfirmationDialog() }
+    })
+  }
+
+  private fun showResetConfirmationDialog() {
+    AlertDialog.Builder(context!!).setTitle(R.string.reset_confirmation_title)
+      .setPositiveButton(R.string.reset) { _, _ -> viewModel.onResetConfirmClicked() }
+      .setNegativeButton(R.string.cancel, null).show()
   }
 
   private fun showGameStatus(gameStatus: GameStatus) {

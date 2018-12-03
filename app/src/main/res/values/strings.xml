@@ -3,4 +3,7 @@
 
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="reset">Reset</string>
+  <string name="cancel">Cancel</string>
+  <string name="reset_confirmation_title">Reset the clock?</string>
 </resources>
