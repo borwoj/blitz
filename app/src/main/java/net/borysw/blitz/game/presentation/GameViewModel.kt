@@ -37,9 +37,11 @@ class GameViewModel @Inject constructor(gameStatusFactory: GameStatusFactory) : 
   fun onPauseClicked() {
     if (chessClock.isRunning()) {
       chessClock.pause()
-    } else {
+    } else if (!chessClock.isTimeOver()) {
       showDialog.value = ShowDialog()
-      showDialog.value=null
+      showDialog.value = null
+    } else {
+      chessClock.reset()
     }
   }
 

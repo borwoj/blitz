@@ -18,8 +18,6 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
     publishGameStatus()
   }
 
-  private fun isTimeOver() = clockA.isTimeOver()  || clockB.isTimeOver()
-
   private fun start() {
     subscribeToTimer()
   }
@@ -78,6 +76,8 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
   fun isRunning(): Boolean {
     return timerDisposable != null && !timerDisposable!!.isDisposed
   }
+
+  fun isTimeOver() = clockA.isTimeOver() || clockB.isTimeOver()
 
   enum class ActiveClock {
     CLOCK_A, CLOCK_B, NONE

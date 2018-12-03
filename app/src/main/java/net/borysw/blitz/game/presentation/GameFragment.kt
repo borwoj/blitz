@@ -11,13 +11,11 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation.createNavigateOnClickListener
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager.beginDelayedTransition
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_game_initial.root
-import kotlinx.android.synthetic.main.fragment_game_initial.start
-import kotlinx.android.synthetic.main.fragment_game_initial.timerViewA
-import kotlinx.android.synthetic.main.fragment_game_initial.timerViewB
+import kotlinx.android.synthetic.main.fragment_game_initial.*
 import net.borysw.blitz.R
 import net.borysw.blitz.R.layout.*
 import net.borysw.blitz.app.ViewModelFactory
@@ -45,6 +43,7 @@ class GameFragment : Fragment() {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
     start.setOnClickListener { viewModel.onPauseClicked() }
+    settings.setOnClickListener(createNavigateOnClickListener(R.id.action_clockFragment_to_settingsFragment))
     timerViewA.setOnClickListener { viewModel.onTimerAClicked() }
     timerViewB.setOnClickListener { viewModel.onTimerBClicked() }
     subscribe()
