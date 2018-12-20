@@ -1,9 +1,9 @@
 <resources>
   <string name="app_name">Blitz</string>
-
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="reset">Reset</string>
   <string name="cancel">Cancel</string>
   <string name="reset_confirmation_title">Reset the clock?</string>
+  <string name="game_settings">Game settings</string>
+  <string name="mode">Mode</string>
+  <string name="about">About</string>
 </resources>
