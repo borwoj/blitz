@@ -1,3 +1,3 @@
 package net.borysw.blitz.game.presentation
 
-class ShowDialog
+data class ShowDialog(var isDismissed: Boolean = false)

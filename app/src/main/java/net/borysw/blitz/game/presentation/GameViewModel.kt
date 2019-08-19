@@ -13,11 +13,11 @@ import javax.inject.Inject
 
 class GameViewModel @Inject constructor(gameStatusFactory: GameStatusFactory) : ViewModel() {
     val gameStatus = MutableLiveData<GameStatus>()
-    val showDialog = MutableLiveData<ShowDialog?>()
+    val showDialog = MutableLiveData<ShowDialog>()
 
     private var clockStatusDisposable: Disposable? = null
 
-    private val initialTime: Long = SECONDS.toMillis(5)
+    private val initialTime: Long = SECONDS.toMillis(20)
 
     private val chessClock = ChessClock(initialTime, gameStatusFactory)
 
@@ -34,32 +34,27 @@ class GameViewModel @Inject constructor(gameStatusFactory: GameStatusFactory) : 
                 }
     }
 
-    fun onPauseClicked() {
-        if (chessClock.isRunning()) {
-            chessClock.pause()
-        } else if (!chessClock.isTimeOver()) {
-            showDialog.value = ShowDialog()
-            showDialog.value = null
-        } else {
-            chessClock.reset()
-        }
-    }
-
-    fun onResetConfirmClicked() {
+    fun onPauseClicked() = if (chessClock.isRunning()) {
+        chessClock.pause()
+    } else if (!chessClock.isTimeOver()) {
+        showDialog.value = ShowDialog()
+        showDialog.value = null
+    } else {
         chessClock.reset()
     }
 
-    fun onTimerAClicked() {
-        chessClock.onClockAPressed()
-    }
+    fun onResetConfirmClicked() = chessClock.reset()
 
-    fun onTimerBClicked() {
-        chessClock.onClockBPressed()
-    }
+    fun onTimerAClicked() = chessClock.onClockAPressed()
+
+    fun onTimerBClicked() = chessClock.onClockBPressed()
 
     override fun onCleared() {
-        super.onCleared()
         clockStatusDisposable?.dispose()
         chessClock.dispose()
+    }
+
+    fun onResetConfirmationDialogDismissed() {
+        showDialog.value?.isDismissed = true
     }
 }

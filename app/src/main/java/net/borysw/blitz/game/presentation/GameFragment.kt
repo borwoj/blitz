@@ -1,5 +1,6 @@
 package net.borysw.blitz.game.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,9 +39,9 @@ class GameFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: GameViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onAttach(context: Context?) {
         inject(this)
-        super.onCreate(savedInstanceState)
+        super.onAttach(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
@@ -62,15 +63,17 @@ class GameFragment : Fragment() {
             Timber.d("Game status: $gameStatus")
             showGameStatus(gameStatus)
         })
-        viewModel.showDialog.observe(viewLifecycleOwner, Observer {
-            it?.let { showResetConfirmationDialog() }
+        viewModel.showDialog.observe(viewLifecycleOwner, Observer { showDialog ->
+            showDialog?.let { if (!it.isDismissed) showResetConfirmationDialog() }
         })
     }
 
     private fun showResetConfirmationDialog() {
         AlertDialog.Builder(context!!).setTitle(R.string.reset_confirmation_title)
             .setPositiveButton(R.string.reset) { _, _ -> viewModel.onResetConfirmClicked() }
-            .setNegativeButton(R.string.cancel, null).show()
+            .setNegativeButton(R.string.cancel, null)
+            .setOnDismissListener { viewModel.onResetConfirmationDialogDismissed() }
+            .show()
     }
 
     private fun showGameStatus(gameStatus: GameStatus) {

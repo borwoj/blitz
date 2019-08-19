@@ -27,17 +27,11 @@ class TimerView : ConstraintLayout {
     inflate(context, view_timer, this)
   }
 
-  fun setActive(active: Boolean) {
-    animateActiveStatus(active)
-  }
+  fun setActive(active: Boolean) = animateActiveStatus(active)
 
-  fun setLoser() {
-    animateColorChange(getColor(context, R.color.player_loser))
-  }
+  fun setLoser() = animateColorChange(getColor(context, R.color.player_loser))
 
-  fun setWinner() {
-    animateColorChange(getColor(context, player_active))
-  }
+  fun setWinner() = animateColorChange(getColor(context, player_active))
 
   private fun animateActiveStatus(active: Boolean) {
     val endColor = if (active) getColor(context, player_active) else getColor(context, player_inactive)
