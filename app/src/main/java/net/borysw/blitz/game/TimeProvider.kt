@@ -5,5 +5,5 @@ import javax.inject.Singleton
 
 @Singleton
 class TimeProvider @Inject constructor() {
-  fun currentTimeMillis(): Long = System.currentTimeMillis()
+    fun currentTimeMillis(): Long = System.currentTimeMillis()
 }

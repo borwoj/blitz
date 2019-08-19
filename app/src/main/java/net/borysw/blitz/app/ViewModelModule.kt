@@ -9,11 +9,11 @@ import net.borysw.blitz.game.presentation.GameViewModel
 
 @Module
 abstract class ViewModelModule {
-  @Binds
-  @IntoMap
-  @ViewModelKey(GameViewModel::class)
-  abstract fun bindClockViewModel(viewModel: GameViewModel): ViewModel
+    @Binds
+    @IntoMap
+    @ViewModelKey(GameViewModel::class)
+    abstract fun bindClockViewModel(viewModel: GameViewModel): ViewModel
 
-  @Binds
-  abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+    @Binds
+    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

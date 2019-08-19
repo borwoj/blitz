@@ -3,7 +3,9 @@ package net.borysw.blitz.game
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
-import net.borysw.blitz.game.ChessClock.ActiveClock.*
+import net.borysw.blitz.game.ChessClock.ActiveClock.CLOCK_A
+import net.borysw.blitz.game.ChessClock.ActiveClock.CLOCK_B
+import net.borysw.blitz.game.ChessClock.ActiveClock.NONE
 import java.util.concurrent.TimeUnit
 
 class ChessClock(private val initialTime: Long, private val gameStatusFactory: GameStatusFactory) {
@@ -45,7 +47,8 @@ class ChessClock(private val initialTime: Long, private val gameStatusFactory: G
   }
 
   private fun publishGameStatus() {
-    val gameStatus = gameStatusFactory.getStatus(initialTime, clockA.remainingTime, clockB.remainingTime, activeClock)
+    val gameStatus =
+      gameStatusFactory.getStatus(initialTime, clockA.remainingTime, clockB.remainingTime, activeClock)
     this.gameStatus.onNext(gameStatus)
   }
 

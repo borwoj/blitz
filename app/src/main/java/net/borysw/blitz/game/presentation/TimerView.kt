@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
-import kotlinx.android.synthetic.main.view_timer.view.time
+import kotlinx.android.synthetic.main.view_timer.view.*
 import net.borysw.blitz.R
 import net.borysw.blitz.R.color.player_active
 import net.borysw.blitz.R.color.player_inactive

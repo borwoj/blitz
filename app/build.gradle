@@ -10,64 +10,63 @@ apply plugin: "de.mannodermaus.android-junit5"
 
 
 android {
-  compileSdkVersion 28
-  defaultConfig {
-    applicationId "net.borysw.blitz"
-    minSdkVersion 21
-    targetSdkVersion 28
-    versionCode 1
-    versionName "1.0"
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-  }
-  buildTypes {
-    release {
-      minifyEnabled true
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "net.borysw.blitz"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    debug {
-      minifyEnabled false
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
     }
-  }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_1_8
-  }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
 }
 
 
 dependencies {
-  def lifecycle_version = "2.0.0"
-  def nav_version = "1.0.0"
+    def lifecycle_version = "2.0.0"
+    def nav_version = "1.0.0"
 
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  implementation 'androidx.appcompat:appcompat:1.0.2'
-  implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-  kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
-  implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
-  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
-  implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
-  implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
-  implementation "com.android.support:preference-v7:28.0.0"
-  implementation "com.google.dagger:dagger:2.23.2"
-  implementation "com.google.dagger:dagger-android-support:2.23.2"
-  kapt "com.google.dagger:dagger-compiler:2.23.2"
-  kapt "com.google.dagger:dagger-android-processor:2.23.2"
-  implementation 'com.jakewharton.timber:timber:4.7.1'
-  implementation 'androidx.core:core-ktx:1.0.2'
-  implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+    implementation "com.android.support:preference-v7:29.0.0"
+    implementation "com.google.dagger:dagger:2.23.2"
+    implementation "com.google.dagger:dagger-android-support:2.23.2"
+    kapt "com.google.dagger:dagger-compiler:2.23.2"
+    kapt "com.google.dagger:dagger-android-processor:2.23.2"
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
 
-
-  testImplementation 'junit:junit:4.12'
-  androidTestImplementation 'androidx.test:runner:1.2.0'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-  testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
-  testImplementation("org.junit.jupiter:junit-jupiter-params:5.3.1")
-  testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.3.1")
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
 }

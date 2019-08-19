@@ -12,54 +12,54 @@ import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
 class GameViewModel @Inject constructor(gameStatusFactory: GameStatusFactory) : ViewModel() {
-  val gameStatus = MutableLiveData<GameStatus>()
-  val showDialog = MutableLiveData<ShowDialog?>()
+    val gameStatus = MutableLiveData<GameStatus>()
+    val showDialog = MutableLiveData<ShowDialog?>()
 
-  private var clockStatusDisposable: Disposable? = null
+    private var clockStatusDisposable: Disposable? = null
 
-  private val initialTime: Long = SECONDS.toMillis(5)
+    private val initialTime: Long = SECONDS.toMillis(5)
 
-  private val chessClock = ChessClock(initialTime, gameStatusFactory)
+    private val chessClock = ChessClock(initialTime, gameStatusFactory)
 
-  init {
-    subscribeToClockStatus()
-  }
-
-  private fun subscribeToClockStatus() {
-    clockStatusDisposable?.dispose()
-    clockStatusDisposable =
-        chessClock.gameStatus.distinctUntilChanged().subscribeOn(computation()).observeOn(mainThread())
-          .subscribe { gameStatus ->
-            this.gameStatus.value = gameStatus
-          }
-  }
-
-  fun onPauseClicked() {
-    if (chessClock.isRunning()) {
-      chessClock.pause()
-    } else if (!chessClock.isTimeOver()) {
-      showDialog.value = ShowDialog()
-      showDialog.value = null
-    } else {
-      chessClock.reset()
+    init {
+        subscribeToClockStatus()
     }
-  }
 
-  fun onResetConfirmClicked() {
-    chessClock.reset()
-  }
+    private fun subscribeToClockStatus() {
+        clockStatusDisposable?.dispose()
+        clockStatusDisposable =
+            chessClock.gameStatus.distinctUntilChanged().subscribeOn(computation()).observeOn(mainThread())
+                .subscribe { gameStatus ->
+                    this.gameStatus.value = gameStatus
+                }
+    }
 
-  fun onTimerAClicked() {
-    chessClock.onClockAPressed()
-  }
+    fun onPauseClicked() {
+        if (chessClock.isRunning()) {
+            chessClock.pause()
+        } else if (!chessClock.isTimeOver()) {
+            showDialog.value = ShowDialog()
+            showDialog.value = null
+        } else {
+            chessClock.reset()
+        }
+    }
 
-  fun onTimerBClicked() {
-    chessClock.onClockBPressed()
-  }
+    fun onResetConfirmClicked() {
+        chessClock.reset()
+    }
 
-  override fun onCleared() {
-    super.onCleared()
-    clockStatusDisposable?.dispose()
-    chessClock.dispose()
-  }
+    fun onTimerAClicked() {
+        chessClock.onClockAPressed()
+    }
+
+    fun onTimerBClicked() {
+        chessClock.onClockBPressed()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        clockStatusDisposable?.dispose()
+        chessClock.dispose()
+    }
 }

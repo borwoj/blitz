@@ -15,38 +15,38 @@ import javax.inject.Inject
 
 class App : Application(), HasActivityInjector, HasSupportFragmentInjector, HasServiceInjector {
 
-  @Inject
-  lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+    @Inject
+    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
-  @Inject
-  lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-  @Inject
-  lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
+    @Inject
+    lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
 
-  override fun onCreate() {
-    super.onCreate()
-    init()
-  }
-
-  private fun init() {
-    initTimber()
-    initDagger()
-  }
-
-  private fun initDagger() {
-    DaggerAppComponent.builder().application(this).build().inject(this)
-  }
-
-  private fun initTimber() {
-    if (BuildConfig.DEBUG) {
-      Timber.plant(Timber.DebugTree())
+    override fun onCreate() {
+        super.onCreate()
+        init()
     }
-  }
 
-  override fun activityInjector(): AndroidInjector<Activity> = activityDispatchingAndroidInjector
+    private fun init() {
+        initTimber()
+        initDagger()
+    }
 
-  override fun serviceInjector(): AndroidInjector<Service> = serviceDispatchingAndroidInjector
+    private fun initDagger() {
+        DaggerAppComponent.builder().application(this).build().inject(this)
+    }
 
-  override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentDispatchingAndroidInjector
+    private fun initTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
+
+    override fun activityInjector(): AndroidInjector<Activity> = activityDispatchingAndroidInjector
+
+    override fun serviceInjector(): AndroidInjector<Service> = serviceDispatchingAndroidInjector
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentDispatchingAndroidInjector
 }

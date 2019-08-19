@@ -7,9 +7,9 @@ import net.borysw.blitz.game.presentation.GameFragment
 
 @Module
 abstract class BindModule {
-  @ContributesAndroidInjector()
-  abstract fun bindMainActivity(): MainActivity
+    @ContributesAndroidInjector()
+    abstract fun bindMainActivity(): MainActivity
 
-  @ContributesAndroidInjector
-  abstract fun bindClockFragment(): GameFragment
+    @ContributesAndroidInjector
+    abstract fun bindClockFragment(): GameFragment
 }
