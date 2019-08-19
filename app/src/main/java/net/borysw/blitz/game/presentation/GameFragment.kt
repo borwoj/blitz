@@ -64,7 +64,7 @@ class GameFragment : Fragment() {
             showGameStatus(gameStatus)
         })
         viewModel.showDialog.observe(viewLifecycleOwner, Observer { showDialog ->
-            showDialog?.let { if (!it.isDismissed) showResetConfirmationDialog() }
+            if (!showDialog.isDismissed) showResetConfirmationDialog()
         })
     }
 
