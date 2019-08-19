@@ -1,6 +1,5 @@
 package net.borysw.blitz.game.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +10,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager.beginDelayedTransition
-import dagger.android.support.AndroidSupportInjection.inject
 import kotlinx.android.synthetic.main.fragment_game_initial.*
 import net.borysw.blitz.R
 import net.borysw.blitz.R.layout.fragment_game_finish
@@ -23,7 +20,6 @@ import net.borysw.blitz.R.layout.fragment_game_initial
 import net.borysw.blitz.R.layout.fragment_game_paused
 import net.borysw.blitz.R.layout.fragment_game_player_a
 import net.borysw.blitz.R.layout.fragment_game_player_b
-import net.borysw.blitz.app.ViewModelFactory
 import net.borysw.blitz.game.GameStatus
 import net.borysw.blitz.game.GameStatus.Status.FINISHED_PLAYER_A
 import net.borysw.blitz.game.GameStatus.Status.FINISHED_PLAYER_B
@@ -31,25 +27,20 @@ import net.borysw.blitz.game.GameStatus.Status.INITIAL
 import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_A
 import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_B
 import net.borysw.blitz.game.GameStatus.Status.PAUSED
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 import timber.log.Timber
-import javax.inject.Inject
 
 class GameFragment : Fragment() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: GameViewModel
-
-    override fun onAttach(context: Context?) {
-        inject(this)
-        super.onAttach(context)
-    }
+    private val scope = getKoin().getOrCreateScope("someid", named("game"))
+    private val viewModel: GameViewModel by scope.viewModel(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(fragment_game_initial, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
         start.setOnClickListener { viewModel.onPauseClicked() }
         settings.setOnClickListener { findNavController().navigate(R.id.action_clockFragment_to_settingsFragment) }

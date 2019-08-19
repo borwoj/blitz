@@ -4,11 +4,8 @@ import java.util.concurrent.TimeUnit.HOURS
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.MINUTES
 import java.util.concurrent.TimeUnit.SECONDS
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class TimeFormatter @Inject constructor() {
+class TimeFormatter {
 
     fun format(time: Long) = String.format(
         "%02d:%02d:%02d",

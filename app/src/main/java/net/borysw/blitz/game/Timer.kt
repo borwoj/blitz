@@ -1,6 +1,12 @@
 package net.borysw.blitz.game
 
-class Timer(val initialTime: Long) {
+class Timer {
+    var initialTime: Long = 0L
+        set(value) {
+            field = value
+            reset()
+        }
+
     var remainingTime = initialTime
         private set
 

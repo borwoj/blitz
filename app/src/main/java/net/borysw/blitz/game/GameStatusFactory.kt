@@ -10,11 +10,8 @@ import net.borysw.blitz.game.GameStatus.Status.INITIAL
 import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_A
 import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_B
 import net.borysw.blitz.game.GameStatus.Status.PAUSED
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class GameStatusFactory @Inject constructor(private val timeFormatter: TimeFormatter) {
+class GameStatusFactory(private val timeFormatter: TimeFormatter) {
 
     fun getStatus(initialTime: Long, timeLeftA: Long, timeLeftB: Long, activeClock: ActiveClock): GameStatus {
         val status = when {

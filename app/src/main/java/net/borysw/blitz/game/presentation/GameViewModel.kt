@@ -7,21 +7,16 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers.computation
 import net.borysw.blitz.game.ChessClock
 import net.borysw.blitz.game.GameStatus
-import net.borysw.blitz.game.GameStatusFactory
 import java.util.concurrent.TimeUnit.SECONDS
-import javax.inject.Inject
 
-class GameViewModel @Inject constructor(gameStatusFactory: GameStatusFactory) : ViewModel() {
+class GameViewModel(private val chessClock: ChessClock) : ViewModel() {
     val gameStatus = MutableLiveData<GameStatus>()
     val showDialog = MutableLiveData<ShowDialog>()
 
     private var clockStatusDisposable: Disposable? = null
 
-    private val initialTime: Long = SECONDS.toMillis(20)
-
-    private val chessClock = ChessClock(initialTime, gameStatusFactory)
-
     init {
+        chessClock.initialTime = SECONDS.toMillis(20)
         subscribeToClockStatus()
     }
 

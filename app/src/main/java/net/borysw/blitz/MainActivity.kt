@@ -2,18 +2,15 @@ package net.borysw.blitz
 
 import android.os.Bundle
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import androidx.appcompat.app.AppCompatActivity
-import dagger.android.AndroidInjection.inject
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
@@ -31,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             // Hide the nav bar and status bar
-            or SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            //or SYSTEM_UI_FLAG_HIDE_NAVIGATION
             or SYSTEM_UI_FLAG_FULLSCREEN)
     }
 }
