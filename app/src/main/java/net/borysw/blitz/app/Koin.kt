@@ -2,7 +2,9 @@ package net.borysw.blitz.app
 
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.f2prateek.rx.preferences2.RxSharedPreferences.create
+import io.reactivex.schedulers.Schedulers
 import net.borysw.blitz.game.ChessClock
+import net.borysw.blitz.game.ChessClock2
 import net.borysw.blitz.game.GameStatusFactory
 import net.borysw.blitz.game.TimeFormatter
 import net.borysw.blitz.game.Timer
@@ -14,6 +16,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     single { create(getDefaultSharedPreferences(androidContext())) }
+    factory(named("computation")) { Schedulers.computation() }
 
     scope(named("game")) {
         //TODO scope(named<MyActivity>()) {
@@ -22,6 +25,7 @@ val appModule = module {
         scoped(named("A")) { Timer() }
         scoped(named("B")) { Timer() }
         scoped { ChessClock(get(), get(named("A")), get(named("B"))) }
-        viewModel { GameViewModel(get()) }
+        scoped { ChessClock2(get(named("A")), get(named("B"))) }
+        viewModel { GameViewModel(get(), get(), get(named("computation"))) }
     }
 }

@@ -54,9 +54,9 @@ class ChessClock(
     }
 
     private fun publishGameStatus() {
-        val gameStatus =
-            gameStatusFactory.getStatus(initialTime, timerA.remainingTime, timerB.remainingTime, activeClock)
-        this.gameStatus.onNext(gameStatus)
+        // val gameStatus =
+        //     gameStatusFactory.getStatus(initialTime, timerA.remainingTime, timerB.remainingTime, activeClock)
+        // this.gameStatus.onNext(gameStatus)
     }
 
     fun pause() {
