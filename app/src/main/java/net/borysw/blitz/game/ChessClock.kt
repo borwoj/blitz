@@ -29,9 +29,7 @@ class ChessClock(
         publishGameStatus()
     }
 
-    private fun start() {
-        subscribeToTimer()
-    }
+    private fun start() = subscribeToTimer()
 
     fun reset() {
         timerA.reset()
@@ -85,9 +83,7 @@ class ChessClock(
         timerDisposable?.dispose()
     }
 
-    fun isRunning(): Boolean {
-        return timerDisposable != null && !timerDisposable!!.isDisposed
-    }
+    fun isRunning(): Boolean = timerDisposable != null && !timerDisposable!!.isDisposed
 
     fun isTimeOver() = timerA.isTimeOver() || timerB.isTimeOver()
 

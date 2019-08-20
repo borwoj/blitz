@@ -91,17 +91,11 @@ internal class TimerTest {
     @Test
     @DisplayName("should calculate progress as a relation of elapsed time to sum of elapsed time and remaining time")
     fun progress() {
-        val testedObj = Timer().apply { initialTime = 4 }
-
-        assertEquals(0f, testedObj.progress)
-        testedObj.advance()
-        assertEquals(0.25f, testedObj.progress)
-        testedObj.advance()
-        assertEquals(0.5f, testedObj.progress)
+        val testedObj = Timer().apply { initialTime = 3 }
+        testedObj.advanceBy(2)
         testedObj.addTime(1)
-        assertEquals(0.4f, testedObj.progress)
-        testedObj.advanceBy(3)
-        assertEquals(1f, testedObj.progress)
+
+        assertEquals(0.5f, testedObj.progress)
     }
 
     @Test
