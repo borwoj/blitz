@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class TimerTest {
 
     @Test
-    @DisplayName("should keep initial time")
+    @DisplayName("should set initial time")
     fun initialTime() {
         val testedObj = Timer().apply { initialTime = 1 }
 
