@@ -23,7 +23,7 @@ class GameViewModel @Inject constructor(
     private val timeDisposable by lazy { SafeDisposable() }
 
     init {
-        chessClock.initialTime = SECONDS.toMillis(3000)
+        chessClock.initialTime = SECONDS.toMillis(30000)
     }
 
     private fun startTime() =
@@ -38,6 +38,7 @@ class GameViewModel @Inject constructor(
                     chessClock.currentPlayer
                 )
             }
+            .distinctUntilChanged()
             .doOnNext(gameStatus::postValue)
             .takeUntil { !chessClock.isTimeOver }
             .subscribe({}, ::e)
