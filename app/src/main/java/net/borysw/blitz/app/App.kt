@@ -14,22 +14,18 @@ class App : Application(), HasAndroidInjector {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
-    // val appComponent: AppComponent by lazy {
-    //     initializeComponent()
-    // }
-    //
-    // private fun initializeComponent(): AppComponent {
-    //     return DaggerAppComponent.factory().create(applicationContext)
-    // }
-
     override fun onCreate() {
         super.onCreate()
         init()
-        DaggerAppComponent.builder().application(this).build().inject(this)
     }
 
     private fun init() {
         initLogging()
+        initDI()
+    }
+
+    private fun initDI() {
+        DaggerAppComponent.builder().application(this).build().inject(this)
     }
 
     private fun initLogging() {

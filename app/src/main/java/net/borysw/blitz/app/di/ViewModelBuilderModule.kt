@@ -15,5 +15,5 @@ abstract class ViewModelBuilderModule {
     @Binds
     @IntoMap
     @ViewModelKey(GameViewModel::class)
-    abstract fun bindViewModel(viewmodel: GameViewModel): ViewModel
+    abstract fun bindViewModel(viewModel: GameViewModel): ViewModel
 }

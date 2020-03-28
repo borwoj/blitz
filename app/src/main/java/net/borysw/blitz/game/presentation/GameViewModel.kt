@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Observable.interval
 import io.reactivex.rxjava3.core.Scheduler
-import net.borysw.blitz.app.SafeDisposable
+import net.borysw.blitz.SafeDisposable
 import net.borysw.blitz.app.clock.ChessClock
 import net.borysw.blitz.game.status.GameStatus
 import net.borysw.blitz.game.status.GameStatusFactory

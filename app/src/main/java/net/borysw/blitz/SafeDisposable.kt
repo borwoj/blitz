@@ -1,4 +1,4 @@
-package net.borysw.blitz.app
+package net.borysw.blitz
 
 import io.reactivex.rxjava3.disposables.Disposable
 
