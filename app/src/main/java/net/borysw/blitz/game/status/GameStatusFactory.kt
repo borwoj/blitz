@@ -1,12 +1,12 @@
-package net.borysw.blitz.game
+package net.borysw.blitz.game.status
 
-import net.borysw.blitz.game.GameStatus.Status.FINISHED_PLAYER_A
-import net.borysw.blitz.game.GameStatus.Status.FINISHED_PLAYER_B
-import net.borysw.blitz.game.GameStatus.Status.INITIAL
-import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_A
-import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_B
-import net.borysw.blitz.game.GameStatus.Status.PAUSED
-import net.borysw.blitz.game.presentation.ChessClock
+import net.borysw.blitz.app.clock.ChessClock
+import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_A
+import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_B
+import net.borysw.blitz.game.status.GameStatus.Status.INITIAL
+import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_A
+import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_B
+import net.borysw.blitz.game.status.GameStatus.Status.PAUSED
 import javax.inject.Inject
 
 class GameStatusFactory @Inject constructor(private val timeFormatter: TimeFormatter) {

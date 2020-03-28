@@ -1,4 +1,4 @@
-package net.borysw.blitz.game
+package net.borysw.blitz.game.status
 
 data class GameStatus(val status: Status, val timeA: String, val timeB: String) {
     enum class Status {

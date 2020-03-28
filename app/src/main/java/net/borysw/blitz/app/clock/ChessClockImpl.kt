@@ -1,7 +1,8 @@
-package net.borysw.blitz.game.presentation
+package net.borysw.blitz.app.clock
 
-import net.borysw.blitz.game.presentation.ChessClock.Player.FIRST
-import net.borysw.blitz.game.presentation.ChessClock.Player.SECOND
+import net.borysw.blitz.app.clock.ChessClock.Player.FIRST
+import net.borysw.blitz.app.clock.ChessClock.Player.SECOND
+import net.borysw.blitz.app.clock.timer.Timer
 import javax.inject.Inject
 
 class ChessClockImpl @Inject constructor(private val timer1: Timer, private val timer2: Timer) :
@@ -12,11 +13,15 @@ class ChessClockImpl @Inject constructor(private val timer1: Timer, private val 
             timer2.initialTime = value
             field = value
         }
+
     override val remainingTimePlayer1: Long
         get() = timer1.remainingTime
+
     override val remainingTimePlayer2: Long
         get() = timer2.remainingTime
+
     override var currentPlayer: ChessClock.Player? = null
+
     override val isTimeOver: Boolean
         get() = timer1.isTimeOver || timer2.isTimeOver
 

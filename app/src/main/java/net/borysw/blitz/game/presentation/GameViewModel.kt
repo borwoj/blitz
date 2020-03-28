@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Observable.interval
 import io.reactivex.rxjava3.core.Scheduler
 import net.borysw.blitz.app.SafeDisposable
-import net.borysw.blitz.game.GameStatus
-import net.borysw.blitz.game.GameStatusFactory
+import net.borysw.blitz.app.clock.ChessClock
+import net.borysw.blitz.game.status.GameStatus
+import net.borysw.blitz.game.status.GameStatusFactory
 import timber.log.Timber.e
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
@@ -23,7 +24,7 @@ class GameViewModel @Inject constructor(
     private val timeDisposable by lazy { SafeDisposable() }
 
     init {
-        chessClock.initialTime = SECONDS.toMillis(3)
+        chessClock.initialTime = SECONDS.toMillis(2)
     }
 
     private fun startTime() =
@@ -31,20 +32,24 @@ class GameViewModel @Inject constructor(
             .subscribeOn(scheduler)
             .takeUntil { chessClock.isTimeOver }
             .doOnNext { chessClock.advanceTime() }
-            .map {
-                gameStatusFactory.getStatus(
-                    chessClock.initialTime,
-                    chessClock.remainingTimePlayer1,
-                    chessClock.remainingTimePlayer2,
-                    chessClock.currentPlayer
-                )
-            }
+            .map { getGameStatus() }
             .distinctUntilChanged()
             .doOnNext(gameStatus::postValue)
+            .doOnDispose { gameStatus.postValue(getGameStatus()) }
             .subscribe({}, ::e)
             .run(timeDisposable::set)
 
-    private fun pauseTime() = timeDisposable.dispose()
+    private fun getGameStatus(): GameStatus = gameStatusFactory.getStatus(
+        chessClock.initialTime,
+        chessClock.remainingTimePlayer1,
+        chessClock.remainingTimePlayer2,
+        chessClock.currentPlayer
+    )
+
+    private fun pauseTime() {
+        chessClock.onPaused()
+        timeDisposable.dispose()
+    }
 
     fun onTimerAClicked() {
         if (chessClock.currentPlayer == null)

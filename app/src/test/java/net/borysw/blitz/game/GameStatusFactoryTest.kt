@@ -1,15 +1,17 @@
 package net.borysw.blitz.game
 
-import net.borysw.blitz.game.GameStatus.Status
-import net.borysw.blitz.game.GameStatus.Status.FINISHED_PLAYER_A
-import net.borysw.blitz.game.GameStatus.Status.FINISHED_PLAYER_B
-import net.borysw.blitz.game.GameStatus.Status.INITIAL
-import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_A
-import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_B
-import net.borysw.blitz.game.GameStatus.Status.PAUSED
-import net.borysw.blitz.game.presentation.ChessClock
-import net.borysw.blitz.game.presentation.ChessClock.Player.FIRST
-import net.borysw.blitz.game.presentation.ChessClock.Player.SECOND
+import net.borysw.blitz.app.clock.ChessClock
+import net.borysw.blitz.app.clock.ChessClock.Player.FIRST
+import net.borysw.blitz.app.clock.ChessClock.Player.SECOND
+import net.borysw.blitz.game.status.GameStatus.Status
+import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_A
+import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_B
+import net.borysw.blitz.game.status.GameStatus.Status.INITIAL
+import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_A
+import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_B
+import net.borysw.blitz.game.status.GameStatus.Status.PAUSED
+import net.borysw.blitz.game.status.GameStatusFactory
+import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.params.ParameterizedTest
@@ -42,7 +44,9 @@ internal class GameStatusFactoryTest {
         current: ChessClock.Player?,
         expectedGameStatus: Status
     ) {
-        val testedObj = GameStatusFactory(TimeFormatter())
+        val testedObj = GameStatusFactory(
+            SecondsTimeFormatterImpl()
+        )
         val gameStatus = testedObj.getStatus(initialTime, timeLeftA, timeLeftB, current).status
         assertEquals(expectedGameStatus, gameStatus)
     }

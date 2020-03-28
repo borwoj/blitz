@@ -3,6 +3,9 @@ package net.borysw.blitz.game.presentation
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
+import net.borysw.blitz.app.clock.ChessClock
+import net.borysw.blitz.app.clock.ChessClockImpl
+import net.borysw.blitz.app.clock.timer.Timer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull

@@ -24,13 +24,13 @@ import net.borysw.blitz.R.layout.fragment_game_initial
 import net.borysw.blitz.R.layout.fragment_game_paused
 import net.borysw.blitz.R.layout.fragment_game_player_a
 import net.borysw.blitz.R.layout.fragment_game_player_b
-import net.borysw.blitz.game.GameStatus
-import net.borysw.blitz.game.GameStatus.Status.FINISHED_PLAYER_A
-import net.borysw.blitz.game.GameStatus.Status.FINISHED_PLAYER_B
-import net.borysw.blitz.game.GameStatus.Status.INITIAL
-import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_A
-import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_B
-import net.borysw.blitz.game.GameStatus.Status.PAUSED
+import net.borysw.blitz.game.status.GameStatus
+import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_A
+import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_B
+import net.borysw.blitz.game.status.GameStatus.Status.INITIAL
+import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_A
+import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_B
+import net.borysw.blitz.game.status.GameStatus.Status.PAUSED
 import timber.log.Timber
 import javax.inject.Inject
 
