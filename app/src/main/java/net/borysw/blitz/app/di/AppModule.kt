@@ -9,6 +9,10 @@ import net.borysw.blitz.app.clock.ChessClock
 import net.borysw.blitz.app.clock.ChessClockImpl
 import net.borysw.blitz.app.clock.timer.Timer
 import net.borysw.blitz.app.clock.timer.TimerImpl
+import net.borysw.blitz.game.GameController
+import net.borysw.blitz.game.GameControllerImpl
+import net.borysw.blitz.game.status.GameStatusFactory
+import net.borysw.blitz.game.status.GameStatusFactoryImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
 import javax.inject.Singleton
@@ -27,6 +31,12 @@ class AppModule {
 
         @Binds
         fun bindTimeFormatter(implementation: SecondsTimeFormatterImpl): TimeFormatter
+
+        @Binds
+        fun bindGameController(implementation: GameControllerImpl): GameController
+
+        @Binds
+        fun bindGameStatusFactory(implementation: GameStatusFactoryImpl): GameStatusFactory
     }
 
     @Provides

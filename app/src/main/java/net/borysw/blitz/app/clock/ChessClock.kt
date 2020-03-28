@@ -1,7 +1,10 @@
 package net.borysw.blitz.app.clock
 
 interface ChessClock {
-    enum class Player { PLAYER_1, PLAYER_2 }
+    sealed class Player {
+        object Player1 : Player()
+        object Player2 : Player()
+    }
 
     var initialTime: Long
     var currentPlayer: Player?
@@ -10,7 +13,7 @@ interface ChessClock {
     val isTimeOver: Boolean
 
     fun advanceTime()
-    fun onPaused()
+    fun pause()
     fun changeTurn(nextPlayer: Player)
     fun reset()
 }

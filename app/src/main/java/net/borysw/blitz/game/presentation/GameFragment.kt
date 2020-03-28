@@ -25,12 +25,11 @@ import net.borysw.blitz.R.layout.fragment_game_paused
 import net.borysw.blitz.R.layout.fragment_game_player_a
 import net.borysw.blitz.R.layout.fragment_game_player_b
 import net.borysw.blitz.game.status.GameStatus
-import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_A
-import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_B
-import net.borysw.blitz.game.status.GameStatus.Status.INITIAL
-import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_A
-import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_B
-import net.borysw.blitz.game.status.GameStatus.Status.PAUSED
+import net.borysw.blitz.game.status.GameStatus.Status
+import net.borysw.blitz.game.status.GameStatus.Status.Finished
+import net.borysw.blitz.game.status.GameStatus.Status.InProgress
+import net.borysw.blitz.game.status.GameStatus.Status.Paused
+import net.borysw.blitz.game.status.GameStatus.Status.Unstarted
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,7 +53,7 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        start.setOnClickListener { viewModel.onPauseClicked() }
+        start.setOnClickListener { viewModel.onActionButtonClicked() }
         settings.setOnClickListener { findNavController().navigate(R.id.action_clockFragment_to_settingsFragment) }
         timerViewA.setOnClickListener { viewModel.onTimerAClicked() }
         timerViewB.setOnClickListener { viewModel.onTimerBClicked() }
@@ -80,14 +79,14 @@ class GameFragment : Fragment() {
     }
 
     private fun showGameStatus(gameStatus: GameStatus) {
-        timerViewA.setTime(gameStatus.timeA)
-        timerViewB.setTime(gameStatus.timeB)
+        timerViewA.setTime(gameStatus.remainingTimePlayer1)
+        timerViewB.setTime(gameStatus.remainingTimePlayer2)
 
         when (gameStatus.status) {
-            INITIAL -> showGameInitial()
-            PAUSED -> showGamePaused()
-            IN_PROGRESS_PLAYER_A, IN_PROGRESS_PLAYER_B -> showGameInProgress(gameStatus.status)
-            FINISHED_PLAYER_A, FINISHED_PLAYER_B -> showGameFinished(gameStatus.status)
+            Unstarted -> showGameInitial()
+            Paused -> showGamePaused()
+            InProgress.Player1, InProgress.Player2 -> showGameInProgress(gameStatus.status)
+            Finished.Player1Won, Finished.Player2Won -> showGameFinished(gameStatus.status)
         }
     }
 
@@ -99,7 +98,7 @@ class GameFragment : Fragment() {
             interpolator = AnticipateOvershootInterpolator()
             duration = 500
         })
-        getConstraintSet(INITIAL).applyTo(root)
+        getConstraintSet(Unstarted).applyTo(root)
     }
 
     private fun showGamePaused() {
@@ -112,16 +111,16 @@ class GameFragment : Fragment() {
             interpolator = AnticipateOvershootInterpolator()
             duration = 500
         })
-        getConstraintSet(PAUSED).applyTo(root)
+        getConstraintSet(Paused).applyTo(root)
     }
 
-    private fun showGameInProgress(gameStatus: GameStatus.Status) {
+    private fun showGameInProgress(gameStatus: Status) {
         start.setImageResource(R.drawable.ic_pause_black_24dp)
 
-        if (gameStatus == IN_PROGRESS_PLAYER_A) {
+        if (gameStatus == InProgress.Player1) {
             timerViewA.setActive(true)
             timerViewB.setActive(false)
-        } else if (gameStatus == IN_PROGRESS_PLAYER_B) {
+        } else if (gameStatus == InProgress.Player2) {
             timerViewA.setActive(false)
             timerViewB.setActive(true)
         }
@@ -133,13 +132,13 @@ class GameFragment : Fragment() {
         getConstraintSet(gameStatus).applyTo(root)
     }
 
-    private fun showGameFinished(gameStatus: GameStatus.Status) {
+    private fun showGameFinished(gameStatus: Status) {
         start.setImageResource(R.drawable.ic_replay_black_24dp)
 
-        if (gameStatus == FINISHED_PLAYER_A) {
+        if (gameStatus == Finished.Player1Won) {
             timerViewA.setLoser()
             timerViewB.setWinner()
-        } else if (gameStatus == FINISHED_PLAYER_B) {
+        } else if (gameStatus == Finished.Player2Won) {
             timerViewA.setWinner()
             timerViewB.setLoser()
         }
@@ -151,13 +150,13 @@ class GameFragment : Fragment() {
         getConstraintSet(gameStatus).applyTo(root)
     }
 
-    private fun getConstraintSet(gameStatus: GameStatus.Status): ConstraintSet {
+    private fun getConstraintSet(gameStatus: Status): ConstraintSet {
         val layoutResId = when (gameStatus) {
-            INITIAL -> fragment_game_initial
-            PAUSED -> fragment_game_paused
-            IN_PROGRESS_PLAYER_A -> fragment_game_player_a
-            IN_PROGRESS_PLAYER_B -> fragment_game_player_b
-            FINISHED_PLAYER_A, FINISHED_PLAYER_B -> fragment_game_finish
+            Unstarted -> fragment_game_initial
+            Paused -> fragment_game_paused
+            InProgress.Player1 -> fragment_game_player_a
+            InProgress.Player2 -> fragment_game_player_b
+            Finished.Player1Won, Finished.Player2Won -> fragment_game_finish
         }
         return ConstraintSet().apply { clone(context, layoutResId) }
     }

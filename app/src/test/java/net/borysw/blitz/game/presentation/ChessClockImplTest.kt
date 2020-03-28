@@ -148,7 +148,7 @@ internal class ChessClockImplTest {
         val testedObj = ChessClockImpl(timer1, timer2)
 
         testedObj.changeTurn(ChessClock.Player.PLAYER_2)
-        testedObj.onPaused()
+        testedObj.pause()
 
         assertNull(testedObj.currentPlayer)
     }
