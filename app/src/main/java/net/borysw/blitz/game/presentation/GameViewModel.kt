@@ -29,7 +29,6 @@ class GameViewModel @Inject constructor(
     private fun startTime() =
         interval(1, MILLISECONDS)
             .subscribeOn(scheduler)
-            .takeUntil { !chessClock.isTimeOver }
             .doOnNext { chessClock.advanceTime() }
             .map {
                 gameStatusFactory.getStatus(
@@ -39,19 +38,21 @@ class GameViewModel @Inject constructor(
                     chessClock.currentPlayer
                 )
             }
+            .doOnNext(gameStatus::postValue)
+            .takeUntil { !chessClock.isTimeOver }
             .subscribe({}, ::e)
             .run(timeDisposable::set)
 
     private fun pauseTime() = timeDisposable.dispose()
 
     fun onTimerAClicked() {
-        if (!chessClock.isTimeOver)
+        if (chessClock.currentPlayer == null)
             startTime()
         chessClock.changeTurn(ChessClock.Player.SECOND)
     }
 
     fun onTimerBClicked() {
-        if (!chessClock.isTimeOver)
+        if (chessClock.currentPlayer == null)
             startTime()
         chessClock.changeTurn(ChessClock.Player.FIRST)
     }

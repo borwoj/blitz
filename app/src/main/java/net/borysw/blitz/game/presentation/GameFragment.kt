@@ -1,5 +1,6 @@
 package net.borysw.blitz.game.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager.beginDelayedTransition
+import dagger.android.support.AndroidSupportInjection.inject
 import kotlinx.android.synthetic.main.fragment_game_initial.*
 import net.borysw.blitz.R
 import net.borysw.blitz.R.layout.fragment_game_finish
@@ -36,6 +38,11 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<GameViewModel> { viewModelFactory }
+
+    override fun onAttach(context: Context) {
+        inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

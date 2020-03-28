@@ -7,8 +7,9 @@ import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_A
 import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_B
 import net.borysw.blitz.game.GameStatus.Status.PAUSED
 import net.borysw.blitz.game.presentation.ChessClock
+import javax.inject.Inject
 
-class GameStatusFactory(private val timeFormatter: TimeFormatter) {
+class GameStatusFactory @Inject constructor(private val timeFormatter: TimeFormatter) {
 
     fun getStatus(
         initialTime: Long,

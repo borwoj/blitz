@@ -7,6 +7,11 @@ import javax.inject.Inject
 class ChessClockImpl @Inject constructor(private val timer1: Timer, private val timer2: Timer) :
     ChessClock {
     override var initialTime: Long = 0
+        set(value) {
+            timer1.initialTime = value
+            timer2.initialTime = value
+            field = value
+        }
     override val remainingTimePlayer1: Long
         get() = timer1.remainingTime
     override val remainingTimePlayer2: Long
