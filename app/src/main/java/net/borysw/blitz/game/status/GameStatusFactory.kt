@@ -22,8 +22,8 @@ class GameStatusFactory @Inject constructor(private val timeFormatter: TimeForma
             current == null -> PAUSED
             timeLeftA == 0L -> FINISHED_PLAYER_A
             timeLeftB == 0L -> FINISHED_PLAYER_B
-            current == ChessClock.Player.FIRST -> IN_PROGRESS_PLAYER_A
-            current == ChessClock.Player.SECOND -> IN_PROGRESS_PLAYER_B
+            current == ChessClock.Player.PLAYER_1 -> IN_PROGRESS_PLAYER_A
+            current == ChessClock.Player.PLAYER_2 -> IN_PROGRESS_PLAYER_B
             else -> throw IllegalStateException("Failed to create status")
         }
         val timeA = timeFormatter.format(timeLeftA)

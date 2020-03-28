@@ -1,8 +1,8 @@
 package net.borysw.blitz.game
 
 import net.borysw.blitz.app.clock.ChessClock
-import net.borysw.blitz.app.clock.ChessClock.Player.FIRST
-import net.borysw.blitz.app.clock.ChessClock.Player.SECOND
+import net.borysw.blitz.app.clock.ChessClock.Player.PLAYER_1
+import net.borysw.blitz.app.clock.ChessClock.Player.PLAYER_2
 import net.borysw.blitz.game.status.GameStatus.Status
 import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_A
 import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_B
@@ -26,10 +26,10 @@ internal class GameStatusFactoryTest {
             return listOf(
                 of(10, 10, 10, null, INITIAL),
                 of(10, 9, 10, null, PAUSED),
-                of(10, 0, 5, FIRST, FINISHED_PLAYER_A),
-                of(10, 5, 0, SECOND, FINISHED_PLAYER_B),
-                of(10, 1, 5, FIRST, IN_PROGRESS_PLAYER_A),
-                of(10, 2, 5, SECOND, IN_PROGRESS_PLAYER_B)
+                of(10, 0, 5, PLAYER_1, FINISHED_PLAYER_A),
+                of(10, 5, 0, PLAYER_2, FINISHED_PLAYER_B),
+                of(10, 1, 5, PLAYER_1, IN_PROGRESS_PLAYER_A),
+                of(10, 2, 5, PLAYER_2, IN_PROGRESS_PLAYER_B)
             )
         }
     }

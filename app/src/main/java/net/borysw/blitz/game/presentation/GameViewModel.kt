@@ -54,13 +54,13 @@ class GameViewModel @Inject constructor(
     fun onTimerAClicked() {
         if (chessClock.currentPlayer == null)
             startTime()
-        chessClock.changeTurn(ChessClock.Player.SECOND)
+        chessClock.changeTurn(ChessClock.Player.PLAYER_2)
     }
 
     fun onTimerBClicked() {
         if (chessClock.currentPlayer == null)
             startTime()
-        chessClock.changeTurn(ChessClock.Player.FIRST)
+        chessClock.changeTurn(ChessClock.Player.PLAYER_1)
     }
 
     fun onPauseClicked() = pauseTime()
