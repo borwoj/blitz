@@ -2,66 +2,67 @@ package net.borysw.blitz.game.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
-import net.borysw.blitz.game.ChessClock2
+import io.reactivex.rxjava3.core.Observable.interval
+import io.reactivex.rxjava3.core.Scheduler
+import net.borysw.blitz.app.SafeDisposable
 import net.borysw.blitz.game.GameStatus
 import net.borysw.blitz.game.GameStatusFactory
-import java.util.concurrent.TimeUnit
+import timber.log.Timber.e
+import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
+import javax.inject.Inject
 
-class GameViewModel(
-    private val chessClock: ChessClock2,
+class GameViewModel @Inject constructor(
+    private val chessClock: ChessClock,
     private val gameStatusFactory: GameStatusFactory,
     private val scheduler: Scheduler
 ) : ViewModel() {
-    val gameStatus = MutableLiveData<GameStatus>()
-    val showDialog = MutableLiveData<ShowDialog>()
+    val gameStatus by lazy { MutableLiveData<GameStatus>() }
+    val showDialog by lazy { MutableLiveData<ShowDialog>() }
 
-    private var clockDisposable: Disposable? = null
+    private val timeDisposable by lazy { SafeDisposable() }
 
     init {
-        chessClock.initialTime = SECONDS.toMillis(3)
+        chessClock.initialTime = SECONDS.toMillis(3000)
     }
 
-    private fun startClock() {
-        if (clockDisposable == null || clockDisposable!!.isDisposed) clockDisposable =
-            Observable.interval(1, TimeUnit.MILLISECONDS, scheduler)
-                .doOnNext { chessClock.advanceTime() }
-                .map {
-                    gameStatusFactory.getStatus(
-                        chessClock.initialTime,
-                        chessClock.remainingTimeA,
-                        chessClock.remainingTimeB,
-                        chessClock.getCurrent()
-                    )
-                }
-                .distinctUntilChanged()
-                .doOnNext { gameStatus.postValue(it) }
-                .takeUntil { chessClock.isTimeOver() }
-                .subscribe()
-    }
+    private fun startTime() =
+        interval(1, MILLISECONDS)
+            .subscribeOn(scheduler)
+            .takeUntil { !chessClock.isTimeOver }
+            .doOnNext { chessClock.advanceTime() }
+            .map {
+                gameStatusFactory.getStatus(
+                    chessClock.initialTime,
+                    chessClock.remainingTimePlayer1,
+                    chessClock.remainingTimePlayer2,
+                    chessClock.currentPlayer
+                )
+            }
+            .subscribe({}, ::e)
+            .run(timeDisposable::set)
 
-    fun onPauseClicked() = clockDisposable?.dispose()
-
-    fun onResetConfirmClicked() = chessClock.reset()
+    private fun pauseTime() = timeDisposable.dispose()
 
     fun onTimerAClicked() {
-        chessClock.onPressedA()
-        startClock()
+        if (!chessClock.isTimeOver)
+            startTime()
+        chessClock.changeTurn(ChessClock.Player.SECOND)
     }
 
     fun onTimerBClicked() {
-        chessClock.onPressedB()
-        startClock()
+        if (!chessClock.isTimeOver)
+            startTime()
+        chessClock.changeTurn(ChessClock.Player.FIRST)
     }
 
-    override fun onCleared() {
-        clockDisposable?.dispose()
-    }
+    fun onPauseClicked() = pauseTime()
+
+    fun onResetConfirmClicked() = chessClock.reset()
 
     fun onResetConfirmationDialogDismissed() {
         showDialog.value?.isDismissed = true
     }
+
+    override fun onCleared() = timeDisposable.dispose()
 }

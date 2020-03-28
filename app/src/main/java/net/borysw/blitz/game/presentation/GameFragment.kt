@@ -9,7 +9,9 @@ import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager.beginDelayedTransition
@@ -27,16 +29,19 @@ import net.borysw.blitz.game.GameStatus.Status.INITIAL
 import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_A
 import net.borysw.blitz.game.GameStatus.Status.IN_PROGRESS_PLAYER_B
 import net.borysw.blitz.game.GameStatus.Status.PAUSED
-import org.koin.android.ext.android.getKoin
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.qualifier.named
 import timber.log.Timber
+import javax.inject.Inject
 
 class GameFragment : Fragment() {
-    private val scope = getKoin().getOrCreateScope("someid", named("game"))
-    private val viewModel: GameViewModel by scope.viewModel(this)
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<GameViewModel> { viewModelFactory }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
         inflater.inflate(fragment_game_initial, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +65,7 @@ class GameFragment : Fragment() {
     }
 
     private fun showResetConfirmationDialog() {
-        AlertDialog.Builder(context!!).setTitle(R.string.reset_confirmation_title)
+        AlertDialog.Builder(requireContext()).setTitle(R.string.reset_confirmation_title)
             .setPositiveButton(R.string.reset) { _, _ -> viewModel.onResetConfirmClicked() }
             .setNegativeButton(R.string.cancel, null)
             .setOnDismissListener { viewModel.onResetConfirmationDialogDismissed() }

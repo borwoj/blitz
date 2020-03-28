@@ -1,13 +1,27 @@
 package net.borysw.blitz.app
 
 import android.app.Application
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import net.borysw.blitz.BuildConfig
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
+import net.borysw.blitz.app.di.AppComponent
+import net.borysw.blitz.app.di.DaggerAppComponent
 import timber.log.Timber
+import javax.inject.Inject
 
-class App : Application() {
+class App : Application(), HasAndroidInjector {
+
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
+    val appComponent: AppComponent by lazy {
+        initializeComponent()
+    }
+
+    private fun initializeComponent(): AppComponent {
+        return DaggerAppComponent.factory().create(applicationContext)
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -15,21 +29,14 @@ class App : Application() {
     }
 
     private fun init() {
-        initTimber()
-        initKoin()
+        initLogging()
     }
 
-    private fun initKoin() {
-        startKoin {
-            androidLogger()
-            androidContext(this@App)
-            modules(appModule)
-        }
-    }
-
-    private fun initTimber() {
+    private fun initLogging() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
     }
+
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }
