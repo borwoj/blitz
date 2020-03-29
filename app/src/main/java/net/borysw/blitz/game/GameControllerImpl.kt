@@ -7,9 +7,9 @@ import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import net.borysw.blitz.app.clock.ChessClock
-import net.borysw.blitz.app.clock.ChessClock.Player.Player1
-import net.borysw.blitz.app.clock.ChessClock.Player.Player2
+import net.borysw.blitz.clock.ChessClock
+import net.borysw.blitz.clock.ChessClock.Player.Player1
+import net.borysw.blitz.clock.ChessClock.Player.Player2
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2

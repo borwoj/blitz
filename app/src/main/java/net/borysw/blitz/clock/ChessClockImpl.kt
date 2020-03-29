@@ -1,8 +1,8 @@
-package net.borysw.blitz.app.clock
+package net.borysw.blitz.clock
 
-import net.borysw.blitz.app.clock.ChessClock.Player.Player1
-import net.borysw.blitz.app.clock.ChessClock.Player.Player2
-import net.borysw.blitz.app.clock.timer.Timer
+import net.borysw.blitz.clock.ChessClock.Player.Player1
+import net.borysw.blitz.clock.ChessClock.Player.Player2
+import net.borysw.blitz.clock.timer.Timer
 import javax.inject.Inject
 
 class ChessClockImpl @Inject constructor(private val timer1: Timer, private val timer2: Timer) :

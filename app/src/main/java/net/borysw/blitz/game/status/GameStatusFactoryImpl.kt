@@ -1,7 +1,7 @@
 package net.borysw.blitz.game.status
 
-import net.borysw.blitz.app.clock.ChessClock
-import net.borysw.blitz.app.clock.ChessClock.Player
+import net.borysw.blitz.clock.ChessClock
+import net.borysw.blitz.clock.ChessClock.Player
 import net.borysw.blitz.game.status.GameStatus.Status.Finished.Player1Won
 import net.borysw.blitz.game.status.GameStatus.Status.Finished.Player2Won
 import net.borysw.blitz.game.status.GameStatus.Status.InProgress.Player1

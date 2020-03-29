@@ -1,4 +1,4 @@
-package net.borysw.blitz.app.clock
+package net.borysw.blitz.clock
 
 interface ChessClock {
     sealed class Player {
