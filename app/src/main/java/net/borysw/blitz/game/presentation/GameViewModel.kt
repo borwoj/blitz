@@ -3,7 +3,6 @@ package net.borysw.blitz.game.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.borysw.blitz.SafeDisposable
-import net.borysw.blitz.game.Game
 import net.borysw.blitz.game.GameController
 import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.status.GameStatus
@@ -18,7 +17,6 @@ class GameViewModel @Inject constructor(private val gameController: GameControll
     private val timeDisposable by lazy { SafeDisposable() }
 
     init {
-        gameController.game = Game(2000)
         gameController.gameStatus.subscribe(gameStatus::postValue, ::e).run(timeDisposable::set)
         gameController.userActions.onNext(UserAction.SitAtTable)
     }

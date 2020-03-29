@@ -1,6 +1,6 @@
 package net.borysw.blitz
 
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.disposables.Disposable
 
 class SafeDisposable : Disposable {
     private var disposable: Disposable? = null
