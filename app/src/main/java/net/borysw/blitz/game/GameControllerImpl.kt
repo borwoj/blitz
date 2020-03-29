@@ -33,25 +33,19 @@ class GameControllerImpl @Inject constructor(
     override val gameStatus: Observable<GameStatus> =
         Observable.combineLatest(
                 interval(1, MILLISECONDS, scheduler),
-                userActions,
-                BiFunction<Long, UserAction, UserAction> { _, userAction ->
-                    userAction
-                })
-            .doOnNext {
-                when (it) {
-                    ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(
-                        Player2
-                    )
-                    ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(
-                        Player1
-                    )
-                    ActionButtonClicked -> if (chessClock.currentPlayer == null) chessClock.reset() else chessClock.pause()
-                }
-            }
-            //.takeUntil { chessClock.isTimeOver }
+                userActions.startWithItem(ActionButtonClicked).doOnNext {
+                    when (it) {
+                        ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(
+                            Player2
+                        )
+                        ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(
+                            Player1
+                        )
+                        ActionButtonClicked -> if (chessClock.currentPlayer == null) chessClock.reset() else chessClock.pause()
+                    }
+                },
+                BiFunction<Long, UserAction, Unit> { _, _ -> })
             .doOnNext { if (!chessClock.isTimeOver && chessClock.currentPlayer != null) chessClock.advanceTime() }
             .map { gameStatusFactory.getStatus(chessClock) }
             .distinctUntilChanged()
-
-    private fun isGamePaused() = chessClock.currentPlayer == null
 }

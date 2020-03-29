@@ -18,11 +18,8 @@ class GameViewModel @Inject constructor(private val gameController: GameControll
     private val timeDisposable by lazy { SafeDisposable() }
 
     init {
-        gameController.game = Game(2000)
+        gameController.game = Game(10000)
         gameController.gameStatus.subscribe(gameStatus::postValue, ::e).run(timeDisposable::set)
-    }
-
-    private fun subscribe() {
     }
 
     fun onTimerAClicked() {
