@@ -28,22 +28,28 @@ class GameControllerImpl @Inject constructor(
 
     override val userActions: Subject<UserAction> = BehaviorSubject.create()
 
+    private val gameSettingsObservable = gameSettingsProvider
+        .gameSettings
+        .subscribeOn(scheduler)
+        .doOnNext(::setupGame)
+
+    private val timeEngineObservable = interval(1, MILLISECONDS, scheduler)
+        .doOnNext { advanceTime() }
+
+    private val userActionsObservable = userActions
+        .observeOn(scheduler)
+        .doOnNext(::handleUserAction)
+
+    private val gameStatusObservable = Observable.combineLatest<Long, UserAction, Unit>(
+            timeEngineObservable,
+            userActionsObservable,
+            BiFunction { _, _ -> })
+        .map { gameStatusFactory.getStatus(chessClock) }
+        .distinctUntilChanged()
+
     override val gameStatus: Observable<GameStatus> =
-        gameSettingsProvider
-            .gameSettings
-            .subscribeOn(scheduler)
-            .doOnNext(::setupGame)
-            .flatMap {
-                Observable.combineLatest(
-                        interval(1, MILLISECONDS, scheduler),
-                        userActions
-                            .observeOn(scheduler)
-                            .doOnNext(::handleUserAction),
-                        BiFunction<Long, UserAction, Unit> { _, _ -> /* do nothing */ })
-                    .doOnNext { advanceTime() }
-                    .map { gameStatusFactory.getStatus(chessClock) }
-                    .distinctUntilChanged()
-            }
+        gameSettingsObservable
+            .flatMap { gameStatusObservable }
 
     private fun advanceTime() {
         if (!chessClock.isTimeOver && chessClock.currentPlayer != null) chessClock.advanceTime()
