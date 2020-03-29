@@ -21,11 +21,11 @@ class GameViewModel @Inject constructor(private val gameController: GameControll
         gameController.userActions.onNext(UserAction.SitAtTable)
     }
 
-    fun onTimerAClicked() {
+    fun onPlayer1Clicked() {
         gameController.userActions.onNext(UserAction.ClockClickedPlayer1)
     }
 
-    fun onTimerBClicked() {
+    fun onPlayer2Clicked() {
         gameController.userActions.onNext(UserAction.ClockClickedPlayer2)
     }
 

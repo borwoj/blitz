@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import io.reactivex.Observable.interval
 import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import net.borysw.blitz.app.clock.ChessClock
 import net.borysw.blitz.app.clock.ChessClock.Player.Player1
@@ -26,7 +26,7 @@ class GameControllerImpl @Inject constructor(
     private val gameStatusFactory: GameStatusFactory
 ) : GameController {
 
-    override val userActions: Subject<UserAction> = PublishSubject.create()
+    override val userActions: Subject<UserAction> = BehaviorSubject.create()
 
     override val gameStatus: Observable<GameStatus> =
         gameSettingsProvider

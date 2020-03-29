@@ -55,8 +55,8 @@ class GameFragment : Fragment() {
 
         start.setOnClickListener { viewModel.onActionButtonClicked() }
         settings.setOnClickListener { findNavController().navigate(R.id.action_clockFragment_to_settingsFragment) }
-        timerViewA.setOnClickListener { viewModel.onTimerAClicked() }
-        timerViewB.setOnClickListener { viewModel.onTimerBClicked() }
+        timerViewA.setOnClickListener { viewModel.onPlayer1Clicked() }
+        timerViewB.setOnClickListener { viewModel.onPlayer2Clicked() }
         subscribe()
     }
 
