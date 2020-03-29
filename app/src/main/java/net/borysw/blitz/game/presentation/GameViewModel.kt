@@ -20,6 +20,7 @@ class GameViewModel @Inject constructor(private val gameController: GameControll
     init {
         gameController.game = Game(2000)
         gameController.gameStatus.subscribe(gameStatus::postValue, ::e).run(timeDisposable::set)
+        gameController.userActions.onNext(UserAction.SitAtTable)
     }
 
     fun onTimerAClicked() {

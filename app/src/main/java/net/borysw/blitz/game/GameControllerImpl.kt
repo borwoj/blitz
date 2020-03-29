@@ -5,6 +5,7 @@ import io.reactivex.rxjava3.core.Observable.interval
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.functions.BiFunction
 import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.Subject
 import net.borysw.blitz.app.clock.ChessClock
 import net.borysw.blitz.app.clock.ChessClock.Player.Player1
 import net.borysw.blitz.app.clock.ChessClock.Player.Player2
@@ -22,11 +23,11 @@ class GameControllerImpl @Inject constructor(
     private val gameStatusFactory: GameStatusFactory
 ) : GameController {
 
-    override var userActions: PublishSubject<UserAction> = PublishSubject.create()
+    override var userActions: Subject<UserAction> = PublishSubject.create()
 
     override var game: Game = Game(0)
         set(value) {
-            chessClock.initialTime = value.time
+            chessClock.initialTime = value.initialTime
             field = value
         }
 
@@ -34,20 +35,18 @@ class GameControllerImpl @Inject constructor(
         Observable.combineLatest(
                 interval(1, MILLISECONDS, scheduler),
                 userActions
-                    .startWithItem(ActionButtonClicked)
-                    .doOnNext {
-                    when (it) {
-                        ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(
-                            Player2
-                        )
-                        ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(
-                            Player1
-                        )
-                        ActionButtonClicked -> if (chessClock.currentPlayer == null) chessClock.reset() else chessClock.pause()
-                    }
-                },
-                BiFunction<Long, UserAction, Unit> { _, _ -> })
+                    .observeOn(scheduler)
+                    .doOnNext(::handleUserAction),
+                BiFunction<Long, UserAction, Unit> { _, _ -> /* do nothing */ })
             .doOnNext { if (!chessClock.isTimeOver && chessClock.currentPlayer != null) chessClock.advanceTime() }
             .map { gameStatusFactory.getStatus(chessClock) }
             .distinctUntilChanged()
+
+    private fun handleUserAction(action: UserAction) {
+        when (action) {
+            ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player2)
+            ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player1)
+            ActionButtonClicked -> if (chessClock.currentPlayer == null) chessClock.reset() else chessClock.pause()
+        }
+    }
 }
