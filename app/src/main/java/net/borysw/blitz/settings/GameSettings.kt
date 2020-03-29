@@ -1,5 +1,3 @@
 package net.borysw.blitz.settings
 
-interface GameSettings {
-    fun getInitialTime(): Long
-}
+class GameSettings(val duration: Long, val type: GameType)

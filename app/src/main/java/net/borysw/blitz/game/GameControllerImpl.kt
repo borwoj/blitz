@@ -12,10 +12,10 @@ import net.borysw.blitz.app.clock.ChessClock.Player.Player2
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
-import net.borysw.blitz.game.settings.GameSettings
-import net.borysw.blitz.game.settings.GameSettingsProvider
 import net.borysw.blitz.game.status.GameStatus
 import net.borysw.blitz.game.status.GameStatusFactory
+import net.borysw.blitz.settings.GameSettings
+import net.borysw.blitz.settings.GameSettingsProvider
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
 

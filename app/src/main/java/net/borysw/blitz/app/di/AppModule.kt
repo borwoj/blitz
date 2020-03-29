@@ -15,12 +15,12 @@ import net.borysw.blitz.app.clock.timer.Timer
 import net.borysw.blitz.app.clock.timer.TimerImpl
 import net.borysw.blitz.game.GameController
 import net.borysw.blitz.game.GameControllerImpl
-import net.borysw.blitz.game.settings.GameSettingsProvider
-import net.borysw.blitz.game.settings.GameSettingsProviderImpl
 import net.borysw.blitz.game.status.GameStatusFactory
 import net.borysw.blitz.game.status.GameStatusFactoryImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
+import net.borysw.blitz.settings.GameSettingsProvider
+import net.borysw.blitz.settings.GameSettingsProviderImpl
 import javax.inject.Singleton
 
 @Module(includes = [AppModule.Binding::class])

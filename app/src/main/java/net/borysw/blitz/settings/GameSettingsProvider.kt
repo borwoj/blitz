@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.settings
+package net.borysw.blitz.settings
 
 import io.reactivex.Observable
 
