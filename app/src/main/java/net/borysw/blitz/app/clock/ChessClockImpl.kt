@@ -31,6 +31,7 @@ class ChessClockImpl @Inject constructor(private val timer1: Timer, private val 
             Player2 -> timer2.advanceTime()
             null -> throw IllegalStateException("Can't advance time when player turn is undefined.")
         }
+        if (isTimeOver) pause()
     }
 
     override fun pause() {

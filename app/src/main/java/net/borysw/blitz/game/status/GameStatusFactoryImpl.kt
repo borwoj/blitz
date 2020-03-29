@@ -33,9 +33,9 @@ class GameStatusFactoryImpl @Inject constructor(private val timeFormatter: TimeF
         current: Player?
     ): GameStatus.Status = when {
         (initialTime == remainingTimePlayer1 && initialTime == remainingTimePlayer2) -> Unstarted
-        current == null -> Paused
         remainingTimePlayer1 == 0L -> Player1Won
         remainingTimePlayer2 == 0L -> Player2Won
+        current == null -> Paused
         current == Player.Player1 -> Player1
         current == Player.Player2 -> Player2
         else -> throw IllegalStateException("Unknown game status.")

@@ -33,7 +33,9 @@ class GameControllerImpl @Inject constructor(
     override val gameStatus: Observable<GameStatus> =
         Observable.combineLatest(
                 interval(1, MILLISECONDS, scheduler),
-                userActions.startWithItem(ActionButtonClicked).doOnNext {
+                userActions
+                    .startWithItem(ActionButtonClicked)
+                    .doOnNext {
                     when (it) {
                         ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(
                             Player2
