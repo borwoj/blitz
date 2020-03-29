@@ -15,12 +15,10 @@ class GameControllerImpl @Inject constructor(
     private val gameStatusFactory: GameStatusFactory
 ) : GameController {
 
-    @Volatile
     override var isGamePaused = false
         get() = chessClock.currentPlayer == null
 
-    override var game: Game =
-        Game(0)
+    override var game: Game = Game(0)
         set(value) {
             chessClock.initialTime = value.time
             field = value
