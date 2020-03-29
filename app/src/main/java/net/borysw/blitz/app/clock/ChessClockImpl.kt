@@ -42,7 +42,7 @@ class ChessClockImpl @Inject constructor(private val timer1: Timer, private val 
     }
 
     override fun reset() {
-        currentPlayer = null
+        pause()
         timer1.reset()
         timer2.reset()
     }

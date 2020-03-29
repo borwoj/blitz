@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import net.borysw.blitz.SafeDisposable
 import net.borysw.blitz.game.Game
 import net.borysw.blitz.game.GameController
+import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.status.GameStatus
 import timber.log.Timber.e
 import javax.inject.Inject
@@ -18,31 +19,27 @@ class GameViewModel @Inject constructor(private val gameController: GameControll
 
     init {
         gameController.game = Game(2000)
-    }
-
-    private fun subscribe() {
         gameController.gameStatus.subscribe(gameStatus::postValue, ::e).run(timeDisposable::set)
     }
 
+    private fun subscribe() {
+    }
+
     fun onTimerAClicked() {
-        gameController.onPlayer1Clicked()
-        subscribe()
+        gameController.userActions.onNext(UserAction.ClockClickedPlayer1)
     }
 
     fun onTimerBClicked() {
-        gameController.onPlayer2Clicked()
-        subscribe()
+        gameController.userActions.onNext(UserAction.ClockClickedPlayer2)
     }
 
     fun onActionButtonClicked() {
-        if (gameController.isGamePaused) showDialog.postValue(ShowDialog())
-        else {
-            gameController.onPauseClicked()
-            timeDisposable.dispose()
-        }
+        gameController.userActions.onNext(UserAction.ActionButtonClicked)
     }
 
-    fun onResetConfirmClicked() = gameController.onResetClicked()
+    fun onResetConfirmClicked() {
+        gameController.userActions.onNext(UserAction.ActionButtonClicked)
+    }
 
     fun onResetConfirmationDialogDismissed() {
         showDialog.value?.isDismissed = true
