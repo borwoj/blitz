@@ -14,6 +14,7 @@ class GameSettingsProviderImpl @Inject constructor(rxSharedPreferences: RxShared
 
     private val duration =
         rxSharedPreferences.getLong(KEY_DURATION, DefaultSettings.gameDuration).asObservable()
+
     private val type =
         rxSharedPreferences.getString(KEY_TYPE).asObservable().map {
             when (it) {
@@ -23,7 +24,10 @@ class GameSettingsProviderImpl @Inject constructor(rxSharedPreferences: RxShared
         }
 
     override val gameSettings: Observable<GameSettings> =
-        Observable.zip(duration, type, BiFunction<Long, GameType, GameSettings> { duration, type ->
-            GameSettings(duration, type)
-        })
+        Observable.combineLatest(
+            duration,
+            type,
+            BiFunction<Long, GameType, GameSettings> { duration, type ->
+                GameSettings(duration, type)
+            })
 }
