@@ -26,6 +26,7 @@ class GameControllerImpl @Inject constructor(
             field = value
         }
 
+    // TODO how about combining two streams (one for time, one for user actions)
     override val gameStatus: Observable<GameStatus> = interval(1, MILLISECONDS, scheduler)
         .takeUntil { chessClock.isTimeOver }
         .doOnNext { chessClock.advanceTime() }
