@@ -1,6 +1,7 @@
 package net.borysw.blitz.game
 
 import io.reactivex.Observable
+import io.reactivex.Observable.combineLatest
 import io.reactivex.Observable.interval
 import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
@@ -40,10 +41,10 @@ class GameControllerImpl @Inject constructor(
         .observeOn(scheduler)
         .doOnNext(::handleUserAction)
 
-    private val gameStatusObservable = Observable.combineLatest<Long, UserAction, Unit>(
-            timeEngineObservable,
-            userActionsObservable,
-            BiFunction { _, _ -> })
+    private val gameStatusObservable = combineLatest<Long, UserAction, Unit>(
+        timeEngineObservable,
+        userActionsObservable,
+        BiFunction { _, _ -> })
         .map { gameStatusFactory.getStatus(chessClock) }
         .distinctUntilChanged()
 

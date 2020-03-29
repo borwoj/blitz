@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import androidx.appcompat.app.AppCompatActivity
 
@@ -25,7 +24,6 @@ class MainActivity : AppCompatActivity() {
             // Set the content to appear under the system bars so that the
             // content doesn't resize when the system bars hide and show.
             or SYSTEM_UI_FLAG_LAYOUT_STABLE
-            or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             // Hide the nav bar and status bar
             //or SYSTEM_UI_FLAG_HIDE_NAVIGATION
