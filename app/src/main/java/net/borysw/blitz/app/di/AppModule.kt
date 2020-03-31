@@ -13,14 +13,19 @@ import net.borysw.blitz.clock.ChessClock
 import net.borysw.blitz.clock.ChessClockImpl
 import net.borysw.blitz.clock.timer.Timer
 import net.borysw.blitz.clock.timer.TimerImpl
-import net.borysw.blitz.game.GameController
-import net.borysw.blitz.game.GameControllerImpl
+import net.borysw.blitz.game.engine.GameEngine
+import net.borysw.blitz.game.engine.GameEngineImpl
+import net.borysw.blitz.game.engine.Schedulers.COMPUTATION
+import net.borysw.blitz.game.engine.Schedulers.IO
+import net.borysw.blitz.game.engine.TimeEngine
+import net.borysw.blitz.game.engine.TimeEngineImpl
 import net.borysw.blitz.game.status.GameStatusFactory
 import net.borysw.blitz.game.status.GameStatusFactoryImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
 import net.borysw.blitz.settings.GameSettingsProvider
 import net.borysw.blitz.settings.GameSettingsProviderImpl
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module(includes = [AppModule.Binding::class])
@@ -39,17 +44,25 @@ class AppModule {
         fun bindTimeFormatter(implementation: SecondsTimeFormatterImpl): TimeFormatter
 
         @Binds
-        fun bindGameController(implementation: GameControllerImpl): GameController
+        fun bindGameEngine(implementation: GameEngineImpl): GameEngine
 
         @Binds
         fun bindGameStatusFactory(implementation: GameStatusFactoryImpl): GameStatusFactory
 
         @Binds
         fun bindGameSettingsProvider(implementation: GameSettingsProviderImpl): GameSettingsProvider
+
+        @Binds
+        fun bindTimeEngine(implementation: TimeEngineImpl): TimeEngine
     }
 
     @Provides
-    fun provideScheduler(): Scheduler = Schedulers.computation()
+    @Named(COMPUTATION)
+    fun provideComputationScheduler(): Scheduler = Schedulers.computation()
+
+    @Provides
+    @Named(IO)
+    fun provideIOScheduler(): Scheduler = Schedulers.io()
 
     @Provides
     fun provideSharedPreferences(app: Application): SharedPreferences =

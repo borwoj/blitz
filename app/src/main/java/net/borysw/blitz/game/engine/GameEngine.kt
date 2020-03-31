@@ -1,10 +1,11 @@
-package net.borysw.blitz.game
+package net.borysw.blitz.game.engine
 
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
+import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.status.GameStatus
 
-interface GameController {
+interface GameEngine {
     val gameStatus: Observable<GameStatus>
     val userActions: Subject<UserAction>
 }

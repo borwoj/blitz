@@ -2,10 +2,16 @@ package net.borysw.blitz.settings
 
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
+import net.borysw.blitz.game.engine.Schedulers.IO
 import javax.inject.Inject
+import javax.inject.Named
 
-class GameSettingsProviderImpl @Inject constructor(rxSharedPreferences: RxSharedPreferences) :
+class GameSettingsProviderImpl @Inject constructor(
+    rxSharedPreferences: RxSharedPreferences,
+    @Named(IO) ioScheduler: Scheduler
+) :
     GameSettingsProvider {
     companion object {
         private const val KEY_DURATION = "game_duration"
@@ -29,5 +35,5 @@ class GameSettingsProviderImpl @Inject constructor(rxSharedPreferences: RxShared
             type,
             BiFunction<Long, GameType, GameSettings> { duration, type ->
                 GameSettings(duration, type)
-            })
+            }).subscribeOn(ioScheduler)
 }
