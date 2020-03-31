@@ -9,22 +9,22 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
+import net.borysw.blitz.Schedulers.COMPUTATION
+import net.borysw.blitz.Schedulers.IO
 import net.borysw.blitz.clock.ChessClock
 import net.borysw.blitz.clock.ChessClockImpl
 import net.borysw.blitz.clock.timer.Timer
 import net.borysw.blitz.clock.timer.TimerImpl
 import net.borysw.blitz.game.engine.GameEngine
 import net.borysw.blitz.game.engine.GameEngineImpl
-import net.borysw.blitz.game.engine.Schedulers.COMPUTATION
-import net.borysw.blitz.game.engine.Schedulers.IO
 import net.borysw.blitz.game.engine.TimeEngine
 import net.borysw.blitz.game.engine.TimeEngineImpl
 import net.borysw.blitz.game.status.GameStatusFactory
 import net.borysw.blitz.game.status.GameStatusFactoryImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
-import net.borysw.blitz.settings.GameSettingsProvider
-import net.borysw.blitz.settings.GameSettingsProviderImpl
+import net.borysw.blitz.settings.GameSettings
+import net.borysw.blitz.settings.GameSettingsImpl
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -50,7 +50,7 @@ class AppModule {
         fun bindGameStatusFactory(implementation: GameStatusFactoryImpl): GameStatusFactory
 
         @Binds
-        fun bindGameSettingsProvider(implementation: GameSettingsProviderImpl): GameSettingsProvider
+        fun bindGameSettingsProvider(implementation: GameSettingsImpl): GameSettings
 
         @Binds
         fun bindTimeEngine(implementation: TimeEngineImpl): TimeEngine

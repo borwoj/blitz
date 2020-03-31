@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.engine
+package net.borysw.blitz
 
 object Schedulers {
     const val COMPUTATION = "computation"

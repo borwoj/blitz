@@ -3,7 +3,7 @@ package net.borysw.blitz.game.engine
 import io.reactivex.Observable
 import io.reactivex.Observable.interval
 import io.reactivex.Scheduler
-import net.borysw.blitz.game.engine.Schedulers.COMPUTATION
+import net.borysw.blitz.Schedulers.COMPUTATION
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
 import javax.inject.Named

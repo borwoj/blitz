@@ -6,6 +6,7 @@ import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.clock.ChessClock
 import net.borysw.blitz.clock.ChessClock.Player.Player1
 import net.borysw.blitz.clock.ChessClock.Player.Player2
@@ -13,17 +14,15 @@ import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
-import net.borysw.blitz.game.engine.Schedulers.COMPUTATION
 import net.borysw.blitz.game.status.GameStatus
 import net.borysw.blitz.game.status.GameStatusFactory
 import net.borysw.blitz.settings.GameSettings
-import net.borysw.blitz.settings.GameSettingsProvider
 import javax.inject.Inject
 import javax.inject.Named
 
 class GameEngineImpl @Inject constructor(
     @Named(COMPUTATION) computationScheduler: Scheduler,
-    gameSettingsProvider: GameSettingsProvider,
+    gameSettings: GameSettings,
     timeEngine: TimeEngine,
     private val chessClock: ChessClock,
     private val gameStatusFactory: GameStatusFactory
@@ -31,7 +30,7 @@ class GameEngineImpl @Inject constructor(
 
     override val userActions: Subject<UserAction> = BehaviorSubject.create()
 
-    private val gameSettingsObservable = gameSettingsProvider
+    private val gameSettingsObservable = gameSettings
         .gameSettings
         .observeOn(computationScheduler)
         .doOnNext(::setupGame)
@@ -45,10 +44,10 @@ class GameEngineImpl @Inject constructor(
         .observeOn(computationScheduler)
         .doOnNext(::handleUserAction)
 
-    private val gameStatusObservable = combineLatest<Long, UserAction, Unit>(
+    private val gameStatusObservable = combineLatest(
         timeEngineObservable,
         userActionsObservable,
-        BiFunction { _, _ -> })
+        BiFunction<Long, UserAction, Unit> { _, _ -> })
         .map { gameStatusFactory.getStatus(chessClock) }
         .distinctUntilChanged()
 
@@ -56,7 +55,7 @@ class GameEngineImpl @Inject constructor(
         gameSettingsObservable
             .flatMap { gameStatusObservable }
 
-    private fun setupGame(gameSettings: GameSettings) {
+    private fun setupGame(gameSettings: GameSettings.Settings) {
         chessClock.initialTime = gameSettings.duration
     }
 

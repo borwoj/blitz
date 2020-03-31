@@ -117,12 +117,15 @@ class GameFragment : Fragment() {
     private fun showGameInProgress(gameStatus: Status) {
         start.setImageResource(R.drawable.ic_pause_black_24dp)
 
-        if (gameStatus == InProgress.Player1) {
-            timerViewA.setActive(true)
-            timerViewB.setActive(false)
-        } else if (gameStatus == InProgress.Player2) {
-            timerViewA.setActive(false)
-            timerViewB.setActive(true)
+        when (gameStatus) {
+            InProgress.Player1 -> {
+                timerViewA.setActive(true)
+                timerViewB.setActive(false)
+            }
+            InProgress.Player2 -> {
+                timerViewA.setActive(false)
+                timerViewB.setActive(true)
+            }
         }
 
         beginDelayedTransition(root, ChangeBounds().apply {
@@ -135,12 +138,15 @@ class GameFragment : Fragment() {
     private fun showGameFinished(gameStatus: Status) {
         start.setImageResource(R.drawable.ic_replay_black_24dp)
 
-        if (gameStatus == Finished.Player1Won) {
-            timerViewA.setLoser()
-            timerViewB.setWinner()
-        } else if (gameStatus == Finished.Player2Won) {
-            timerViewA.setWinner()
-            timerViewB.setLoser()
+        when (gameStatus) {
+            Finished.Player1Won -> {
+                timerViewA.setLoser()
+                timerViewB.setWinner()
+            }
+            Finished.Player2Won -> {
+                timerViewA.setWinner()
+                timerViewB.setLoser()
+            }
         }
 
         beginDelayedTransition(root, ChangeBounds().apply {

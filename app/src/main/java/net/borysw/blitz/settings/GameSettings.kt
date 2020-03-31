@@ -1,3 +1,10 @@
 package net.borysw.blitz.settings
 
-data class GameSettings(val duration: Long, val type: GameType)
+import io.reactivex.Observable
+
+interface GameSettings {
+    data class Settings(val duration: Long, val type: GameType)
+
+    val gameSettings: Observable<Settings>
+}
+
