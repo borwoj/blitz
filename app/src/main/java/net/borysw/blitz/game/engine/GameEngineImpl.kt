@@ -21,7 +21,8 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class GameEngineImpl @Inject constructor(
-    @Named(COMPUTATION) computationScheduler: Scheduler,
+    @Named(COMPUTATION)
+    computationScheduler: Scheduler,
     gameSettings: GameSettings,
     timeEngine: TimeEngine,
     private val chessClock: ChessClock,
@@ -30,19 +31,20 @@ class GameEngineImpl @Inject constructor(
 
     override val userActions: Subject<UserAction> = BehaviorSubject.create()
 
-    private val gameSettingsObservable = gameSettings
-        .gameSettings
-        .observeOn(computationScheduler)
-        .doOnNext(::setupGame)
+    private val gameSettingsObservable =
+        gameSettings.settings
+            .observeOn(computationScheduler)
+            .doOnNext(::setupGame)
 
     private val timeEngineObservable =
         timeEngine.time
             .observeOn(computationScheduler)
             .doOnNext { if (!chessClock.isTimeOver && chessClock.currentPlayer != null) chessClock.advanceTime() }
 
-    private val userActionsObservable = userActions
-        .observeOn(computationScheduler)
-        .doOnNext(::handleUserAction)
+    private val userActionsObservable =
+        userActions
+            .observeOn(computationScheduler)
+            .doOnNext(::handleUserAction)
 
     private val gameStatusObservable = combineLatest(
         timeEngineObservable,

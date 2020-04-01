@@ -10,10 +10,11 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class GameSettingsImpl @Inject constructor(
-    rxSharedPreferences: RxSharedPreferences,
-    @Named(IO) ioScheduler: Scheduler
-) :
-    GameSettings {
+    @Named(IO)
+    ioScheduler: Scheduler,
+    rxSharedPreferences: RxSharedPreferences
+) : GameSettings {
+
     companion object {
         private const val KEY_DURATION = "game_duration"
         private const val KEY_TYPE = "game_type"
@@ -30,7 +31,7 @@ class GameSettingsImpl @Inject constructor(
             }
         }
 
-    override val gameSettings: Observable<GameSettings.Settings> =
+    override val settings: Observable<GameSettings.Settings> =
         combineLatest(
             duration,
             type,
