@@ -14,17 +14,19 @@ import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
+import net.borysw.blitz.game.audio.SoundEngine
 import net.borysw.blitz.game.status.GameStatus
 import net.borysw.blitz.game.status.GameStatusFactory
-import net.borysw.blitz.settings.GameSettings
+import net.borysw.blitz.settings.Settings
 import javax.inject.Inject
 import javax.inject.Named
 
 class GameEngineImpl @Inject constructor(
     @Named(COMPUTATION)
     computationScheduler: Scheduler,
-    gameSettings: GameSettings,
+    settings: Settings,
     timeEngine: TimeEngine,
+    soundEngine: SoundEngine,
     private val chessClock: ChessClock,
     private val gameStatusFactory: GameStatusFactory
 ) : GameEngine {
@@ -32,7 +34,7 @@ class GameEngineImpl @Inject constructor(
     override val userActions: Subject<UserAction> = BehaviorSubject.create()
 
     private val gameSettingsObservable =
-        gameSettings.settings
+        settings.gameSettings
             .observeOn(computationScheduler)
             .doOnNext(::setupGame)
 
@@ -43,6 +45,7 @@ class GameEngineImpl @Inject constructor(
 
     private val userActionsObservable =
         userActions
+            .compose(soundEngine)
             .observeOn(computationScheduler)
             .doOnNext(::handleUserAction)
 
@@ -57,7 +60,7 @@ class GameEngineImpl @Inject constructor(
         gameSettingsObservable
             .flatMap { gameStatusObservable }
 
-    private fun setupGame(gameSettings: GameSettings.Settings) {
+    private fun setupGame(gameSettings: Settings.GameSettings) {
         chessClock.initialTime = gameSettings.duration
     }
 

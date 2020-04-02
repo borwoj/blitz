@@ -15,6 +15,10 @@ import net.borysw.blitz.clock.ChessClock
 import net.borysw.blitz.clock.ChessClockImpl
 import net.borysw.blitz.clock.timer.Timer
 import net.borysw.blitz.clock.timer.TimerImpl
+import net.borysw.blitz.game.audio.SoundEngine
+import net.borysw.blitz.game.audio.SoundEngineImpl
+import net.borysw.blitz.game.audio.SoundPlayer
+import net.borysw.blitz.game.audio.SoundPlayerImpl
 import net.borysw.blitz.game.engine.GameEngine
 import net.borysw.blitz.game.engine.GameEngineImpl
 import net.borysw.blitz.game.engine.TimeEngine
@@ -23,8 +27,8 @@ import net.borysw.blitz.game.status.GameStatusFactory
 import net.borysw.blitz.game.status.GameStatusFactoryImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
-import net.borysw.blitz.settings.GameSettings
-import net.borysw.blitz.settings.GameSettingsImpl
+import net.borysw.blitz.settings.Settings
+import net.borysw.blitz.settings.SettingsImpl
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -50,10 +54,16 @@ class AppModule {
         fun bindGameStatusFactory(implementation: GameStatusFactoryImpl): GameStatusFactory
 
         @Binds
-        fun bindGameSettingsProvider(implementation: GameSettingsImpl): GameSettings
+        fun bindGameSettingsProvider(implementation: SettingsImpl): Settings
 
         @Binds
         fun bindTimeEngine(implementation: TimeEngineImpl): TimeEngine
+
+        @Binds
+        fun bindSoundPlayer(implementation: SoundPlayerImpl): SoundPlayer
+
+        @Binds
+        fun bindSoundEngine(implementation: SoundEngineImpl): SoundEngine
     }
 
     @Provides
