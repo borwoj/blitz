@@ -19,10 +19,10 @@ class SoundEngineImpl @Inject constructor(
     private val settings: Settings,
     @Named(IO) private val ioScheduler: Scheduler
 ) :
-    SoundEngine, ObservableTransformer<UserAction, UserAction> {
+    SoundEngine, ObservableTransformer<UserAction, Unit> {
 
-    override fun apply(userActions: Observable<UserAction>): ObservableSource<UserAction> =
-        Observable.combineLatest<UserAction, Settings.AppSettings, UserAction>(
+    override fun apply(userActions: Observable<UserAction>): ObservableSource<Unit> =
+        Observable.combineLatest<UserAction, Settings.AppSettings, Unit>(
             userActions.observeOn(ioScheduler),
             settings.appSettings.observeOn(ioScheduler),
             BiFunction { userAction, appSettings ->
@@ -31,6 +31,5 @@ class SoundEngineImpl @Inject constructor(
                         ClockClickedPlayer1, ClockClickedPlayer2 -> soundPlayer.playSound(R.raw.clock_press_1)
                     }
                 }
-                userAction
-            })
+            }).doOnDispose { soundPlayer.release() }
 }

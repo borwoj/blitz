@@ -3,7 +3,7 @@ package net.borysw.blitz.game.engine
 import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import net.borysw.blitz.Schedulers.COMPUTATION
@@ -43,16 +43,21 @@ class GameEngineImpl @Inject constructor(
             .observeOn(computationScheduler)
             .doOnNext { if (!chessClock.isTimeOver && chessClock.currentPlayer != null) chessClock.advanceTime() }
 
-    private val userActionsObservable =
+    private val soundEngineObservable =
         userActions
             .compose(soundEngine)
+            .observeOn(computationScheduler)
+
+    private val userActionsObservable =
+        userActions
             .observeOn(computationScheduler)
             .doOnNext(::handleUserAction)
 
     private val gameStatusObservable = combineLatest(
-        timeEngineObservable,
         userActionsObservable,
-        BiFunction<Long, UserAction, Unit> { _, _ -> })
+        timeEngineObservable,
+        soundEngineObservable,
+        Function3<UserAction, Long, Unit, Unit> { _, _, _ -> })
         .map { gameStatusFactory.getStatus(chessClock) }
         .distinctUntilChanged()
 

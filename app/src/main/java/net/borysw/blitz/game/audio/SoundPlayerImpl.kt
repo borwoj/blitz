@@ -19,9 +19,16 @@ class SoundPlayerImpl @Inject constructor(private val app: Application) : SoundP
             setOnErrorListener { _, what, extra ->
                 release()
                 mediaPlayerList.remove(this)
-                Timber.e("Failed to play sound. Error type: $what. Extras: $extra")
+                Timber.e("Failed to play sound. Resource id: $resId. Error type: $what. Extras: $extra")
                 true
             }
+        }
+    }
+
+    override fun release() {
+        mediaPlayerList.forEach {
+            if (it.isPlaying) it.stop()
+            it.release()
         }
     }
 }
