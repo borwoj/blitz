@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.audio
+package net.borysw.blitz.game.engine.audio
 
 import io.reactivex.ObservableTransformer
 import net.borysw.blitz.game.UserAction

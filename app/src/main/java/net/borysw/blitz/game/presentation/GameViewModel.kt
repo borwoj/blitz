@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.borysw.blitz.SafeDisposable
 import net.borysw.blitz.game.UserAction
-import net.borysw.blitz.game.engine.GameEngine
+import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.status.GameStatus
 import timber.log.Timber.e
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.audio
+package net.borysw.blitz.game.engine.audio
 
 import android.app.Application
 import android.media.MediaPlayer

@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.engine
+package net.borysw.blitz.game.engine.game
 
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject

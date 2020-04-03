@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.engine
+package net.borysw.blitz.game.engine.game
 
 import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
@@ -14,7 +14,8 @@ import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
-import net.borysw.blitz.game.audio.SoundEngine
+import net.borysw.blitz.game.engine.audio.SoundEngine
+import net.borysw.blitz.game.engine.time.TimeEngine
 import net.borysw.blitz.game.status.GameStatus
 import net.borysw.blitz.game.status.GameStatusFactory
 import net.borysw.blitz.settings.Settings

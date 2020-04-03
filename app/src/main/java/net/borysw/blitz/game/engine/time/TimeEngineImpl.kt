@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.engine
+package net.borysw.blitz.game.engine.time
 
 import io.reactivex.Observable
 import io.reactivex.Observable.interval
