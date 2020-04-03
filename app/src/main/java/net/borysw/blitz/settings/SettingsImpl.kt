@@ -6,6 +6,7 @@ import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
 import net.borysw.blitz.Schedulers.IO
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -16,23 +17,42 @@ class SettingsImpl @Inject constructor(
 ) : Settings {
 
     companion object {
-        private const val KEY_DURATION = "game_duration"
-        private const val KEY_TYPE = "game_type"
-        private const val KEY_SOUND_ENABLED = "sound_enabled"
+        const val KEY_DURATION = "game_duration"
+        const val KEY_TYPE = "game_type"
+        const val KEY_SOUND_ENABLED = "sound_enabled"
+        const val KEY_TIME_UNIT = "time_unit"
     }
 
-    private val duration =
-        rxSharedPreferences.getLong(KEY_DURATION, DefaultSettings.duration).asObservable()
+    private val duration: Observable<Long> =
+        combineLatest(rxSharedPreferences
+            .getString(KEY_DURATION)
+            .asObservable()
+            .map { it.toLong() },
+            rxSharedPreferences
+                .getString(KEY_TIME_UNIT)
+                .asObservable()
+                .map { timeUnit ->
+                    when (timeUnit) {
+                        "Seconds" -> TimeUnit.SECONDS
+                        "Minutes" -> TimeUnit.MINUTES
+                        "Hours" -> TimeUnit.HOURS
+                        else -> throw IllegalArgumentException("Unsupported time unit: $timeUnit")
+                    }
+                },
+            BiFunction<Long, TimeUnit, Long> { duration, timeUnit ->
+                timeUnit.toMillis(duration)
+            })
 
-    private val soundEnabled =
-        rxSharedPreferences.getBoolean(KEY_SOUND_ENABLED, DefaultSettings.soundEnabled)
+    private val soundEnabled: Observable<Boolean> =
+        rxSharedPreferences
+            .getBoolean(KEY_SOUND_ENABLED)
             .asObservable()
 
-    private val type =
+    private val type: Observable<GameType> =
         rxSharedPreferences.getString(KEY_TYPE).asObservable().map {
             when (it) {
-                "" -> DefaultSettings.type
-                else -> throw IllegalArgumentException("Unknown game type: $it.")
+                "Standard" -> GameType.Standard
+                else -> throw IllegalArgumentException("Unsupported game type: $it.")
             }
         }
 
@@ -45,5 +65,6 @@ class SettingsImpl @Inject constructor(
             }).subscribeOn(ioScheduler)
 
     override val appSettings: Observable<Settings.AppSettings> =
-        soundEnabled.map { Settings.AppSettings(it) }
+        soundEnabled
+            .map { Settings.AppSettings(it) }
 }

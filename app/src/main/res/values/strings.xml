@@ -3,7 +3,14 @@
     <string name="reset">Reset</string>
     <string name="cancel">Cancel</string>
     <string name="reset_confirmation_title">Reset the clock?</string>
-    <string name="game_settings">Game settings</string>
-    <string name="mode">Mode</string>
+    <string name="game_settings_category_title">Game</string>
+    <string name="game_type_pref_title">Game type</string>
     <string name="about">About</string>
+    <string name="app_settings_category_title">General</string>
+    <string name="sound_pref_title">Play sounds</string>
+    <string name="seconds">Seconds</string>
+    <string name="minutes">Minutes</string>
+    <string name="hours">Hours</string>
+    <string name="time_unit_pref_title">Time unit</string>
+    <string name="game_duration_pref_title">Player time</string>
 </resources>

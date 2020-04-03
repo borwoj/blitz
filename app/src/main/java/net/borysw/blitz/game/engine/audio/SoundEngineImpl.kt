@@ -23,13 +23,18 @@ class SoundEngineImpl @Inject constructor(
 
     override fun apply(userActions: Observable<UserAction>): ObservableSource<Unit> =
         Observable.combineLatest<UserAction, Settings.AppSettings, Unit>(
-            userActions.observeOn(ioScheduler),
-            settings.appSettings.observeOn(ioScheduler),
+            userActions
+                .observeOn(ioScheduler),
+            settings
+                .appSettings
+                .observeOn(ioScheduler),
             BiFunction { userAction, appSettings ->
                 if (appSettings.soundEnabled) {
                     when (userAction) {
-                        ClockClickedPlayer1, ClockClickedPlayer2 -> soundPlayer.playSound(R.raw.clock_press_1)
+                        ClockClickedPlayer1 -> soundPlayer.playSound(R.raw.clock_press_1)
+                        ClockClickedPlayer2 -> soundPlayer.playSound(R.raw.clock_press_2)
                     }
                 }
-            }).doOnDispose { soundPlayer.release() }
+            })
+            .doOnDispose { soundPlayer.release() }
 }

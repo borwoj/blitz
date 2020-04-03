@@ -1,18 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory
         app:key="game_settings_category"
-        app:title="@string/game_settings">
+        app:title="@string/game_settings_category_title">
+
+        <EditTextPreference
+            app:defaultValue="5"
+            app:key="game_duration"
+            app:title="@string/game_duration_pref_title"
+            app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:dialogTitle="@string/mode"
-            app:entries="@array/mode_entries"
-            app:entryValues="@array/mode_values"
-            app:key="mode"
-            app:summary="summary"
-            app:title="@string/mode" />
+            app:defaultValue="Minutes"
+            app:dialogTitle="@string/time_unit_pref_title"
+            app:entries="@array/time_units"
+            app:entryValues="@array/time_units"
+            app:key="time_unit"
+            app:title="@string/time_unit_pref_title"
+            app:useSimpleSummaryProvider="true" />
 
+        <ListPreference
+            app:defaultValue="Standard"
+            app:dialogTitle="@string/game_type_pref_title"
+            app:entries="@array/game_types"
+            app:entryValues="@array/game_types"
+            app:key="game_type"
+            app:title="@string/game_type_pref_title"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="app_settings_category"
+        app:title="@string/app_settings_category_title">
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="sound_enabled"
+            app:title="@string/sound_pref_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -24,5 +48,4 @@
             app:summary="Report technical issues or suggest new features"
             app:title="Send feedback" />
     </PreferenceCategory>
-
 </androidx.preference.PreferenceScreen>

@@ -37,6 +37,7 @@ class GameEngineImpl @Inject constructor(
     private val gameSettingsObservable =
         settings.gameSettings
             .observeOn(computationScheduler)
+            .doOnNext { chessClock.reset() }
             .doOnNext(::setupGame)
 
     private val timeEngineObservable =
@@ -64,7 +65,7 @@ class GameEngineImpl @Inject constructor(
 
     override val gameStatus: Observable<GameStatus> =
         gameSettingsObservable
-            .flatMap { gameStatusObservable }
+            .concatMap { gameStatusObservable }
 
     private fun setupGame(gameSettings: Settings.GameSettings) {
         chessClock.initialTime = gameSettings.duration

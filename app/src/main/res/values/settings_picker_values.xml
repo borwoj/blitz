@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="game_types">
+        <item>Standard</item>
+        <item>Simple delay</item>
+        <item>Bronstein</item>
+        <item>Fisher</item>
+    </string-array>
+
+    <string-array name="time_units">
+        <item>@string/seconds</item>
+        <item>@string/minutes</item>
+        <item>@string/hours</item>
+    </string-array>
+</resources>
