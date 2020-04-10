@@ -1,5 +1,6 @@
 package net.borysw.blitz.game
 
+import com.nhaarman.mockitokotlin2.mock
 import net.borysw.blitz.clock.ChessClock
 import net.borysw.blitz.clock.ChessClock.Player.PLAYER_1
 import net.borysw.blitz.clock.ChessClock.Player.PLAYER_2
@@ -10,8 +11,9 @@ import net.borysw.blitz.game.status.GameStatus.Status.INITIAL
 import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_A
 import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_B
 import net.borysw.blitz.game.status.GameStatus.Status.PAUSED
-import net.borysw.blitz.game.status.GameStatusFactory
+import net.borysw.blitz.game.status.GameStatusProviderImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
+import net.borysw.blitz.game.status.TimeFormatter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.params.ParameterizedTest
@@ -19,7 +21,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 
-internal class GameStatusFactoryTest {
+internal class GameStatusProviderImplTest {
     companion object {
         @JvmStatic
         fun getArguments(): List<Arguments> {
@@ -44,9 +46,10 @@ internal class GameStatusFactoryTest {
         current: ChessClock.Player?,
         expectedGameStatus: Status
     ) {
-        val testedObj = GameStatusFactory(
-            SecondsTimeFormatterImpl()
-        )
+        val timeFormatter = mock<TimeFormatter> {
+            on(it.format(0)).thenReturn("0")
+        }
+        val testedObj = GameStatusProviderImpl(SecondsTimeFormatterImpl())
         val gameStatus = testedObj.getStatus(initialTime, timeLeftA, timeLeftB, current).status
         assertEquals(expectedGameStatus, gameStatus)
     }

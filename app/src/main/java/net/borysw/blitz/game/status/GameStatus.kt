@@ -1,7 +1,6 @@
 package net.borysw.blitz.game.status
 
 data class GameStatus(
-    val initialTime: String,
     val remainingTimePlayer1: String,
     val remainingTimePlayer2: String,
     val status: Status

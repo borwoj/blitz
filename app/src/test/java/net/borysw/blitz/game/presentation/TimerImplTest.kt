@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class TimerImplTest {
-    lateinit var testedObj: TimerImpl
+    private lateinit var testedObj: TimerImpl
 
     @BeforeEach
     fun setup() {
