@@ -65,8 +65,8 @@ class GameFragment : Fragment() {
             Timber.d("Game status: $gameStatus")
             showGameStatus(gameStatus)
         })
-        viewModel.showDialog.observe(viewLifecycleOwner, Observer { showDialog ->
-            if (!showDialog.isDismissed) showResetConfirmationDialog()
+        viewModel.dialog.observe(viewLifecycleOwner, Observer { dialog ->
+            if (!dialog.isDismissed) showResetConfirmationDialog()
         })
     }
 

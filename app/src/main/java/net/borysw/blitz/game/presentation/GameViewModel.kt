@@ -12,7 +12,7 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(private val gameEngine: GameEngine) : ViewModel() {
 
     val gameStatus by lazy { MutableLiveData<GameStatus>() }
-    val showDialog by lazy { MutableLiveData<ShowDialog>() }
+    val dialog by lazy { MutableLiveData<Dialog>() }
 
     private val timeDisposable by lazy { SafeDisposable() }
 
@@ -38,7 +38,7 @@ class GameViewModel @Inject constructor(private val gameEngine: GameEngine) : Vi
     }
 
     fun onResetConfirmationDialogDismissed() {
-        showDialog.value?.isDismissed = true
+        dialog.value?.isDismissed = true
     }
 
     override fun onCleared() = timeDisposable.dispose()

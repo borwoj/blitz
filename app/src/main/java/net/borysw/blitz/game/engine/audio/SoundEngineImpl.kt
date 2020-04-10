@@ -18,12 +18,12 @@ class SoundEngineImpl @Inject constructor(
     private val soundPlayer: SoundPlayer,
     private val settings: Settings,
     @Named(IO) private val ioScheduler: Scheduler
-) :
-    SoundEngine, ObservableTransformer<UserAction, Unit> {
+) : SoundEngine, ObservableTransformer<UserAction, Unit> {
 
     override fun apply(userActions: Observable<UserAction>): ObservableSource<Unit> =
         Observable.combineLatest<UserAction, Settings.AppSettings, Unit>(
             userActions
+                .distinctUntilChanged()
                 .observeOn(ioScheduler),
             settings
                 .appSettings
