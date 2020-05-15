@@ -3,7 +3,10 @@ package net.borysw.blitz.game.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.borysw.blitz.SafeDisposable
-import net.borysw.blitz.game.UserAction
+import net.borysw.blitz.game.UserAction.ActionButtonClicked
+import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
+import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
+import net.borysw.blitz.game.UserAction.SitAtTable
 import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.status.GameInfo
 import timber.log.Timber.e
@@ -18,16 +21,16 @@ class GameViewModel @Inject constructor(private val gameEngine: GameEngine) : Vi
 
     init {
         gameEngine.gameInfo.subscribe(gameInfo::postValue, ::e).run(timeDisposable::set)
-        gameEngine.userActions.onNext(UserAction.SitAtTable)
+        gameEngine.userActions.onNext(SitAtTable)
     }
 
-    fun onPlayer1Clicked() = gameEngine.userActions.onNext(UserAction.ClockClickedPlayer1)
+    fun onPlayer1Clicked() = gameEngine.userActions.onNext(ClockClickedPlayer1)
 
-    fun onPlayer2Clicked() = gameEngine.userActions.onNext(UserAction.ClockClickedPlayer2)
+    fun onPlayer2Clicked() = gameEngine.userActions.onNext(ClockClickedPlayer2)
 
-    fun onActionButtonClicked() = gameEngine.userActions.onNext(UserAction.ActionButtonClicked)
+    fun onActionButtonClicked() = gameEngine.userActions.onNext(ActionButtonClicked)
 
-    fun onResetConfirmClicked() = gameEngine.userActions.onNext(UserAction.ActionButtonClicked)
+    fun onResetConfirmClicked() = gameEngine.userActions.onNext(ActionButtonClicked)
 
     fun onResetConfirmationDialogDismissed() {
         dialog.value?.isDismissed = true
