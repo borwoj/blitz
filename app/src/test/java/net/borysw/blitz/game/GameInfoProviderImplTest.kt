@@ -4,14 +4,14 @@ import com.nhaarman.mockitokotlin2.mock
 import net.borysw.blitz.clock.ChessClock
 import net.borysw.blitz.clock.ChessClock.Player.PLAYER_1
 import net.borysw.blitz.clock.ChessClock.Player.PLAYER_2
-import net.borysw.blitz.game.status.GameStatus.Status
-import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_A
-import net.borysw.blitz.game.status.GameStatus.Status.FINISHED_PLAYER_B
-import net.borysw.blitz.game.status.GameStatus.Status.INITIAL
-import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_A
-import net.borysw.blitz.game.status.GameStatus.Status.IN_PROGRESS_PLAYER_B
-import net.borysw.blitz.game.status.GameStatus.Status.PAUSED
-import net.borysw.blitz.game.status.GameStatusProviderImpl
+import net.borysw.blitz.game.status.GameInfo.Status
+import net.borysw.blitz.game.status.GameInfo.Status.FINISHED_PLAYER_A
+import net.borysw.blitz.game.status.GameInfo.Status.FINISHED_PLAYER_B
+import net.borysw.blitz.game.status.GameInfo.Status.INITIAL
+import net.borysw.blitz.game.status.GameInfo.Status.IN_PROGRESS_PLAYER_A
+import net.borysw.blitz.game.status.GameInfo.Status.IN_PROGRESS_PLAYER_B
+import net.borysw.blitz.game.status.GameInfo.Status.PAUSED
+import net.borysw.blitz.game.status.GameInfoProviderImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 
-internal class GameStatusProviderImplTest {
+internal class GameInfoProviderImplTest {
     companion object {
         @JvmStatic
         fun getArguments(): List<Arguments> {
@@ -49,8 +49,8 @@ internal class GameStatusProviderImplTest {
         val timeFormatter = mock<TimeFormatter> {
             on(it.format(0)).thenReturn("0")
         }
-        val testedObj = GameStatusProviderImpl(SecondsTimeFormatterImpl())
-        val gameStatus = testedObj.getStatus(initialTime, timeLeftA, timeLeftB, current).status
+        val testedObj = GameInfoProviderImpl(SecondsTimeFormatterImpl())
+        val gameStatus = testedObj.get(initialTime, timeLeftA, timeLeftB, current).status
         assertEquals(expectedGameStatus, gameStatus)
     }
 }

@@ -23,8 +23,8 @@ import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.engine.game.GameEngineImpl
 import net.borysw.blitz.game.engine.time.TimeEngine
 import net.borysw.blitz.game.engine.time.TimeEngineImpl
-import net.borysw.blitz.game.status.GameStatusProvider
-import net.borysw.blitz.game.status.GameStatusProviderImpl
+import net.borysw.blitz.game.status.GameInfoProvider
+import net.borysw.blitz.game.status.GameInfoProviderImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
 import net.borysw.blitz.settings.Settings
@@ -51,7 +51,7 @@ class AppModule {
         fun bindGameEngine(implementation: GameEngineImpl): GameEngine
 
         @Binds
-        fun bindGameStatusFactory(implementation: GameStatusProviderImpl): GameStatusProvider
+        fun bindGameStatusFactory(implementation: GameInfoProviderImpl): GameInfoProvider
 
         @Binds
         fun bindGameSettingsProvider(implementation: SettingsImpl): Settings

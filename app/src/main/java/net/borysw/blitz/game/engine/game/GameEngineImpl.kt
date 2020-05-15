@@ -16,8 +16,8 @@ import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.time.TimeEngine
-import net.borysw.blitz.game.status.GameStatus
-import net.borysw.blitz.game.status.GameStatusProvider
+import net.borysw.blitz.game.status.GameInfo
+import net.borysw.blitz.game.status.GameInfoProvider
 import net.borysw.blitz.settings.Settings
 import javax.inject.Inject
 import javax.inject.Named
@@ -29,7 +29,7 @@ class GameEngineImpl @Inject constructor(
     timeEngine: TimeEngine,
     soundEngine: SoundEngine,
     private val chessClock: ChessClock,
-    private val gameStatusProvider: GameStatusProvider
+    private val gameInfoProvider: GameInfoProvider
 ) : GameEngine {
 
     override val userActions: Subject<UserAction> = BehaviorSubject.create()
@@ -61,7 +61,7 @@ class GameEngineImpl @Inject constructor(
         soundEngineObservable,
         Function3<UserAction, Long, Unit, Unit> { _, _, _ -> })
         .map {
-            gameStatusProvider.getStatus(
+            gameInfoProvider.get(
                 chessClock.initialTime,
                 chessClock.remainingTimePlayer1,
                 chessClock.remainingTimePlayer2,
@@ -70,7 +70,7 @@ class GameEngineImpl @Inject constructor(
         }
         .distinctUntilChanged()
 
-    override val gameStatus: Observable<GameStatus> =
+    override val gameInfo: Observable<GameInfo> =
         gameSettingsObservable
             .concatMap { gameStatusObservable }
 

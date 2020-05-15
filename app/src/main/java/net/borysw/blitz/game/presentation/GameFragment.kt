@@ -24,12 +24,12 @@ import net.borysw.blitz.R.layout.fragment_game_initial
 import net.borysw.blitz.R.layout.fragment_game_paused
 import net.borysw.blitz.R.layout.fragment_game_player_a
 import net.borysw.blitz.R.layout.fragment_game_player_b
-import net.borysw.blitz.game.status.GameStatus
-import net.borysw.blitz.game.status.GameStatus.Status
-import net.borysw.blitz.game.status.GameStatus.Status.Finished
-import net.borysw.blitz.game.status.GameStatus.Status.InProgress
-import net.borysw.blitz.game.status.GameStatus.Status.Paused
-import net.borysw.blitz.game.status.GameStatus.Status.Unstarted
+import net.borysw.blitz.game.status.GameInfo
+import net.borysw.blitz.game.status.GameInfo.Status
+import net.borysw.blitz.game.status.GameInfo.Status.Finished
+import net.borysw.blitz.game.status.GameInfo.Status.InProgress
+import net.borysw.blitz.game.status.GameInfo.Status.Paused
+import net.borysw.blitz.game.status.GameInfo.Status.Unstarted
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -61,13 +61,15 @@ class GameFragment : Fragment() {
     }
 
     private fun subscribe() {
-        viewModel.gameStatus.observe(viewLifecycleOwner, Observer { gameStatus ->
-            Timber.d("Game status: $gameStatus")
-            showGameStatus(gameStatus)
-        })
-        viewModel.dialog.observe(viewLifecycleOwner, Observer { dialog ->
-            if (!dialog.isDismissed) showResetConfirmationDialog()
-        })
+        viewModel.gameInfo
+            .observe(viewLifecycleOwner, Observer { gameStatus ->
+                Timber.d("Game status: $gameStatus")
+                showGameInfo(gameStatus)
+            })
+        viewModel.dialog
+            .observe(viewLifecycleOwner, Observer { dialog ->
+                if (!dialog.isDismissed) showResetConfirmationDialog()
+            })
     }
 
     private fun showResetConfirmationDialog() {
@@ -78,15 +80,15 @@ class GameFragment : Fragment() {
             .show()
     }
 
-    private fun showGameStatus(gameStatus: GameStatus) {
-        timerViewA.setTime(gameStatus.remainingTimePlayer1)
-        timerViewB.setTime(gameStatus.remainingTimePlayer2)
+    private fun showGameInfo(gameInfo: GameInfo) {
+        timerViewA.setTime(gameInfo.remainingTimePlayer1)
+        timerViewB.setTime(gameInfo.remainingTimePlayer2)
 
-        when (gameStatus.status) {
+        when (gameInfo.status) {
             Unstarted -> showGameInitial()
             Paused -> showGamePaused()
-            InProgress.Player1, InProgress.Player2 -> showGameInProgress(gameStatus.status)
-            Finished.Player1Won, Finished.Player2Won -> showGameFinished(gameStatus.status)
+            InProgress.Player1, InProgress.Player2 -> showGameInProgress(gameInfo.status)
+            Finished.Player1Won, Finished.Player2Won -> showGameFinished(gameInfo.status)
         }
     }
 
