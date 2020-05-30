@@ -5,16 +5,11 @@ import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.Function3
 import net.borysw.blitz.Schedulers.COMPUTATION
-import net.borysw.blitz.clock.ChessClock
-import net.borysw.blitz.clock.ChessClock.Player.Player1
-import net.borysw.blitz.clock.ChessClock.Player.Player2
 import net.borysw.blitz.game.UserAction
-import net.borysw.blitz.game.UserAction.ActionButtonClicked
-import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
-import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
 import net.borysw.blitz.game.engine.UserActions
 import net.borysw.blitz.game.engine.audio.SoundEngine
-import net.borysw.blitz.game.engine.time.TimeEngine
+import net.borysw.blitz.game.engine.clock.ChessClockEngine
+import net.borysw.blitz.game.engine.clock.ClockStatus
 import net.borysw.blitz.game.status.GameInfo
 import net.borysw.blitz.game.status.GameInfoCreator
 import net.borysw.blitz.settings.Settings
@@ -25,23 +20,15 @@ class GameEngineImpl @Inject constructor(
     @Named(COMPUTATION)
     computationScheduler: Scheduler,
     settings: Settings,
-    timeEngine: TimeEngine,
+    chessClockEngine: ChessClockEngine,
     soundEngine: SoundEngine,
     userActions: UserActions,
-    private val chessClock: ChessClock,
     private val gameInfoCreator: GameInfoCreator
 ) : GameEngine {
 
     private val gameSettingsObservable =
         settings.gameSettings
             .observeOn(computationScheduler)
-            .doOnNext { chessClock.reset() }
-            .doOnNext(::setupGame)
-
-    private val timeEngineObservable =
-        timeEngine.time
-            .observeOn(computationScheduler)
-            .doOnNext { if (!chessClock.isTimeOver && chessClock.currentPlayer != null) chessClock.advanceTime() }
 
     private val soundEngineObservable =
         soundEngine.sound
@@ -50,36 +37,26 @@ class GameEngineImpl @Inject constructor(
     private val userActionsObservable =
         userActions.userActions
             .observeOn(computationScheduler)
-            .doOnNext(::handleUserAction)
 
-    private val gameStatusObservable = combineLatest(
-        userActionsObservable,
-        timeEngineObservable,
-        soundEngineObservable,
-        Function3<UserAction, Long, Unit, Unit> { _, _, _ -> })
-        .map {
-            gameInfoCreator.get(
-                chessClock.initialTime,
-                chessClock.remainingTimePlayer1,
-                chessClock.remainingTimePlayer2,
-                chessClock.currentPlayer
-            )
-        }
-        .distinctUntilChanged()
+    private val chessClockObservable =
+        chessClockEngine.clockStatus
+            .observeOn(computationScheduler)
 
     override val gameInfo: Observable<GameInfo> =
         gameSettingsObservable
-            .concatMap { gameStatusObservable }
-
-    private fun setupGame(gameSettings: Settings.GameSettings) {
-        chessClock.initialTime = gameSettings.duration
-    }
-
-    private fun handleUserAction(action: UserAction) {
-        when (action) {
-            ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player2)
-            ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player1)
-            ActionButtonClicked -> if (chessClock.currentPlayer == null) chessClock.reset() else chessClock.pause()
-        }
-    }
+            .concatMap {
+                combineLatest(
+                    userActionsObservable,
+                    soundEngineObservable,
+                    chessClockObservable,
+                    Function3<UserAction, Unit, ClockStatus, GameInfo> { _, _, clockStatus ->
+                        gameInfoCreator.get(
+                            clockStatus.initialTime,
+                            clockStatus.remainingTimePlayer1,
+                            clockStatus.remainingTimePlayer2,
+                            clockStatus.currentPlayer
+                        )
+                    })
+                    .distinctUntilChanged()
+            }
 }

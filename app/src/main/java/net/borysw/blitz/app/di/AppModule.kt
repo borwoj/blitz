@@ -11,14 +11,16 @@ import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.Schedulers.IO
-import net.borysw.blitz.clock.ChessClock
-import net.borysw.blitz.clock.ChessClockImpl
-import net.borysw.blitz.clock.timer.Timer
-import net.borysw.blitz.clock.timer.TimerImpl
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.audio.SoundEngineImpl
 import net.borysw.blitz.game.engine.audio.SoundPlayer
 import net.borysw.blitz.game.engine.audio.SoundPlayerImpl
+import net.borysw.blitz.game.engine.clock.ChessClock
+import net.borysw.blitz.game.engine.clock.ChessClockEngine
+import net.borysw.blitz.game.engine.clock.ChessClockEngineImpl
+import net.borysw.blitz.game.engine.clock.ChessClockImpl
+import net.borysw.blitz.game.engine.clock.timer.Timer
+import net.borysw.blitz.game.engine.clock.timer.TimerImpl
 import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.engine.game.GameEngineImpl
 import net.borysw.blitz.game.engine.time.TimeEngine
@@ -67,6 +69,10 @@ class AppModule {
         @Binds
         @Singleton
         fun bindSoundEngine(implementation: SoundEngineImpl): SoundEngine
+
+        @Binds
+        @Singleton
+        fun bindChessClockEngine(implementation: ChessClockEngineImpl): ChessClockEngine
     }
 
     @Provides

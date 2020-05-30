@@ -1,6 +1,6 @@
 package net.borysw.blitz.game.status
 
-import net.borysw.blitz.clock.ChessClock
+import net.borysw.blitz.game.engine.clock.ChessClock
 
 interface GameInfoCreator {
     fun get(

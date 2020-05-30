@@ -1,4 +1,4 @@
-package net.borysw.blitz.clock.timer
+package net.borysw.blitz.game.engine.clock.timer
 
 interface Timer {
     var initialTime: Long

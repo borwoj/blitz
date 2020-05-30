@@ -3,9 +3,9 @@ package net.borysw.blitz.game.presentation
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
-import net.borysw.blitz.clock.ChessClock
-import net.borysw.blitz.clock.ChessClockImpl
-import net.borysw.blitz.clock.timer.Timer
+import net.borysw.blitz.game.engine.clock.ChessClock
+import net.borysw.blitz.game.engine.clock.ChessClockImpl
+import net.borysw.blitz.game.engine.clock.timer.Timer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
@@ -19,7 +19,8 @@ internal class ChessClockImplTest {
     fun getInitialTime() {
         val timer1 = mock<Timer>()
         val timer2 = mock<Timer>()
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         testedObj.initialTime = 5
 
@@ -34,7 +35,8 @@ internal class ChessClockImplTest {
             on(it.remainingTime).thenReturn(5)
         }
         val timer2 = mock<Timer>()
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         assertEquals(5, testedObj.remainingTimePlayer1)
     }
@@ -45,7 +47,8 @@ internal class ChessClockImplTest {
         val timer2 = mock<Timer> {
             on(it.remainingTime).thenReturn(5)
         }
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         assertEquals(5, testedObj.remainingTimePlayer2)
     }
@@ -54,7 +57,8 @@ internal class ChessClockImplTest {
     fun getCurrentPlayer() {
         val timer1 = mock<Timer>()
         val timer2 = mock<Timer>()
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         assertEquals(null, testedObj.currentPlayer)
 
@@ -75,7 +79,8 @@ internal class ChessClockImplTest {
         val timer2 = mock<Timer> {
             on(it.isTimeOver).thenReturn(false)
         }
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         assertFalse(testedObj.isTimeOver)
     }
@@ -88,7 +93,8 @@ internal class ChessClockImplTest {
         val timer2 = mock<Timer> {
             on(it.isTimeOver).thenReturn(false)
         }
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         assertTrue(testedObj.isTimeOver)
     }
@@ -101,7 +107,8 @@ internal class ChessClockImplTest {
         val timer2 = mock<Timer> {
             on(it.isTimeOver).thenReturn(true)
         }
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         assertTrue(testedObj.isTimeOver)
     }
@@ -110,7 +117,8 @@ internal class ChessClockImplTest {
     fun advanceTimeIllegal() {
         val timer1 = mock<Timer>()
         val timer2 = mock<Timer>()
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         assertThrows<IllegalStateException> { testedObj.advanceTime() }
     }
@@ -119,7 +127,8 @@ internal class ChessClockImplTest {
     fun advanceTimeFirst() {
         val timer1 = mock<Timer>()
         val timer2 = mock<Timer>()
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         testedObj.changeTurn(ChessClock.Player.PLAYER_1)
         testedObj.advanceTime()
@@ -132,7 +141,8 @@ internal class ChessClockImplTest {
     fun advanceTimeSecond() {
         val timer1 = mock<Timer>()
         val timer2 = mock<Timer>()
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         testedObj.changeTurn(ChessClock.Player.PLAYER_2)
         testedObj.advanceTime()
@@ -145,7 +155,8 @@ internal class ChessClockImplTest {
     fun onPaused() {
         val timer1 = mock<Timer>()
         val timer2 = mock<Timer>()
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         testedObj.changeTurn(ChessClock.Player.PLAYER_2)
         testedObj.pause()
@@ -157,7 +168,8 @@ internal class ChessClockImplTest {
     fun reset() {
         val timer1 = mock<Timer>()
         val timer2 = mock<Timer>()
-        val testedObj = ChessClockImpl(timer1, timer2)
+        val testedObj =
+            ChessClockImpl(timer1, timer2)
 
         testedObj.reset()
 
