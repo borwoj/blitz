@@ -1,7 +1,7 @@
 package net.borysw.blitz.game.engine.audio
 
-import io.reactivex.ObservableTransformer
-import net.borysw.blitz.game.UserAction
+import io.reactivex.Observable
 
-interface SoundEngine : ObservableTransformer<UserAction, Unit> {
+interface SoundEngine {
+    val sound: Observable<Unit>
 }

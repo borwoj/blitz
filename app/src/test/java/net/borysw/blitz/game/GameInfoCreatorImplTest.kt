@@ -11,7 +11,7 @@ import net.borysw.blitz.game.status.GameInfo.Status.INITIAL
 import net.borysw.blitz.game.status.GameInfo.Status.IN_PROGRESS_PLAYER_A
 import net.borysw.blitz.game.status.GameInfo.Status.IN_PROGRESS_PLAYER_B
 import net.borysw.blitz.game.status.GameInfo.Status.PAUSED
-import net.borysw.blitz.game.status.GameInfoProviderImpl
+import net.borysw.blitz.game.status.GameInfoCreatorImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 
-internal class GameInfoProviderImplTest {
+internal class GameInfoCreatorImplTest {
     companion object {
         @JvmStatic
         fun getArguments(): List<Arguments> {
@@ -49,7 +49,7 @@ internal class GameInfoProviderImplTest {
         val timeFormatter = mock<TimeFormatter> {
             on(it.format(0)).thenReturn("0")
         }
-        val testedObj = GameInfoProviderImpl(SecondsTimeFormatterImpl())
+        val testedObj = GameInfoCreatorImpl(SecondsTimeFormatterImpl())
         val gameStatus = testedObj.get(initialTime, timeLeftA, timeLeftB, current).status
         assertEquals(expectedGameStatus, gameStatus)
     }

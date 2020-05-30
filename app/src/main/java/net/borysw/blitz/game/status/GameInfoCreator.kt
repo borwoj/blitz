@@ -2,7 +2,7 @@ package net.borysw.blitz.game.status
 
 import net.borysw.blitz.clock.ChessClock
 
-interface GameInfoProvider {
+interface GameInfoCreator {
     fun get(
         initialTime: Long,
         remainingTimePlayer1: Long,

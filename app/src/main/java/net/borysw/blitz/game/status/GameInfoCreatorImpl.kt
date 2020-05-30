@@ -9,8 +9,8 @@ import net.borysw.blitz.game.status.GameInfo.Status.Paused
 import net.borysw.blitz.game.status.GameInfo.Status.Unstarted
 import javax.inject.Inject
 
-class GameInfoProviderImpl @Inject constructor(private val timeFormatter: TimeFormatter) :
-    GameInfoProvider {
+class GameInfoCreatorImpl @Inject constructor(private val timeFormatter: TimeFormatter) :
+    GameInfoCreator {
     override fun get(
         initialTime: Long,
         remainingTimePlayer1: Long,

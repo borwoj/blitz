@@ -4,8 +4,6 @@ import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.Function3
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.Subject
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.clock.ChessClock
 import net.borysw.blitz.clock.ChessClock.Player.Player1
@@ -14,10 +12,11 @@ import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
+import net.borysw.blitz.game.engine.UserActions
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.time.TimeEngine
 import net.borysw.blitz.game.status.GameInfo
-import net.borysw.blitz.game.status.GameInfoProvider
+import net.borysw.blitz.game.status.GameInfoCreator
 import net.borysw.blitz.settings.Settings
 import javax.inject.Inject
 import javax.inject.Named
@@ -28,11 +27,10 @@ class GameEngineImpl @Inject constructor(
     settings: Settings,
     timeEngine: TimeEngine,
     soundEngine: SoundEngine,
+    userActions: UserActions,
     private val chessClock: ChessClock,
-    private val gameInfoProvider: GameInfoProvider
+    private val gameInfoCreator: GameInfoCreator
 ) : GameEngine {
-
-    override val userActions: Subject<UserAction> = BehaviorSubject.create()
 
     private val gameSettingsObservable =
         settings.gameSettings
@@ -46,12 +44,11 @@ class GameEngineImpl @Inject constructor(
             .doOnNext { if (!chessClock.isTimeOver && chessClock.currentPlayer != null) chessClock.advanceTime() }
 
     private val soundEngineObservable =
-        userActions
-            .compose(soundEngine)
+        soundEngine.sound
             .observeOn(computationScheduler)
 
     private val userActionsObservable =
-        userActions
+        userActions.userActions
             .observeOn(computationScheduler)
             .doOnNext(::handleUserAction)
 
@@ -61,7 +58,7 @@ class GameEngineImpl @Inject constructor(
         soundEngineObservable,
         Function3<UserAction, Long, Unit, Unit> { _, _, _ -> })
         .map {
-            gameInfoProvider.get(
+            gameInfoCreator.get(
                 chessClock.initialTime,
                 chessClock.remainingTimePlayer1,
                 chessClock.remainingTimePlayer2,
