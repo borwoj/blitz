@@ -18,10 +18,10 @@ class GameViewModel @Inject constructor(
     gameEngine: GameEngine
 ) : ViewModel() {
 
+    private val timeDisposable by lazy { SafeDisposable() }
+
     val gameInfo by lazy { MutableLiveData<GameInfo>() }
     val dialog by lazy { MutableLiveData<Dialog>() }
-
-    private val timeDisposable by lazy { SafeDisposable() }
 
     init {
         gameEngine.gameInfo.subscribe(gameInfo::postValue, ::e).run(timeDisposable::set)
