@@ -6,26 +6,30 @@
 
         <EditTextPreference
             app:defaultValue="5"
+            app:dialogIcon="@drawable/ic_timer_black_24dp"
+            app:icon="@drawable/ic_timer_black_24dp"
             app:key="game_duration"
             app:title="@string/game_duration_pref_title"
-            app:icon="@drawable/ic_timer_black_24dp"
-            app:dialogIcon="@drawable/ic_timer_black_24dp"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="Minutes"
+            app:dialogIcon="@drawable/ic_baseline_access_time_24"
             app:dialogTitle="@string/time_unit_pref_title"
             app:entries="@array/time_units"
             app:entryValues="@array/time_units"
+            app:icon="@drawable/ic_baseline_access_time_24"
             app:key="time_unit"
             app:title="@string/time_unit_pref_title"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="Standard"
+            app:dialogIcon="@drawable/ic_chess_pawn"
             app:dialogTitle="@string/game_type_pref_title"
             app:entries="@array/game_types"
             app:entryValues="@array/game_types"
+            app:icon="@drawable/ic_chess_pawn"
             app:key="game_type"
             app:title="@string/game_type_pref_title"
             app:useSimpleSummaryProvider="true" />
@@ -37,6 +41,7 @@
 
         <SwitchPreference
             app:defaultValue="true"
+            app:icon="@drawable/ic_baseline_music_note_24"
             app:key="sound_enabled"
             app:title="@string/sound_pref_title" />
     </PreferenceCategory>
@@ -46,6 +51,7 @@
         app:title="@string/about">
 
         <Preference
+            app:icon="@drawable/ic_baseline_contact_support_24"
             app:key="feedback"
             app:summary="Report technical issues or suggest new features"
             app:title="Send feedback" />
