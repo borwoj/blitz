@@ -8,6 +8,8 @@
             app:defaultValue="5"
             app:key="game_duration"
             app:title="@string/game_duration_pref_title"
+            app:icon="@drawable/ic_timer_black_24dp"
+            app:dialogIcon="@drawable/ic_timer_black_24dp"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
