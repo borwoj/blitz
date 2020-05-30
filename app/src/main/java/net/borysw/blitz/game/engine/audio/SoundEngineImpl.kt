@@ -23,7 +23,6 @@ class SoundEngineImpl @Inject constructor(
     override val sound: Observable<Unit> = Observable.combineLatest(
         userActions
             .userActions
-            .distinctUntilChanged()
             .observeOn(ioScheduler),
         settings
             .appSettings
