@@ -10,6 +10,7 @@
             app:icon="@drawable/ic_timer_black_24dp"
             app:key="game_duration"
             app:title="@string/game_duration_pref_title"
+            app:dialogLayout="@layout/dialog_player_time"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference

@@ -18,4 +18,5 @@
     <string name="game_type_simple_delay">Simple delay</string>
     <string name="game_type_bronstein" translatable="false">Bronstein</string>
     <string name="game_type_fisher" translatable="false">Fisher</string>
+    <string name="duration_input_hint">Time for each player</string>
 </resources>
