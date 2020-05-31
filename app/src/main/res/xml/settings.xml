@@ -14,11 +14,11 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="Minutes"
+            app:defaultValue="1"
             app:dialogIcon="@drawable/ic_baseline_access_time_24"
             app:dialogTitle="@string/time_unit_pref_title"
             app:entries="@array/time_units"
-            app:entryValues="@array/time_units"
+            app:entryValues="@array/time_units_values"
             app:icon="@drawable/ic_baseline_access_time_24"
             app:key="time_unit"
             app:title="@string/time_unit_pref_title"

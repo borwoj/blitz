@@ -34,12 +34,12 @@ class SettingsImpl @Inject constructor(
             rxSharedPreferences
                 .getString(KEY_TIME_UNIT)
                 .asObservable()
+                .map { it.toInt() }
                 .map { timeUnit ->
                     when (timeUnit) {
-                        //TODO int values array
-                        "Seconds" -> TimeUnit.SECONDS
-                        "Minutes" -> TimeUnit.MINUTES
-                        "Hours" -> TimeUnit.HOURS
+                        0 -> TimeUnit.SECONDS
+                        1 -> TimeUnit.MINUTES
+                        2 -> TimeUnit.HOURS
                         else -> throw IllegalArgumentException("Unsupported time unit: $timeUnit")
                     }
                 },
