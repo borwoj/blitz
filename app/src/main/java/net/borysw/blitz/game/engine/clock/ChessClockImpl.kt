@@ -28,6 +28,9 @@ class ChessClockImpl @Inject constructor(private val timer1: Timer, private val 
     override val isTimeOver: Boolean
         get() = timer1.isTimeOver || timer2.isTimeOver
 
+    override val isPaused: Boolean
+        get() = currentPlayer == null
+
     override fun advanceTime() {
         when (currentPlayer) {
             Player1 -> timer1.advanceTime()

@@ -14,6 +14,7 @@ interface ChessClock {
     val remainingTimePlayer1: Long
     val remainingTimePlayer2: Long
     val isTimeOver: Boolean
+    val isPaused: Boolean
 
     fun changeTurn(nextPlayer: Player)
     fun advanceTime()
