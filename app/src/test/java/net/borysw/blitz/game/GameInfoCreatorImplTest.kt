@@ -2,15 +2,11 @@ package net.borysw.blitz.game
 
 import com.nhaarman.mockitokotlin2.mock
 import net.borysw.blitz.game.engine.clock.ChessClock
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.PLAYER_1
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.PLAYER_2
 import net.borysw.blitz.game.status.GameInfo.Status
-import net.borysw.blitz.game.status.GameInfo.Status.FINISHED_PLAYER_A
-import net.borysw.blitz.game.status.GameInfo.Status.FINISHED_PLAYER_B
-import net.borysw.blitz.game.status.GameInfo.Status.INITIAL
-import net.borysw.blitz.game.status.GameInfo.Status.IN_PROGRESS_PLAYER_A
-import net.borysw.blitz.game.status.GameInfo.Status.IN_PROGRESS_PLAYER_B
-import net.borysw.blitz.game.status.GameInfo.Status.PAUSED
+import net.borysw.blitz.game.status.GameInfo.Status.Finished
+import net.borysw.blitz.game.status.GameInfo.Status.InProgress
+import net.borysw.blitz.game.status.GameInfo.Status.Paused
+import net.borysw.blitz.game.status.GameInfo.Status.Unstarted
 import net.borysw.blitz.game.status.GameInfoCreatorImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
 import net.borysw.blitz.game.status.TimeFormatter
@@ -26,12 +22,12 @@ internal class GameInfoCreatorImplTest {
         @JvmStatic
         fun getArguments(): List<Arguments> {
             return listOf(
-                of(10, 10, 10, null, INITIAL),
-                of(10, 9, 10, null, PAUSED),
-                of(10, 0, 5, PLAYER_1, FINISHED_PLAYER_A),
-                of(10, 5, 0, PLAYER_2, FINISHED_PLAYER_B),
-                of(10, 1, 5, PLAYER_1, IN_PROGRESS_PLAYER_A),
-                of(10, 2, 5, PLAYER_2, IN_PROGRESS_PLAYER_B)
+                of(10, 10, 10, null, Unstarted),
+                of(10, 9, 10, null, Paused),
+                of(10, 0, 5, ChessClock.Player.Player1, Finished.Player1Won),
+                of(10, 5, 0, ChessClock.Player.Player2, Finished.Player2Won),
+                of(10, 1, 5, ChessClock.Player.Player1, InProgress.Player1),
+                of(10, 2, 5, ChessClock.Player.Player2, InProgress.Player2)
             )
         }
     }

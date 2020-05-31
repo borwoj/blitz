@@ -62,13 +62,13 @@ internal class ChessClockImplTest {
 
         assertEquals(null, testedObj.currentPlayer)
 
-        testedObj.changeTurn(ChessClock.Player.PLAYER_1)
+        testedObj.changeTurn(ChessClock.Player.Player1)
 
-        assertEquals(ChessClock.Player.PLAYER_1, testedObj.currentPlayer)
+        assertEquals(ChessClock.Player.Player1, testedObj.currentPlayer)
 
-        testedObj.changeTurn(ChessClock.Player.PLAYER_2)
+        testedObj.changeTurn(ChessClock.Player.Player2)
 
-        assertEquals(ChessClock.Player.PLAYER_2, testedObj.currentPlayer)
+        assertEquals(ChessClock.Player.Player2, testedObj.currentPlayer)
     }
 
     @Test
@@ -130,7 +130,7 @@ internal class ChessClockImplTest {
         val testedObj =
             ChessClockImpl(timer1, timer2)
 
-        testedObj.changeTurn(ChessClock.Player.PLAYER_1)
+        testedObj.changeTurn(ChessClock.Player.Player1)
         testedObj.advanceTime()
 
         verify(timer1).advanceTime()
@@ -144,7 +144,7 @@ internal class ChessClockImplTest {
         val testedObj =
             ChessClockImpl(timer1, timer2)
 
-        testedObj.changeTurn(ChessClock.Player.PLAYER_2)
+        testedObj.changeTurn(ChessClock.Player.Player2)
         testedObj.advanceTime()
 
         verify(timer1, never()).advanceTime()
@@ -158,7 +158,7 @@ internal class ChessClockImplTest {
         val testedObj =
             ChessClockImpl(timer1, timer2)
 
-        testedObj.changeTurn(ChessClock.Player.PLAYER_2)
+        testedObj.changeTurn(ChessClock.Player.Player2)
         testedObj.pause()
 
         assertNull(testedObj.currentPlayer)

@@ -15,6 +15,7 @@ class TimerImpl @Inject constructor() : Timer {
         get() = remainingTime == 0L
 
     override fun advanceTime() {
+        if (isTimeOver) throw IllegalStateException("Time was over already.")
         remainingTime--
     }
 

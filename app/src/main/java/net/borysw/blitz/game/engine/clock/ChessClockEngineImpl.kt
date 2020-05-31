@@ -39,7 +39,7 @@ class ChessClockEngineImpl @Inject constructor(
             .userActions
             .observeOn(computationScheduler)
             .doOnNext(::handleUserAction),
-        Function3 { _, _, _ ->
+        Function3<Long, Settings.GameSettings, UserAction, ClockStatus> { _, _, _ ->
             ClockStatus(
                 chessClock.initialTime,
                 chessClock.remainingTimePlayer1,
