@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import net.borysw.blitz.Schedulers.IO
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -21,6 +22,8 @@ class SettingsImpl @Inject constructor(
         const val KEY_TYPE = "game_type"
         const val KEY_SOUND_ENABLED = "sound_enabled"
         const val KEY_TIME_UNIT = "time_unit"
+        const val KEY_DELAY = "delay"
+        const val KEY_INCREMENT_BY = "increment_by"
     }
 
     private val duration: Observable<Long> =
@@ -49,12 +52,29 @@ class SettingsImpl @Inject constructor(
             .asObservable()
 
     private val type: Observable<GameType> =
-        rxSharedPreferences.getString(KEY_TYPE).asObservable().map {
-            when (it) {
-                "Standard" -> GameType.Standard
-                else -> throw IllegalArgumentException("Unsupported game type: $it.")
+        combineLatest(
+            rxSharedPreferences
+                .getString(KEY_TYPE)
+                .asObservable()
+                .map { it.toInt() },
+            rxSharedPreferences
+                .getString(KEY_DELAY)
+                .asObservable()
+                .map { it.toLong() },
+            rxSharedPreferences
+                .getString(KEY_INCREMENT_BY)
+                .asObservable()
+                .map { it.toLong() },
+            Function3<Int, Long, Long, GameType> { type, delay, incrementBy ->
+                when (type) {
+                    0 -> GameType.Standard
+                    1 -> GameType.SimpleDelay(delay)
+                    2 -> GameType.BronsteinDelay(delay)
+                    3 -> GameType.Increment(incrementBy)
+                    else -> throw IllegalArgumentException("Unsupported game type: $type.")
+                }
             }
-        }
+        )
 
     override val gameSettings: Observable<Settings.GameSettings> =
         combineLatest(

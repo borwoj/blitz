@@ -19,6 +19,10 @@ class TimerImpl @Inject constructor() : Timer {
         remainingTime--
     }
 
+    override fun addTime(time: Long) {
+        remainingTime += time
+    }
+
     override fun reset() {
         remainingTime = initialTime
     }

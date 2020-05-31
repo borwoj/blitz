@@ -6,5 +6,6 @@ interface Timer {
     val isTimeOver: Boolean
 
     fun advanceTime()
+    fun addTime(time: Long)
     fun reset()
 }

@@ -34,6 +34,11 @@ class ChessClockImpl @Inject constructor(private val timer1: Timer, private val 
         if (isTimeOver) pause()
     }
 
+    override fun addPlayerTime(player: ChessClock.Player, time: Long) = when (player) {
+        Player1 -> timer1.addTime(time)
+        Player2 -> timer2.addTime(time)
+    }
+
     override fun pause() {
         currentPlayer = null
     }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
+// TODO display names
 internal class TimerImplTest {
     private lateinit var testedObj: TimerImpl
 
@@ -51,6 +51,15 @@ internal class TimerImplTest {
         testedObj.advanceTime()
 
         assertEquals(4, testedObj.remainingTime)
+    }
+
+    @Test
+    fun addTime() {
+        testedObj.remainingTime = 0
+
+        testedObj.addTime(1)
+
+        assertEquals(1, testedObj.remainingTime)
     }
 
     @Test

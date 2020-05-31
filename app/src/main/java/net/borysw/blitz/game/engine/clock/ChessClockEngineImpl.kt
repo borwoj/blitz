@@ -51,7 +51,9 @@ class ChessClockEngineImpl @Inject constructor(
 
     private fun handleUserAction(action: UserAction) {
         when (action) {
-            ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player2)
+            ClockClickedPlayer1 -> if (!chessClock.isTimeOver) {
+                chessClock.changeTurn(Player2)
+            }
             ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player1)
             ActionButtonClicked -> if (chessClock.currentPlayer == null) chessClock.reset() else chessClock.pause()
         }

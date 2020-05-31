@@ -7,10 +7,10 @@
         <EditTextPreference
             app:defaultValue="5"
             app:dialogIcon="@drawable/ic_timer_black_24dp"
+            app:dialogLayout="@layout/dialog_player_time"
             app:icon="@drawable/ic_timer_black_24dp"
             app:key="game_duration"
             app:title="@string/game_duration_pref_title"
-            app:dialogLayout="@layout/dialog_player_time"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -25,14 +25,32 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="Standard"
+            app:defaultValue="0"
             app:dialogIcon="@drawable/ic_chess_pawn"
             app:dialogTitle="@string/game_type_pref_title"
             app:entries="@array/game_types"
-            app:entryValues="@array/game_types"
+            app:entryValues="@array/game_types_values"
             app:icon="@drawable/ic_chess_pawn"
             app:key="game_type"
             app:title="@string/game_type_pref_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:defaultValue="5"
+            app:dialogIcon="@drawable/ic_pause_black_24dp"
+            app:dialogLayout="@layout/dialog_player_time"
+            app:icon="@drawable/ic_pause_black_24dp"
+            app:key="delay"
+            app:title="@string/delay_pref_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:defaultValue="5"
+            app:dialogIcon="@drawable/ic_baseline_person_add_24"
+            app:dialogLayout="@layout/dialog_player_time"
+            app:icon="@drawable/ic_baseline_person_add_24"
+            app:key="increment_by"
+            app:title="@string/increment_pref_title"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 

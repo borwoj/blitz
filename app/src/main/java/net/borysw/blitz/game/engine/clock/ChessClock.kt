@@ -14,6 +14,7 @@ interface ChessClock {
 
     fun changeTurn(nextPlayer: Player)
     fun advanceTime()
+    fun addPlayerTime(player: Player, time: Long)
     fun pause()
     fun reset()
 }
