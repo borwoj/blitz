@@ -36,6 +36,7 @@ class SettingsImpl @Inject constructor(
                 .asObservable()
                 .map { timeUnit ->
                     when (timeUnit) {
+                        //TODO int values array
                         "Seconds" -> TimeUnit.SECONDS
                         "Minutes" -> TimeUnit.MINUTES
                         "Hours" -> TimeUnit.HOURS
@@ -60,11 +61,13 @@ class SettingsImpl @Inject constructor(
             rxSharedPreferences
                 .getString(KEY_DELAY)
                 .asObservable()
-                .map { it.toLong() },
+                .map { it.toLong() }
+                .map { TimeUnit.SECONDS.toMillis(it) },
             rxSharedPreferences
                 .getString(KEY_INCREMENT_BY)
                 .asObservable()
-                .map { it.toLong() },
+                .map { it.toLong() }
+                .map { TimeUnit.SECONDS.toMillis(it) },
             Function3<Int, Long, Long, GameType> { type, delay, incrementBy ->
                 when (type) {
                     0 -> GameType.Standard

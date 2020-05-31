@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+
 // TODO display names
 internal class ChessClockImplTest {
 
@@ -151,6 +152,8 @@ internal class ChessClockImplTest {
         verify(timer2).advanceTime()
     }
 
+    /*
+    TODO remove
     @Test
     fun addTime() {
         val timer1 = mock<Timer>()
@@ -163,7 +166,7 @@ internal class ChessClockImplTest {
 
         verify(timer1).addTime(1)
         verify(timer2).addTime(2)
-    }
+    }*/
 
     @Test
     fun onPaused() {

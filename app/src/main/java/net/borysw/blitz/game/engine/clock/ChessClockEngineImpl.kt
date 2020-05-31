@@ -34,6 +34,7 @@ class ChessClockEngineImpl @Inject constructor(
             .gameSettings
             .observeOn(computationScheduler)
             .doOnNext { chessClock.reset() }
+            .doOnNext { chessClock.gameType = it.type }
             .doOnNext { chessClock.initialTime = it.duration },
         userActions
             .userActions

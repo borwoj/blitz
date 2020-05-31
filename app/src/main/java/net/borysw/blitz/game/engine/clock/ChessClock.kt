@@ -1,11 +1,14 @@
 package net.borysw.blitz.game.engine.clock
 
+import net.borysw.blitz.settings.GameType
+
 interface ChessClock {
     sealed class Player {
         object Player1 : Player()
         object Player2 : Player()
     }
 
+    var gameType: GameType
     var initialTime: Long
     var currentPlayer: Player?
     val remainingTimePlayer1: Long
@@ -14,7 +17,6 @@ interface ChessClock {
 
     fun changeTurn(nextPlayer: Player)
     fun advanceTime()
-    fun addPlayerTime(player: Player, time: Long)
     fun pause()
     fun reset()
 }

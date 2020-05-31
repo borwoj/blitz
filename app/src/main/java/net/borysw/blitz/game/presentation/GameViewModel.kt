@@ -25,6 +25,7 @@ class GameViewModel @Inject constructor(
 
     init {
         gameEngine.gameInfo.subscribe(gameInfo::postValue, ::e).run(timeDisposable::set)
+        // TODO handle error gracefully
         userActions.onUserAction(SitAtTable)
     }
 
