@@ -1,6 +1,5 @@
 package net.borysw.blitz.game
 
-import com.nhaarman.mockitokotlin2.mock
 import net.borysw.blitz.game.engine.clock.ChessClock
 import net.borysw.blitz.game.status.GameInfo.Status
 import net.borysw.blitz.game.status.GameInfo.Status.Finished
@@ -9,7 +8,6 @@ import net.borysw.blitz.game.status.GameInfo.Status.Paused
 import net.borysw.blitz.game.status.GameInfo.Status.Unstarted
 import net.borysw.blitz.game.status.GameInfoCreatorImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl
-import net.borysw.blitz.game.status.TimeFormatter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.params.ParameterizedTest
@@ -42,9 +40,6 @@ internal class GameInfoCreatorImplTest {
         current: ChessClock.Player?,
         expectedGameStatus: Status
     ) {
-        val timeFormatter = mock<TimeFormatter> {
-            on(it.format(0)).thenReturn("0")
-        }
         val testedObj = GameInfoCreatorImpl(SecondsTimeFormatterImpl())
         val gameStatus = testedObj.get(initialTime, timeLeftA, timeLeftB, current).status
         assertEquals(expectedGameStatus, gameStatus)
