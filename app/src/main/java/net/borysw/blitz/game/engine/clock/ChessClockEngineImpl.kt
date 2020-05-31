@@ -56,7 +56,7 @@ class ChessClockEngineImpl @Inject constructor(
                 chessClock.changeTurn(Player2)
             }
             ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player1)
-            ActionButtonClicked -> if (chessClock.currentPlayer == null) chessClock.reset() else chessClock.pause()
+            ActionButtonClicked -> if (chessClock.isPaused) chessClock.reset() else chessClock.pause()
         }
     }
 }
