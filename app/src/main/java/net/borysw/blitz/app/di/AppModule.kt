@@ -18,9 +18,11 @@ import net.borysw.blitz.game.engine.audio.SoundPlayerImpl
 import net.borysw.blitz.game.engine.clock.ChessClock
 import net.borysw.blitz.game.engine.clock.ChessClockEngine
 import net.borysw.blitz.game.engine.clock.ChessClockEngineImpl
-import net.borysw.blitz.game.engine.clock.ChessClockImpl
+import net.borysw.blitz.game.engine.clock.ChessClockProvider
+import net.borysw.blitz.game.engine.clock.ChessClockProviderImpl
 import net.borysw.blitz.game.engine.clock.timer.Timer
 import net.borysw.blitz.game.engine.clock.timer.TimerImpl
+import net.borysw.blitz.game.engine.clock.type.StandardChessClockImpl
 import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.engine.game.GameEngineImpl
 import net.borysw.blitz.game.engine.time.TimeEngine
@@ -41,7 +43,7 @@ class AppModule {
     interface Binding {
         @Binds
         @Singleton
-        fun bindChessClock(implementation: ChessClockImpl): ChessClock
+        fun bindChessClock(implementation: StandardChessClockImpl): ChessClock
 
         @Binds
         fun bindTimer(implementation: TimerImpl): Timer
@@ -73,6 +75,29 @@ class AppModule {
         @Binds
         @Singleton
         fun bindChessClockEngine(implementation: ChessClockEngineImpl): ChessClockEngine
+
+        @Binds
+        fun bindChessClockFactory(implementation: ChessClockProviderImpl): ChessClockProvider
+
+        /*@Binds
+        @IntoMap
+        @StringKey("standard")
+        fun bindStandardChessClock(implementation: StandardChessClockImpl)
+
+        @Binds
+        @IntoMap
+        @StringKey("bronstein")
+        fun bindBronsteinChessClock(implementation: BronsteinChessClockImpl)
+
+        @Binds
+        @IntoMap
+        @StringKey("fischer")
+        fun bindFischerChessClock(implementation: FischerChessClockImpl)
+
+        @Binds
+        @IntoMap
+        @StringKey("simple_delay")
+        fun bindSimpleDelayChessClock(implementation: SimpleDelayChessClockImpl)*/
     }
 
     @Provides

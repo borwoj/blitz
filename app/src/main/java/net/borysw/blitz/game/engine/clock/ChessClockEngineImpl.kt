@@ -2,7 +2,6 @@ package net.borysw.blitz.game.engine.clock
 
 import io.reactivex.Observable
 import io.reactivex.Scheduler
-import io.reactivex.functions.Function3
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
@@ -12,35 +11,35 @@ import net.borysw.blitz.game.engine.UserActions
 import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player1
 import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
 import net.borysw.blitz.game.engine.time.TimeEngine
-import net.borysw.blitz.settings.Settings
 import javax.inject.Inject
 import javax.inject.Named
 
 class ChessClockEngineImpl @Inject constructor(
     userActions: UserActions,
     timeEngine: TimeEngine,
-    settings: Settings,
+    chessClockProvider: ChessClockProvider,
     @Named(COMPUTATION)
-    computationScheduler: Scheduler,
-    private val chessClock: ChessClock
+    computationScheduler: Scheduler
 ) : ChessClockEngine {
 
-    override val clockStatus: Observable<ClockStatus> = Observable.combineLatest(
-        timeEngine
-            .time
-            .observeOn(computationScheduler)
-            .doOnNext { if (!chessClock.isTimeOver && !chessClock.isPaused) chessClock.advanceTime() },
-        settings
-            .gameSettings
-            .observeOn(computationScheduler)
-            .doOnNext { chessClock.reset() }
-            .doOnNext { chessClock.gameType = it.type }
-            .doOnNext { chessClock.initialTime = it.duration },
-        userActions
-            .userActions
-            .observeOn(computationScheduler)
-            .doOnNext(::handleUserAction),
-        Function3<Long, Settings.GameSettings, UserAction, ClockStatus> { _, _, _ ->
+    private lateinit var chessClock: ChessClock
+
+    override val clockStatus: Observable<ClockStatus> =
+        Observable.merge(
+            chessClockProvider
+                .chessClock
+                .observeOn(computationScheduler)
+                .doOnNext { chessClock = it }
+                .concatMap {
+                    timeEngine
+                        .time
+                        .doOnNext { if (!chessClock.isTimeOver && !chessClock.isPaused) chessClock.advanceTime() }
+                },
+            userActions
+                .userActions
+                .observeOn(computationScheduler)
+                .doOnNext(::handleUserAction)
+        ).map {
             ClockStatus(
                 chessClock.initialTime,
                 chessClock.remainingTimePlayer1,
@@ -48,7 +47,6 @@ class ChessClockEngineImpl @Inject constructor(
                 chessClock.currentPlayer
             )
         }
-    )
 
     private fun handleUserAction(action: UserAction) {
         when (action) {

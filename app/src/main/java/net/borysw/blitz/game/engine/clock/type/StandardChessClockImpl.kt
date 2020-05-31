@@ -1,14 +1,15 @@
-package net.borysw.blitz.game.engine.clock
+package net.borysw.blitz.game.engine.clock.type
 
+import net.borysw.blitz.game.engine.clock.ChessClock
 import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player1
 import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
 import net.borysw.blitz.game.engine.clock.timer.Timer
-import net.borysw.blitz.settings.GameType
-import net.borysw.blitz.settings.GameType.Increment
-import net.borysw.blitz.settings.GameType.Standard
 import javax.inject.Inject
 
-class ChessClockImpl @Inject constructor(private val timer1: Timer, private val timer2: Timer) :
+class StandardChessClockImpl @Inject constructor(
+    private val timer1: Timer,
+    private val timer2: Timer
+) :
     ChessClock {
     override var initialTime: Long = 0
         set(value) {
@@ -31,6 +32,10 @@ class ChessClockImpl @Inject constructor(private val timer1: Timer, private val 
     override val isPaused: Boolean
         get() = currentPlayer == null
 
+    override var delay: Long = 0
+
+    override var incrementBy: Long = 0
+
     override fun advanceTime() {
         when (currentPlayer) {
             Player1 -> timer1.advanceTime()
@@ -40,22 +45,13 @@ class ChessClockImpl @Inject constructor(private val timer1: Timer, private val 
         if (isTimeOver) pause()
     }
 
-    override var gameType: GameType = Standard
-
     override fun pause() {
         currentPlayer = null
     }
 
     override fun changeTurn(nextPlayer: ChessClock.Player) {
-        if (currentPlayer != nextPlayer) {
+        if (currentPlayer != nextPlayer)
             currentPlayer = nextPlayer
-            when (val type = gameType) {
-                is Increment -> when (currentPlayer) {
-                    Player1 -> timer2.addTime(type.incrementBy)
-                    Player2 -> timer1.addTime(type.incrementBy)
-                }
-            }
-        }
     }
 
     override fun reset() {
