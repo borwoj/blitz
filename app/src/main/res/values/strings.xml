@@ -13,8 +13,8 @@
     <string name="hours">Hours</string>
     <string name="time_unit_pref_title">Time unit</string>
     <string name="game_duration_pref_title">Player time</string>
-    <string name="delay_pref_title">Delay</string>
-    <string name="increment_pref_title">Increment by</string>
+    <string name="delay_pref_title">Delay (seconds)</string>
+    <string name="increment_pref_title">Increment by (seconds)</string>
 
     <string name="game_type_standard">Standard</string>
     <string name="game_type_simple_delay">Simple delay / US delay</string>

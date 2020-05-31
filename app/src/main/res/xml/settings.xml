@@ -1,57 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         app:key="game_settings_category"
         app:title="@string/game_settings_category_title">
 
-        <EditTextPreference
-            app:defaultValue="5"
-            app:dialogIcon="@drawable/ic_timer_black_24dp"
-            app:dialogLayout="@layout/dialog_player_time"
+        <Preference
+            android:title="@string/game_duration_pref_title"
             app:icon="@drawable/ic_timer_black_24dp"
-            app:key="game_duration"
-            app:title="@string/game_duration_pref_title"
-            app:useSimpleSummaryProvider="true" />
+            app:key="time_settings" />
 
-        <ListPreference
-            app:defaultValue="1"
-            app:dialogIcon="@drawable/ic_baseline_access_time_24"
-            app:dialogTitle="@string/time_unit_pref_title"
-            app:entries="@array/time_units"
-            app:entryValues="@array/time_units_values"
-            app:icon="@drawable/ic_baseline_access_time_24"
-            app:key="time_unit"
-            app:title="@string/time_unit_pref_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="0"
-            app:dialogIcon="@drawable/ic_chess_pawn"
-            app:dialogTitle="@string/game_type_pref_title"
-            app:entries="@array/game_types"
-            app:entryValues="@array/game_types_values"
+        <Preference
+            android:title="@string/game_type_pref_title"
             app:icon="@drawable/ic_chess_pawn"
-            app:key="game_type"
-            app:title="@string/game_type_pref_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <EditTextPreference
-            app:defaultValue="5"
-            app:dialogIcon="@drawable/ic_pause_black_24dp"
-            app:dialogLayout="@layout/dialog_player_time"
-            app:icon="@drawable/ic_pause_black_24dp"
-            app:key="delay"
-            app:title="@string/delay_pref_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <EditTextPreference
-            app:defaultValue="5"
-            app:dialogIcon="@drawable/ic_baseline_person_add_24"
-            app:dialogLayout="@layout/dialog_player_time"
-            app:icon="@drawable/ic_baseline_person_add_24"
-            app:key="increment_by"
-            app:title="@string/increment_pref_title"
-            app:useSimpleSummaryProvider="true" />
+            app:key="type_settings" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -23,6 +23,34 @@
         android:id="@+id/settingsFragment"
         android:name="net.borysw.blitz.settings.SettingsFragment"
         android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_settingsFragment_to_timeSettingsFragment"
+            app:destination="@id/timeSettingsFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/action_settingsFragment_to_typeSettingsFragment"
+            app:destination="@id/typeSettingsFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/timeSettingsFragment"
+        android:name="net.borysw.blitz.settings.TimeSettingsFragment"
+        android:label="fragment_time_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/typeSettingsFragment"
+        android:name="net.borysw.blitz.settings.TypeSettingsFragment"
+        android:label="fragment_type_settings"
         tools:layout="@layout/fragment_settings" />
 
 </navigation>

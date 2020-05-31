@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/game_duration_pref_title">
+        <EditTextPreference
+            app:defaultValue="5"
+            app:dialogIcon="@drawable/ic_timer_black_24dp"
+            app:dialogLayout="@layout/dialog_player_time"
+            app:icon="@drawable/ic_timer_black_24dp"
+            app:key="game_duration"
+            app:title="@string/game_duration_pref_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="1"
+            app:dialogIcon="@drawable/ic_baseline_access_time_24"
+            app:dialogTitle="@string/time_unit_pref_title"
+            app:entries="@array/time_units"
+            app:entryValues="@array/time_units_values"
+            app:icon="@drawable/ic_baseline_access_time_24"
+            app:key="time_unit"
+            app:title="@string/time_unit_pref_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
