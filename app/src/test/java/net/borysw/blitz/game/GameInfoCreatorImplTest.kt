@@ -24,8 +24,8 @@ internal class GameInfoCreatorImplTest {
                 of(10, 9, 10, null, Paused),
                 of(10, 0, 5, ChessClock.Player.Player1, Finished.Player1Won),
                 of(10, 5, 0, ChessClock.Player.Player2, Finished.Player2Won),
-                of(10, 1, 5, ChessClock.Player.Player1, InProgress.Player1),
-                of(10, 2, 5, ChessClock.Player.Player2, InProgress.Player2)
+                of(10, 1, 5, ChessClock.Player.Player1, InProgress.Player1Turn),
+                of(10, 2, 5, ChessClock.Player.Player2, InProgress.Player2Turn)
             )
         }
     }

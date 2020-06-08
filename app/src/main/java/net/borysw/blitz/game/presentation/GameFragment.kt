@@ -85,7 +85,7 @@ class GameFragment : Fragment() {
         when (gameInfo.status) {
             Unstarted -> showGameInitial()
             Paused -> showGamePaused()
-            InProgress.Player1, InProgress.Player2 -> showGameInProgress(gameInfo.status)
+            InProgress.Player1Turn, InProgress.Player2Turn -> showGameInProgress(gameInfo.status)
             Finished.Player1Won, Finished.Player2Won -> showGameFinished(gameInfo.status)
         }
     }
@@ -118,11 +118,11 @@ class GameFragment : Fragment() {
         start.setImageResource(R.drawable.ic_pause_black_24dp)
 
         when (gameStatus) {
-            InProgress.Player1 -> {
+            InProgress.Player1Turn -> {
                 timerViewA.setActive(true)
                 timerViewB.setActive(false)
             }
-            InProgress.Player2 -> {
+            InProgress.Player2Turn -> {
                 timerViewA.setActive(false)
                 timerViewB.setActive(true)
             }

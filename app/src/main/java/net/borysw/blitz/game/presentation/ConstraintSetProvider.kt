@@ -15,8 +15,8 @@ class ConstraintSetProvider @Inject constructor() {
         val layoutResId = when (gameStatus) {
             Unstarted -> R.layout.fragment_game_initial
             Paused -> R.layout.fragment_game_paused
-            InProgress.Player1 -> R.layout.fragment_game_player_a
-            InProgress.Player2 -> R.layout.fragment_game_player_b
+            InProgress.Player1Turn -> R.layout.fragment_game_player_a
+            InProgress.Player2Turn -> R.layout.fragment_game_player_b
             Finished.Player1Won, Finished.Player2Won -> R.layout.fragment_game_finish
         }
         return ConstraintSet().apply { clone(context, layoutResId) }

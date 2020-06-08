@@ -13,8 +13,8 @@ data class GameInfo(
         object Paused : Status()
 
         sealed class InProgress : Status() {
-            object Player1 : InProgress()
-            object Player2 : InProgress()
+            object Player1Turn : InProgress()
+            object Player2Turn : InProgress()
         }
 
         sealed class Finished : Status() {
