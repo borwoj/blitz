@@ -36,10 +36,7 @@ internal class GameInfoCreatorImplTest {
     @ParameterizedTest(name = "when clock status: {0}, then game info should be: {1}")
     @MethodSource("parameters")
     @DisplayName("create game status")
-    fun getInfo(
-        clockStatus: ClockStatus,
-        expectedGameStatus: Status
-    ) {
+    fun getInfo(clockStatus: ClockStatus, expectedGameStatus: Status) {
         val timeFormatter = mock<TimeFormatter> {
             on(it.format(any())).thenReturn("0")
         }
