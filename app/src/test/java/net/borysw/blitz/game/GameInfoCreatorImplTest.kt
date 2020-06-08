@@ -46,7 +46,7 @@ internal class GameInfoCreatorImplTest {
             on(it.format(any())).thenReturn("0")
         }
         val testedObj = GameInfoCreatorImpl(timeFormatter)
-        val gameStatus = testedObj.get(clockStatus)
-        assertEquals(GameInfo("0", "0", "0", "0", expectedGameStatus), gameStatus)
+
+        assertEquals(GameInfo("0", "0", "0", "0", expectedGameStatus), testedObj.get(clockStatus))
     }
 }
