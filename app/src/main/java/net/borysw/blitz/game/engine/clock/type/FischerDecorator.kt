@@ -6,21 +6,19 @@ import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player1
 import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
 import javax.inject.Inject
 
-class FischerDecorator @Inject constructor(private val chessClock: ChessClockImpl) : ChessClock {
+class FischerDecorator @Inject constructor(private val chessClock: ChessClock) : ChessClock {
 
-    var incrementBy: Long = 0
+    var incrementBy: Long = -1
 
     override var initialTime: Long
         get() = chessClock.initialTime
         set(value) {
+            if (incrementBy == -1L) throw IllegalStateException("Increment value needs to be set first for compliance with FIDE and US Chess rules")
             chessClock.initialTime = value + incrementBy
         }
 
-    override var currentPlayer: Player?
+    override val currentPlayer: Player?
         get() = chessClock.currentPlayer
-        set(value) {
-            chessClock.currentPlayer = value
-        }
 
     override val remainingTimePlayer1: Long
         get() = chessClock.remainingTimePlayer1
@@ -39,16 +37,20 @@ class FischerDecorator @Inject constructor(private val chessClock: ChessClockImp
         get() = chessClock.isPaused
 
     override fun changeTurn(nextPlayer: Player) {
-        val isFirstMove = isFirstMove()
-        chessClock.changeTurn(nextPlayer)
-        if (!isFirstMove) when (requireNotNull(currentPlayer)) {
-            Player1 -> chessClock.addTimePlayer2(incrementBy)
-            Player2 -> chessClock.addTimePlayer1(incrementBy)
+        if (currentPlayer != nextPlayer) {
+            val isFirstMove =
+                currentPlayer == null
+                    && chessClock.remainingTimePlayer1 == chessClock.initialTime
+                    && chessClock.remainingTimePlayer2 == chessClock.initialTime
+
+            chessClock.changeTurn(nextPlayer)
+
+            if (!isFirstMove) when (requireNotNull(currentPlayer)) {
+                Player1 -> chessClock.addTimePlayer2(incrementBy)
+                Player2 -> chessClock.addTimePlayer1(incrementBy)
+            }
         }
     }
-
-    private fun isFirstMove() =
-        currentPlayer == null && chessClock.remainingTimePlayer1 == chessClock.initialTime && chessClock.remainingTimePlayer2 == chessClock.initialTime
 
     override fun advanceTime() {
         chessClock.advanceTime()

@@ -44,7 +44,6 @@ class AppModule {
     @Module
     interface Binding {
         @Binds
-        @Singleton
         fun bindChessClock(implementation: ChessClockImpl): ChessClock
 
         @Binds

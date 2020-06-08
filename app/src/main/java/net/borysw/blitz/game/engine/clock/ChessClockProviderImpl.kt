@@ -6,7 +6,7 @@ import net.borysw.blitz.game.engine.clock.type.ChessClockImpl
 import net.borysw.blitz.game.engine.clock.type.FischerDecorator
 import net.borysw.blitz.game.engine.clock.type.SimpleDelayDecorator
 import net.borysw.blitz.settings.GameType.BronsteinDelay
-import net.borysw.blitz.settings.GameType.Increment
+import net.borysw.blitz.settings.GameType.Fischer
 import net.borysw.blitz.settings.GameType.SimpleDelay
 import net.borysw.blitz.settings.GameType.Standard
 import net.borysw.blitz.settings.Settings
@@ -24,8 +24,8 @@ class ChessClockProviderImpl @Inject constructor(
         when (val gameType = gameSettings.type) {
             is Standard -> chessClockImpl
             is SimpleDelay -> simpleDelayChessClock.apply { delay = gameType.delay }
-            is BronsteinDelay -> bronsteinChessClock.apply { delay = gameType.delay }
-            is Increment -> fischerChessClock.apply { incrementBy = gameType.incrementBy }
+            is BronsteinDelay -> bronsteinChessClock.apply { delayAndIncrement = gameType.delay }
+            is Fischer -> fischerChessClock.apply { incrementBy = gameType.incrementBy }
         }.apply {
             initialTime = gameSettings.duration
         }

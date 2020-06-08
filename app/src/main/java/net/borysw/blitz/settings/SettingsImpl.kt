@@ -74,7 +74,7 @@ class SettingsImpl @Inject constructor(
                     0 -> GameType.Standard
                     1 -> GameType.SimpleDelay(delay)
                     2 -> GameType.BronsteinDelay(delay)
-                    3 -> GameType.Increment(incrementBy)
+                    3 -> GameType.Fischer(incrementBy)
                     else -> throw IllegalArgumentException("Unsupported game type: $type.")
                 }
             }

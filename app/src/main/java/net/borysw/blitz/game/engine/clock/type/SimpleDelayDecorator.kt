@@ -8,7 +8,7 @@ import net.borysw.blitz.game.engine.clock.timer.Timer
 import javax.inject.Inject
 
 class SimpleDelayDecorator @Inject constructor(
-    private val chessClock: ChessClockImpl,
+    private val chessClock: ChessClock,
     private val delayTimer1: Timer,
     private val delayTimer2: Timer
 ) : ChessClock {
@@ -25,11 +25,8 @@ class SimpleDelayDecorator @Inject constructor(
             chessClock.initialTime = value
         }
 
-    override var currentPlayer: Player?
+    override val currentPlayer: Player?
         get() = chessClock.currentPlayer
-        set(value) {
-            chessClock.currentPlayer = value
-        }
 
     override val remainingTimePlayer1: Long
         get() = chessClock.remainingTimePlayer1
@@ -50,10 +47,12 @@ class SimpleDelayDecorator @Inject constructor(
         get() = chessClock.isPaused
 
     override fun changeTurn(nextPlayer: Player) {
-        chessClock.changeTurn(nextPlayer)
-        when (requireNotNull(currentPlayer)) {
-            Player1 -> delayTimer1.reset()
-            Player2 -> delayTimer2.reset()
+        if (currentPlayer != nextPlayer) {
+            chessClock.changeTurn(nextPlayer)
+            when (requireNotNull(currentPlayer)) {
+                Player1 -> delayTimer1.reset()
+                Player2 -> delayTimer2.reset()
+            }
         }
     }
 

@@ -28,6 +28,7 @@ class ChessClockImpl @Inject constructor(
     override val remainingDelayTimePlayer2: Long = 0
 
     override var currentPlayer: ChessClock.Player? = null
+        private set
 
     override val isTimeOver: Boolean
         get() = timer1.isTimeOver || timer2.isTimeOver
@@ -57,7 +58,8 @@ class ChessClockImpl @Inject constructor(
     }
 
     override fun changeTurn(nextPlayer: ChessClock.Player) {
-        currentPlayer = nextPlayer
+        if (currentPlayer != nextPlayer)
+            currentPlayer = nextPlayer
     }
 
     override fun reset() {

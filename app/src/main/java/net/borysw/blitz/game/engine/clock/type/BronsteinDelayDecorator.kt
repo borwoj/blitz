@@ -8,11 +8,12 @@ import net.borysw.blitz.game.engine.clock.timer.Timer
 import javax.inject.Inject
 
 class BronsteinDelayDecorator @Inject constructor(
-    private val chessClock: ChessClockImpl,
+    private val chessClock: ChessClock,
     private val delayTimer1: Timer,
     private val delayTimer2: Timer
 ) : ChessClock {
-    var delay: Long = 0
+
+    var delayAndIncrement: Long = -1
         set(value) {
             delayTimer1.initialTime = value
             delayTimer2.initialTime = value
@@ -22,14 +23,12 @@ class BronsteinDelayDecorator @Inject constructor(
     override var initialTime: Long
         get() = chessClock.initialTime
         set(value) {
-            chessClock.initialTime = value
+            if (delayAndIncrement == -1L) throw IllegalStateException("Delay/increment value needs to be set first for compliance with FIDE and US Chess rules")
+            chessClock.initialTime = value + delayAndIncrement
         }
 
-    override var currentPlayer: Player?
+    override val currentPlayer: Player?
         get() = chessClock.currentPlayer
-        set(value) {
-            chessClock.currentPlayer = value
-        }
 
     override val remainingTimePlayer1: Long
         get() = chessClock.remainingTimePlayer1
@@ -50,10 +49,24 @@ class BronsteinDelayDecorator @Inject constructor(
         get() = chessClock.isPaused
 
     override fun changeTurn(nextPlayer: Player) {
-        chessClock.changeTurn(nextPlayer)
-        when (requireNotNull(currentPlayer)) {
-            Player1 -> delayTimer1.reset()
-            Player2 -> delayTimer2.reset()
+        if (currentPlayer != nextPlayer) {
+            val isFirstMove =
+                currentPlayer == null
+                    && chessClock.remainingTimePlayer1 == chessClock.initialTime
+                    && chessClock.remainingTimePlayer2 == chessClock.initialTime
+
+            chessClock.changeTurn(nextPlayer)
+
+            if (!isFirstMove) when (requireNotNull(currentPlayer)) {
+                Player1 -> {
+                    chessClock.addTimePlayer2(delayAndIncrement - delayTimer2.remainingTime)
+                    delayTimer2.reset()
+                }
+                Player2 -> {
+                    chessClock.addTimePlayer1(delayAndIncrement - delayTimer1.remainingTime)
+                    delayTimer1.reset()
+                }
+            }
         }
     }
 
@@ -61,11 +74,11 @@ class BronsteinDelayDecorator @Inject constructor(
         when (currentPlayer) {
             Player1 -> {
                 if (!delayTimer1.isTimeOver) delayTimer1.advanceTime()
-                else chessClock.advanceTime()
+                chessClock.advanceTime()
             }
             Player2 -> {
                 if (!delayTimer2.isTimeOver) delayTimer2.advanceTime()
-                else chessClock.advanceTime()
+                chessClock.advanceTime()
             }
         }
     }
