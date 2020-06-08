@@ -13,7 +13,7 @@ class FischerDecorator @Inject constructor(private val chessClock: ChessClock) :
     override var initialTime: Long
         get() = chessClock.initialTime
         set(value) {
-            if (incrementBy == -1L) throw IllegalStateException("Increment value needs to be set first for compliance with FIDE and US Chess rules")
+            if (incrementBy == -1L) throw IllegalStateException("Increment value needs to be set first for compliance with FIDE and US Chess rules") // TODO meh
             chessClock.initialTime = value + incrementBy
         }
 

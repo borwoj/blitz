@@ -23,7 +23,7 @@ class BronsteinDelayDecorator @Inject constructor(
     override var initialTime: Long
         get() = chessClock.initialTime
         set(value) {
-            if (delayAndIncrement == -1L) throw IllegalStateException("Delay/increment value needs to be set first for compliance with FIDE and US Chess rules")
+            if (delayAndIncrement == -1L) throw IllegalStateException("Delay/increment value needs to be set first for compliance with FIDE and US Chess rules") // TODO meh
             chessClock.initialTime = value + delayAndIncrement
         }
 
