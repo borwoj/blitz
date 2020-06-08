@@ -2,6 +2,7 @@ package net.borysw.blitz.game.engine.clock
 
 import io.reactivex.Observable
 import io.reactivex.Scheduler
+import io.reactivex.functions.BiFunction
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
@@ -25,30 +26,33 @@ class ChessClockEngineImpl @Inject constructor(
     private lateinit var chessClock: ChessClock
 
     override val clockStatus: Observable<ClockStatus> =
-        Observable.merge(
-            chessClockProvider
-                .chessClock
-                .observeOn(computationScheduler)
-                .doOnNext { chessClock = it }
-                .concatMap {
+
+        chessClockProvider
+            .chessClock
+            .observeOn(computationScheduler)
+            .doOnNext { chessClock = it }
+            .switchMap {
+                Observable.combineLatest(
                     timeEngine
                         .time
-                        .doOnNext { if (!chessClock.isTimeOver && !chessClock.isPaused) chessClock.advanceTime() }
-                },
-            userActions
-                .userActions
-                .observeOn(computationScheduler)
-                .doOnNext(::handleUserAction)
-        ).map {
-            ClockStatus(
-                chessClock.initialTime,
-                chessClock.remainingTimePlayer1,
-                chessClock.remainingTimePlayer2,
-                chessClock.remainingDelayTimePlayer1,
-                chessClock.remainingDelayTimePlayer2,
-                chessClock.currentPlayer
-            )
-        }
+                        .observeOn(computationScheduler)
+                        .doOnNext { if (!chessClock.isTimeOver && !chessClock.isPaused) chessClock.advanceTime() },
+                    userActions
+                        .userActions
+                        .observeOn(computationScheduler)
+                        .doOnNext(::handleUserAction),
+                    BiFunction<Long, UserAction, Unit> { _, _ -> }
+                ).map {
+                    ClockStatus(
+                        chessClock.initialTime,
+                        chessClock.remainingTimePlayer1,
+                        chessClock.remainingTimePlayer2,
+                        chessClock.remainingDelayTimePlayer1,
+                        chessClock.remainingDelayTimePlayer2,
+                        chessClock.currentPlayer
+                    )
+                }
+            }
 
     private fun handleUserAction(action: UserAction) {
         when (action) {
