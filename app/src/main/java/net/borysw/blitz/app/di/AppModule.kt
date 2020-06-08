@@ -77,27 +77,7 @@ class AppModule {
         fun bindChessClockEngine(implementation: ChessClockEngineImpl): ChessClockEngine
 
         @Binds
-        fun bindChessClockFactory(implementation: ChessClockProviderImpl): ChessClockProvider
-
-        /*@Binds
-        @IntoMap
-        @StringKey("standard")
-        fun bindStandardChessClock(implementation: StandardChessClockImpl)
-
-        @Binds
-        @IntoMap
-        @StringKey("bronstein")
-        fun bindBronsteinChessClock(implementation: BronsteinChessClockImpl)
-
-        @Binds
-        @IntoMap
-        @StringKey("fischer")
-        fun bindFischerChessClock(implementation: FischerChessClockImpl)
-
-        @Binds
-        @IntoMap
-        @StringKey("simple_delay")
-        fun bindSimpleDelayChessClock(implementation: SimpleDelayChessClockImpl)*/
+        fun bindChessClockProvider(implementation: ChessClockProviderImpl): ChessClockProvider
     }
 
     @Provides
