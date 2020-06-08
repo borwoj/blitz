@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.schedulers.Schedulers.trampoline
 import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.R
+import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
 import net.borysw.blitz.game.engine.UserActions
@@ -20,7 +21,10 @@ internal class SoundEngineImplTest {
     fun getSound() {
         // given
         val soundPlayer = mock<SoundPlayer>()
-        val userActions = UserActions()
+        val userActionsSubject = PublishSubject.create<UserAction>()
+        val userActions = mock<UserActions> {
+            on(it.userActions).thenReturn(userActionsSubject)
+        }
         val appSettings = PublishSubject.create<AppSettings>()
         val settings = mock<Settings> {
             on(it.appSettings).thenReturn(appSettings)
@@ -30,12 +34,12 @@ internal class SoundEngineImplTest {
         // when
         testedObj.sound.test()
         appSettings.onNext(AppSettings(soundEnabled = false))
-        userActions.onUserAction(ClockClickedPlayer1)
-        userActions.onUserAction(ClockClickedPlayer2)
+        userActionsSubject.onNext(ClockClickedPlayer1)
+        userActionsSubject.onNext(ClockClickedPlayer2)
 
         appSettings.onNext(AppSettings(soundEnabled = true))
-        userActions.onUserAction(ClockClickedPlayer1)
-        userActions.onUserAction(ClockClickedPlayer2)
+        userActionsSubject.onNext(ClockClickedPlayer1)
+        userActionsSubject.onNext(ClockClickedPlayer2)
 
         // then
         verify(soundPlayer).playSound(R.raw.clock_press_1)

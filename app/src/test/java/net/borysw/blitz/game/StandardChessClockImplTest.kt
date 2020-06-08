@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.presentation
+package net.borysw.blitz.game
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never

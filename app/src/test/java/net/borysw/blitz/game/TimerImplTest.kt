@@ -3,77 +3,73 @@ package net.borysw.blitz.game
 import net.borysw.blitz.game.engine.clock.timer.TimerImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+// TODO display names
 internal class TimerImplTest {
+    private lateinit var testedObj: TimerImpl
 
-    @Test
-    @DisplayName("should set initial time")
-    fun initialTime() {
-        val testedObj = TimerImpl()
-            .apply { initialTime = 1 }
-
-        assertEquals(1, testedObj.initialTime)
+    @BeforeEach
+    fun setup() {
+        testedObj = TimerImpl()
     }
 
     @Test
-    @DisplayName("when advancing time, should decrement remaining time")
-    fun advance() {
-        val testedObj = TimerImpl()
-            .apply { initialTime = 1 }
-        testedObj.advanceTime()
+    fun getInitialTime() {
+        testedObj.initialTime = 5
 
-        assertEquals(0, testedObj.remainingTime)
+        assertEquals(5, testedObj.initialTime)
+        assertEquals(5, testedObj.remainingTime)
     }
 
     @Test
-    @DisplayName("when advancing time while time is already over, should throw exception")
-    fun advanceIllegal() {
-        val testedObj = TimerImpl()
-            .apply { initialTime = 0 }
-
-        assertThrows(IllegalStateException::class.java) { testedObj.advanceTime() }
-    }
-
-    @Test
-    @DisplayName("when created, remaining time should be equal to initial time")
     fun getRemainingTime() {
-        val testedObj = TimerImpl()
-            .apply { initialTime = 1 }
+        testedObj.remainingTime = 5
 
-        assertEquals(1, testedObj.remainingTime)
+        assertEquals(5, testedObj.remainingTime)
     }
 
     @Test
-    @DisplayName("when reset, remaining time should be equal to initial time and elapsed time should be 0")
-    fun reset() {
-        val testedObj = TimerImpl()
-            .apply { initialTime = 1 }
-        testedObj.advanceTime()
-        testedObj.reset()
-
-        assertEquals(1, testedObj.remainingTime)
-    }
-
-    @Test
-    @DisplayName("when remaining time is 0, should return true")
-    fun isTimeOverYes() {
-        val testedObj = TimerImpl()
-            .apply { initialTime = 1 }
-        testedObj.advanceTime()
+    fun isTimeOver() {
+        testedObj.remainingTime = 0
 
         assertTrue(testedObj.isTimeOver)
     }
 
     @Test
-    @DisplayName("when remaining time is not 0, should return false")
-    fun isTimeOverNo() {
-        val testedObj = TimerImpl()
-            .apply { initialTime = 1 }
+    fun isTimeOverNot() {
+        testedObj.remainingTime = 5
 
         assertFalse(testedObj.isTimeOver)
+    }
+
+    @Test
+    fun advanceTime() {
+        testedObj.initialTime = 5
+
+        testedObj.advanceTime()
+
+        assertEquals(4, testedObj.remainingTime)
+    }
+
+    @Test
+    fun addTime() {
+        testedObj.remainingTime = 0
+
+        testedObj.addTime(1)
+
+        assertEquals(1, testedObj.remainingTime)
+    }
+
+    @Test
+    fun reset() {
+        testedObj.initialTime = 5
+        testedObj.advanceTime()
+
+        testedObj.reset()
+
+        assertEquals(5, testedObj.remainingTime)
     }
 }

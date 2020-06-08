@@ -11,6 +11,8 @@ import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.Schedulers.IO
+import net.borysw.blitz.game.engine.UserActions
+import net.borysw.blitz.game.engine.UserActionsImpl
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.audio.SoundEngineImpl
 import net.borysw.blitz.game.engine.audio.SoundPlayer
@@ -78,6 +80,10 @@ class AppModule {
 
         @Binds
         fun bindChessClockProvider(implementation: ChessClockProviderImpl): ChessClockProvider
+
+        @Binds
+        @Singleton
+        fun bindUserActions(implementation: UserActionsImpl): UserActions
     }
 
     @Provides

@@ -24,7 +24,9 @@ class GameViewModel @Inject constructor(
     val dialog by lazy { MutableLiveData<Dialog>() }
 
     init {
-        gameEngine.gameInfo.subscribe(gameInfo::postValue, ::e).run(timeDisposable::set)
+        gameEngine.gameInfo
+            .subscribe(gameInfo::postValue, ::e)
+            .run(timeDisposable::set)
         // TODO handle error gracefully
         userActions.onUserAction(SitAtTable)
     }

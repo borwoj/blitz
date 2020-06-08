@@ -33,7 +33,7 @@ class SoundEngineImpl @Inject constructor(
                                 ClockClickedPlayer2 -> soundPlayer.playSound(R.raw.clock_press_2)
                             }
                     }
+                    .doOnDispose { soundPlayer.release() }
             }
             .map { Unit }
-            .doOnDispose { soundPlayer.release() }
 }
