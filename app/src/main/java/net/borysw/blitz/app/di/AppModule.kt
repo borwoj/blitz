@@ -24,7 +24,7 @@ import net.borysw.blitz.game.engine.clock.ChessClockProvider
 import net.borysw.blitz.game.engine.clock.ChessClockProviderImpl
 import net.borysw.blitz.game.engine.clock.timer.Timer
 import net.borysw.blitz.game.engine.clock.timer.TimerImpl
-import net.borysw.blitz.game.engine.clock.type.StandardChessClockImpl
+import net.borysw.blitz.game.engine.clock.type.ChessClockImpl
 import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.engine.game.GameEngineImpl
 import net.borysw.blitz.game.engine.time.TimeEngine
@@ -45,7 +45,7 @@ class AppModule {
     interface Binding {
         @Binds
         @Singleton
-        fun bindChessClock(implementation: StandardChessClockImpl): ChessClock
+        fun bindChessClock(implementation: ChessClockImpl): ChessClock
 
         @Binds
         fun bindTimer(implementation: TimerImpl): Timer

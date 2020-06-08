@@ -6,11 +6,10 @@ import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
 import net.borysw.blitz.game.engine.clock.timer.Timer
 import javax.inject.Inject
 
-class FischerChessClockImpl @Inject constructor(
+class ChessClockImpl @Inject constructor(
     private val timer1: Timer,
     private val timer2: Timer
-) :
-    ChessClock {
+) : ChessClock {
     override var initialTime: Long = 0
         set(value) {
             timer1.initialTime = value
@@ -36,8 +35,6 @@ class FischerChessClockImpl @Inject constructor(
     override val isPaused: Boolean
         get() = currentPlayer == null
 
-    var incrementBy: Long = 0
-
     override fun advanceTime() {
         when (currentPlayer) {
             Player1 -> timer1.advanceTime()
@@ -47,18 +44,20 @@ class FischerChessClockImpl @Inject constructor(
         if (isTimeOver) pause()
     }
 
+    override fun addTimePlayer1(time: Long) {
+        timer1.addTime(time)
+    }
+
+    override fun addTimePlayer2(time: Long) {
+        timer2.addTime(time)
+    }
+
     override fun pause() {
         currentPlayer = null
     }
 
     override fun changeTurn(nextPlayer: ChessClock.Player) {
-        if (currentPlayer != nextPlayer) {
-            currentPlayer = nextPlayer
-            when (currentPlayer) {
-                Player1 -> timer2.addTime(incrementBy)
-                Player2 -> timer1.addTime(incrementBy)
-            }
-        }
+        currentPlayer = nextPlayer
     }
 
     override fun reset() {

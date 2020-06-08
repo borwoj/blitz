@@ -1,10 +1,10 @@
 package net.borysw.blitz.game.engine.clock
 
 import io.reactivex.Observable
-import net.borysw.blitz.game.engine.clock.type.BronsteinChessClockImpl
-import net.borysw.blitz.game.engine.clock.type.FischerChessClockImpl
-import net.borysw.blitz.game.engine.clock.type.SimpleDelayChessClockImpl
-import net.borysw.blitz.game.engine.clock.type.StandardChessClockImpl
+import net.borysw.blitz.game.engine.clock.type.BronsteinDelayDecorator
+import net.borysw.blitz.game.engine.clock.type.ChessClockImpl
+import net.borysw.blitz.game.engine.clock.type.FischerDecorator
+import net.borysw.blitz.game.engine.clock.type.SimpleDelayDecorator
 import net.borysw.blitz.settings.GameType.BronsteinDelay
 import net.borysw.blitz.settings.GameType.Increment
 import net.borysw.blitz.settings.GameType.SimpleDelay
@@ -14,18 +14,18 @@ import javax.inject.Inject
 
 class ChessClockProviderImpl @Inject constructor(
     settings: Settings,
-    standardChessClockImpl: StandardChessClockImpl,
-    fischerChessClockImpl: FischerChessClockImpl,
-    simpleDelayChessClockImpl: SimpleDelayChessClockImpl,
-    bronsteinChessClockImpl: BronsteinChessClockImpl
+    chessClockImpl: ChessClockImpl,
+    fischerChessClock: FischerDecorator,
+    simpleDelayChessClock: SimpleDelayDecorator,
+    bronsteinChessClock: BronsteinDelayDecorator
 ) :
     ChessClockProvider {
     override val chessClock: Observable<ChessClock> = settings.gameSettings.map { gameSettings ->
         when (val gameType = gameSettings.type) {
-            is Standard -> standardChessClockImpl
-            is SimpleDelay -> simpleDelayChessClockImpl.apply { delay = gameType.delay }
-            is BronsteinDelay -> bronsteinChessClockImpl.apply { delay = gameType.delay }
-            is Increment -> fischerChessClockImpl.apply { incrementBy = gameType.incrementBy }
+            is Standard -> chessClockImpl
+            is SimpleDelay -> simpleDelayChessClock.apply { delay = gameType.delay }
+            is BronsteinDelay -> bronsteinChessClock.apply { delay = gameType.delay }
+            is Increment -> fischerChessClock.apply { incrementBy = gameType.incrementBy }
         }.apply {
             initialTime = gameSettings.duration
         }
