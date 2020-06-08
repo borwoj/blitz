@@ -42,8 +42,8 @@ class SimpleDelayChessClockImpl @Inject constructor(
 
     var delay: Long = 0
         set(value) {
-            delayTimer1.initialTime = delay
-            delayTimer2.initialTime = delay
+            delayTimer1.initialTime = value
+            delayTimer2.initialTime = value
             field = value
         }
 
@@ -67,8 +67,13 @@ class SimpleDelayChessClockImpl @Inject constructor(
     }
 
     override fun changeTurn(nextPlayer: ChessClock.Player) {
-        if (currentPlayer != nextPlayer)
+        if (currentPlayer != nextPlayer) {
             currentPlayer = nextPlayer
+            when (nextPlayer) {
+                Player1 -> delayTimer1.reset()
+                Player2 -> delayTimer2.reset()
+            }
+        }
     }
 
     override fun reset() {
