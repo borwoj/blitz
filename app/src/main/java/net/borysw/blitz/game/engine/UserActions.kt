@@ -9,7 +9,6 @@ import javax.inject.Singleton
 
 @Singleton
 class UserActions @Inject constructor() {
-
     private val userActionsSubject: Subject<UserAction> = create()
     val userActions: Observable<UserAction> = userActionsSubject
 
