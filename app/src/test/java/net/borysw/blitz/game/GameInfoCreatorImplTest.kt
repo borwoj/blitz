@@ -23,16 +23,14 @@ import org.junit.jupiter.params.provider.MethodSource
 internal class GameInfoCreatorImplTest {
     companion object {
         @JvmStatic
-        fun parameters(): List<Arguments> {
-            return listOf(
-                of(ClockStatus(10, 10, 10, 10, 10, null), Unstarted),
-                of(ClockStatus(10, 9, 10, 10, 10, null), Paused),
-                of(ClockStatus(10, 0, 5, 10, 10, Player1), Finished.Player1Won),
-                of(ClockStatus(10, 5, 0, 10, 10, Player2), Finished.Player2Won),
-                of(ClockStatus(10, 1, 5, 10, 10, Player1), InProgress.Player1Turn),
-                of(ClockStatus(10, 2, 5, 10, 10, Player2), InProgress.Player2Turn)
-            )
-        }
+        fun parameters(): List<Arguments> = listOf(
+            of(ClockStatus(10, 10, 10, 10, 10, null), Unstarted),
+            of(ClockStatus(10, 9, 10, 10, 10, null), Paused),
+            of(ClockStatus(10, 0, 5, 10, 10, Player1), Finished.Player1Won),
+            of(ClockStatus(10, 5, 0, 10, 10, Player2), Finished.Player2Won),
+            of(ClockStatus(10, 1, 5, 10, 10, Player1), InProgress.Player1Turn),
+            of(ClockStatus(10, 2, 5, 10, 10, Player2), InProgress.Player2Turn)
+        )
     }
 
     @ParameterizedTest(name = "when clock status: {0}, then game info should be: {1}")
