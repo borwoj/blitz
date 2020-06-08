@@ -69,7 +69,7 @@ class SimpleDelayChessClockImpl @Inject constructor(
     override fun changeTurn(nextPlayer: ChessClock.Player) {
         if (currentPlayer != nextPlayer) {
             currentPlayer = nextPlayer
-            when (nextPlayer) {
+            when (requireNotNull(currentPlayer)) {
                 Player1 -> delayTimer1.reset()
                 Player2 -> delayTimer2.reset()
             }
