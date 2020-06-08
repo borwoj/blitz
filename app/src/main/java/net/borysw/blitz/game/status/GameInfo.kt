@@ -3,6 +3,8 @@ package net.borysw.blitz.game.status
 data class GameInfo(
     val remainingTimePlayer1: String,
     val remainingTimePlayer2: String,
+    val remainingDelayTimePlayer1: String,
+    val remainingDelayTimePlayer2: String,
     val status: Status
 ) {
     sealed class Status {

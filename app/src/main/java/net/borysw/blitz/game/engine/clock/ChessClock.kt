@@ -10,10 +10,10 @@ interface ChessClock {
     var currentPlayer: Player?
     val remainingTimePlayer1: Long
     val remainingTimePlayer2: Long
+    val remainingDelayTimePlayer1: Long
+    val remainingDelayTimePlayer2: Long
     val isTimeOver: Boolean
     val isPaused: Boolean
-    var delay: Long
-    var incrementBy: Long
 
     fun changeTurn(nextPlayer: Player)
     fun advanceTime()

@@ -50,12 +50,7 @@ class GameEngineImpl @Inject constructor(
                     soundEngineObservable,
                     chessClockObservable,
                     Function3<UserAction, Unit, ClockStatus, GameInfo> { _, _, clockStatus ->
-                        gameInfoCreator.get(
-                            clockStatus.initialTime,
-                            clockStatus.remainingTimePlayer1,
-                            clockStatus.remainingTimePlayer2,
-                            clockStatus.currentPlayer
-                        )
+                        gameInfoCreator.get(clockStatus)
                     })
                     .distinctUntilChanged()
             }

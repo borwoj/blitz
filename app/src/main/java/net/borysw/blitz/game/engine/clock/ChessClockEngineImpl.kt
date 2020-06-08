@@ -44,15 +44,15 @@ class ChessClockEngineImpl @Inject constructor(
                 chessClock.initialTime,
                 chessClock.remainingTimePlayer1,
                 chessClock.remainingTimePlayer2,
+                chessClock.remainingDelayTimePlayer1,
+                chessClock.remainingDelayTimePlayer2,
                 chessClock.currentPlayer
             )
         }
 
     private fun handleUserAction(action: UserAction) {
         when (action) {
-            ClockClickedPlayer1 -> if (!chessClock.isTimeOver) {
-                chessClock.changeTurn(Player2)
-            }
+            ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player2)
             ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player1)
             ActionButtonClicked -> if (chessClock.isPaused) chessClock.reset() else chessClock.pause()
         }

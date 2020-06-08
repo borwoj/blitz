@@ -17,7 +17,7 @@ class SettingsImpl @Inject constructor(
     rxSharedPreferences: RxSharedPreferences
 ) : Settings {
 
-    companion object {
+    private companion object {
         const val KEY_DURATION = "game_duration"
         const val KEY_TYPE = "game_type"
         const val KEY_SOUND_ENABLED = "sound_enabled"
@@ -27,10 +27,11 @@ class SettingsImpl @Inject constructor(
     }
 
     private val duration: Observable<Long> =
-        combineLatest(rxSharedPreferences
-            .getString(KEY_DURATION)
-            .asObservable()
-            .map { it.toLong() },
+        combineLatest(
+            rxSharedPreferences
+                .getString(KEY_DURATION)
+                .asObservable()
+                .map { it.toLong() },
             rxSharedPreferences
                 .getString(KEY_TIME_UNIT)
                 .asObservable()

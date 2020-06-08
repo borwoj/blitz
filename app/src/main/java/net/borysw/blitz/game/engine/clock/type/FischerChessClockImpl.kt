@@ -24,6 +24,10 @@ class FischerChessClockImpl @Inject constructor(
     override val remainingTimePlayer2: Long
         get() = timer2.remainingTime
 
+    override val remainingDelayTimePlayer1: Long = 0
+
+    override val remainingDelayTimePlayer2: Long = 0
+
     override var currentPlayer: ChessClock.Player? = null
 
     override val isTimeOver: Boolean
@@ -32,9 +36,7 @@ class FischerChessClockImpl @Inject constructor(
     override val isPaused: Boolean
         get() = currentPlayer == null
 
-    override var delay: Long = 0
-
-    override var incrementBy: Long = 0
+    var incrementBy: Long = 0
 
     override fun advanceTime() {
         when (currentPlayer) {

@@ -1,6 +1,7 @@
 package net.borysw.blitz.game.status
 
 import net.borysw.blitz.game.engine.clock.ChessClock.Player
+import net.borysw.blitz.game.engine.clock.ClockStatus
 import net.borysw.blitz.game.status.GameInfo.Status.Finished.Player1Won
 import net.borysw.blitz.game.status.GameInfo.Status.Finished.Player2Won
 import net.borysw.blitz.game.status.GameInfo.Status.InProgress.Player1
@@ -11,15 +12,12 @@ import javax.inject.Inject
 
 class GameInfoCreatorImpl @Inject constructor(private val timeFormatter: TimeFormatter) :
     GameInfoCreator {
-    override fun get(
-        initialTime: Long,
-        remainingTimePlayer1: Long,
-        remainingTimePlayer2: Long,
-        currentPlayer: Player?
-    ): GameInfo =
+    override fun get(clockStatus: ClockStatus): GameInfo = with(clockStatus) {
         GameInfo(
             timeFormatter.format(remainingTimePlayer1),
             timeFormatter.format(remainingTimePlayer2),
+            timeFormatter.format(remainingDelayTimePlayer1),
+            timeFormatter.format(remainingDelayTimePlayer2),
             getStatus(
                 initialTime,
                 remainingTimePlayer1,
@@ -27,6 +25,7 @@ class GameInfoCreatorImpl @Inject constructor(private val timeFormatter: TimeFor
                 currentPlayer
             )
         )
+    }
 
     private fun getStatus(
         initialTime: Long,
