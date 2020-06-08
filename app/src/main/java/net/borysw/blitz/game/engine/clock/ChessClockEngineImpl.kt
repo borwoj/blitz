@@ -1,6 +1,7 @@
 package net.borysw.blitz.game.engine.clock
 
 import io.reactivex.Observable
+import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
 import net.borysw.blitz.Schedulers.COMPUTATION
@@ -23,16 +24,12 @@ class ChessClockEngineImpl @Inject constructor(
     computationScheduler: Scheduler
 ) : ChessClockEngine {
 
-    private lateinit var chessClock: ChessClock
-
     override val clockStatus: Observable<ClockStatus> =
-
         chessClockProvider
             .chessClock
             .observeOn(computationScheduler)
-            .doOnNext { chessClock = it }
-            .switchMap {
-                Observable.combineLatest(
+            .switchMap { chessClock ->
+                combineLatest(
                     timeEngine
                         .time
                         .observeOn(computationScheduler)
@@ -40,7 +37,7 @@ class ChessClockEngineImpl @Inject constructor(
                     userActions
                         .userActions
                         .observeOn(computationScheduler)
-                        .doOnNext(::handleUserAction),
+                        .doOnNext { handleUserAction(it, chessClock) },
                     BiFunction<Long, UserAction, Unit> { _, _ -> }
                 ).map {
                     ClockStatus(
@@ -54,7 +51,7 @@ class ChessClockEngineImpl @Inject constructor(
                 }
             }
 
-    private fun handleUserAction(action: UserAction) {
+    private fun handleUserAction(action: UserAction, chessClock: ChessClock) {
         when (action) {
             ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player2)
             ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player1)

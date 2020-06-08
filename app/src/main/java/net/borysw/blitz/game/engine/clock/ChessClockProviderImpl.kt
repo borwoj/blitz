@@ -20,14 +20,14 @@ class ChessClockProviderImpl @Inject constructor(
     bronsteinChessClockImpl: BronsteinChessClockImpl
 ) :
     ChessClockProvider {
-    override val chessClock: Observable<ChessClock> = settings.gameSettings.map {
-        val clock = when (val gameType = it.type) {
+    override val chessClock: Observable<ChessClock> = settings.gameSettings.map { gameSettings ->
+        when (val gameType = gameSettings.type) {
             is Standard -> standardChessClockImpl
             is SimpleDelay -> simpleDelayChessClockImpl.apply { delay = gameType.delay }
             is BronsteinDelay -> bronsteinChessClockImpl.apply { delay = gameType.delay }
             is Increment -> fischerChessClockImpl.apply { incrementBy = gameType.incrementBy }
+        }.apply {
+            initialTime = gameSettings.duration
         }
-        clock.initialTime = it.duration
-        clock
     }
 }
