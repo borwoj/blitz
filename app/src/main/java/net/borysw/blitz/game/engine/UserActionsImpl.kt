@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 class UserActionsImpl @Inject constructor() : UserActions {
     private val userActionsSubject: Subject<UserAction> = BehaviorSubject.create()
+
     override val userActions: Observable<UserAction> = userActionsSubject
 
     override fun onUserAction(userAction: UserAction) = userActionsSubject.onNext(userAction)
