@@ -9,16 +9,11 @@ import javax.inject.Inject
 class FischerDecorator @Inject constructor(private val chessClock: ChessClockImpl) : ChessClock {
 
     var incrementBy: Long = 0
-        get() = field
-        set(value) {
-
-            field = value
-        }
 
     override var initialTime: Long
         get() = chessClock.initialTime
         set(value) {
-            chessClock.initialTime = value
+            chessClock.initialTime = value + incrementBy
         }
 
     override var currentPlayer: Player?
@@ -44,12 +39,16 @@ class FischerDecorator @Inject constructor(private val chessClock: ChessClockImp
         get() = chessClock.isPaused
 
     override fun changeTurn(nextPlayer: Player) {
+        val isFirstMove = isFirstMove()
         chessClock.changeTurn(nextPlayer)
-        when (requireNotNull(currentPlayer)) {
+        if (!isFirstMove) when (requireNotNull(currentPlayer)) {
             Player1 -> chessClock.addTimePlayer2(incrementBy)
             Player2 -> chessClock.addTimePlayer1(incrementBy)
         }
     }
+
+    private fun isFirstMove() =
+        currentPlayer == null && chessClock.remainingTimePlayer1 == chessClock.initialTime && chessClock.remainingTimePlayer2 == chessClock.initialTime
 
     override fun advanceTime() {
         chessClock.advanceTime()
