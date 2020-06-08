@@ -1,5 +1,6 @@
 package net.borysw.blitz.game
 
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
@@ -142,6 +143,32 @@ internal class ChessClockImplTest {
         val testedObj = ChessClockImpl(timer1, timer2)
 
         assertTrue(testedObj.isTimeOver)
+    }
+
+    @Test
+    @DisplayName("when time added to player 1, should add time to timer 1")
+    fun addTimePlayer1() {
+        val timer1 = mock<Timer>()
+        val timer2 = mock<Timer>()
+        val testedObj = ChessClockImpl(timer1, timer2)
+
+        testedObj.addTimePlayer1(1)
+
+        verify(timer1).addTime(1)
+        verify(timer2, never()).addTime(any())
+    }
+
+    @Test
+    @DisplayName("when time added to player 2, should add time to timer 2")
+    fun addTimePlayer2() {
+        val timer1 = mock<Timer>()
+        val timer2 = mock<Timer>()
+        val testedObj = ChessClockImpl(timer1, timer2)
+
+        testedObj.addTimePlayer2(1)
+
+        verify(timer2).addTime(1)
+        verify(timer1, never()).addTime(any())
     }
 
     @Test
