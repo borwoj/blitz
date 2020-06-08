@@ -10,7 +10,7 @@ interface ChessClock {
     var currentPlayer: Player?
     val remainingTimePlayer1: Long
     val remainingTimePlayer2: Long
-    val remainingDelayTimePlayer1: Long
+    val remainingDelayTimePlayer1: Long //TODO remove these 2 from the interface
     val remainingDelayTimePlayer2: Long
     val isTimeOver: Boolean
     val isPaused: Boolean
