@@ -80,5 +80,7 @@ class SimpleDelayChessClockImpl @Inject constructor(
         pause()
         timer1.reset()
         timer2.reset()
+        delayTimer1.reset()
+        delayTimer2.reset()
     }
 }

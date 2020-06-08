@@ -28,7 +28,9 @@ class App : Application(), HasAndroidInjector {
     }
 
     private fun setDefaultSettings() {
-        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+        PreferenceManager.setDefaultValues(this, R.xml.settings, true);
+        PreferenceManager.setDefaultValues(this, R.xml.time_settings, true);
+        PreferenceManager.setDefaultValues(this, R.xml.type_settings, true);
     }
 
     private fun initDI() {
