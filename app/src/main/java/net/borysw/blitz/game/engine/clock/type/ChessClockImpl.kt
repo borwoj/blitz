@@ -23,10 +23,6 @@ class ChessClockImpl @Inject constructor(
     override val remainingTimePlayer2: Long
         get() = timer2.remainingTime
 
-    override val remainingDelayTimePlayer1: Long = 0
-
-    override val remainingDelayTimePlayer2: Long = 0
-
     override var currentPlayer: ChessClock.Player? = null
         private set
 

@@ -26,10 +26,6 @@ class FischerDecorator @Inject constructor(private val chessClock: ChessClock) :
     override val remainingTimePlayer2: Long
         get() = chessClock.remainingTimePlayer2
 
-    override val remainingDelayTimePlayer1: Long = 0
-
-    override val remainingDelayTimePlayer2: Long = 0
-
     override val isTimeOver: Boolean
         get() = chessClock.isTimeOver
 

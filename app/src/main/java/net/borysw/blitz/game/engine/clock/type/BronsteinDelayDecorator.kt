@@ -36,12 +36,6 @@ class BronsteinDelayDecorator @Inject constructor(
     override val remainingTimePlayer2: Long
         get() = chessClock.remainingTimePlayer2
 
-    override val remainingDelayTimePlayer1: Long
-        get() = delayTimer1.remainingTime
-
-    override val remainingDelayTimePlayer2: Long
-        get() = delayTimer2.remainingTime
-
     override val isTimeOver: Boolean
         get() = chessClock.isTimeOver
 

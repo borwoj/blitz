@@ -16,14 +16,10 @@ class GameInfoCreatorImpl @Inject constructor(private val timeFormatter: TimeFor
         GameInfo(
             timeFormatter.format(remainingTimePlayer1),
             timeFormatter.format(remainingTimePlayer2),
-            timeFormatter.format(remainingDelayTimePlayer1),
-            timeFormatter.format(remainingDelayTimePlayer2),
             getStatus(
                 initialTime,
                 remainingTimePlayer1,
                 remainingTimePlayer2,
-                remainingDelayTimePlayer1,
-                remainingDelayTimePlayer2,
                 currentPlayer
             )
         )
@@ -33,16 +29,14 @@ class GameInfoCreatorImpl @Inject constructor(private val timeFormatter: TimeFor
         initialTime: Long,
         remainingTimePlayer1: Long,
         remainingTimePlayer2: Long,
-        remainingDelayTimePlayer1: Long,
-        remainingDelayTimePlayer2: Long,
-        current: Player?
+        currentPlayer: Player?
     ): GameInfo.Status = when {
-        (initialTime == remainingTimePlayer1 && initialTime == remainingTimePlayer2 && remainingDelayTimePlayer1 == remainingDelayTimePlayer2) -> Unstarted
+        (currentPlayer == null && initialTime == remainingTimePlayer1 && initialTime == remainingTimePlayer2) -> Unstarted
         remainingTimePlayer1 == 0L -> Player1Won
         remainingTimePlayer2 == 0L -> Player2Won
-        current == null -> Paused
-        current == Player.Player1 -> Player1Turn
-        current == Player.Player2 -> Player2Turn
+        currentPlayer == null -> Paused
+        currentPlayer == Player.Player1 -> Player1Turn
+        currentPlayer == Player.Player2 -> Player2Turn
         else -> throw IllegalStateException("Unknown game status.")
     }
 }

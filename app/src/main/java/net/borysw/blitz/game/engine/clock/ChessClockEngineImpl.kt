@@ -44,8 +44,6 @@ class ChessClockEngineImpl @Inject constructor(
                         chessClock.initialTime,
                         chessClock.remainingTimePlayer1,
                         chessClock.remainingTimePlayer2,
-                        chessClock.remainingDelayTimePlayer1,
-                        chessClock.remainingDelayTimePlayer2,
                         chessClock.currentPlayer
                     )
                 }
