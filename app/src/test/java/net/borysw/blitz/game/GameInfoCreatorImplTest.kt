@@ -24,12 +24,12 @@ internal class GameInfoCreatorImplTest {
     companion object {
         @JvmStatic
         fun parameters(): List<Arguments> = listOf(
-            of(ClockStatus(10, 10, 10, 10, 10, null), Unstarted),
-            of(ClockStatus(10, 9, 10, 10, 10, null), Paused),
-            of(ClockStatus(10, 0, 5, 10, 10, Player1), Finished.Player1Won),
-            of(ClockStatus(10, 5, 0, 10, 10, Player2), Finished.Player2Won),
-            of(ClockStatus(10, 1, 5, 10, 10, Player1), InProgress.Player1Turn),
-            of(ClockStatus(10, 2, 5, 10, 10, Player2), InProgress.Player2Turn)
+            of(ClockStatus(10, 10, 10, null), Unstarted),
+            of(ClockStatus(10, 9, 10, null), Paused),
+            of(ClockStatus(10, 0, 5, Player1), Finished.Player1Won),
+            of(ClockStatus(10, 5, 0, Player2), Finished.Player2Won),
+            of(ClockStatus(10, 1, 5, Player1), InProgress.Player1Turn),
+            of(ClockStatus(10, 2, 5, Player2), InProgress.Player2Turn)
         )
     }
 
@@ -42,6 +42,6 @@ internal class GameInfoCreatorImplTest {
         }
         val testedObj = GameInfoCreatorImpl(timeFormatter)
 
-        assertEquals(GameInfo("0", "0", "0", "0", expectedGameStatus), testedObj.get(clockStatus))
+        assertEquals(GameInfo("0", "0", expectedGameStatus), testedObj.get(clockStatus))
     }
 }

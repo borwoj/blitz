@@ -83,30 +83,6 @@ internal class BronsteinDelayDecoratorTest {
     }
 
     @Test
-    fun getRemainingDelayTimePlayer1() {
-        val chessClock = mock<ChessClock>()
-        val delayTimer1 = mock<Timer> {
-            on(it.remainingTime).thenReturn(1)
-        }
-        val delayTimer2 = mock<Timer>()
-        val testedObj = BronsteinDelayDecorator(chessClock, delayTimer1, delayTimer2)
-
-        assertEquals(1, testedObj.remainingDelayTimePlayer1)
-    }
-
-    @Test
-    fun getRemainingDelayTimePlayer2() {
-        val chessClock = mock<ChessClock>()
-        val delayTimer1 = mock<Timer>()
-        val delayTimer2 = mock<Timer> {
-            on(it.remainingTime).thenReturn(1)
-        }
-        val testedObj = BronsteinDelayDecorator(chessClock, delayTimer1, delayTimer2)
-
-        assertEquals(1, testedObj.remainingDelayTimePlayer2)
-    }
-
-    @Test
     fun isTimeOver() {
         val chessClock = mock<ChessClock> {
             on(it.isTimeOver).thenReturn(true)
