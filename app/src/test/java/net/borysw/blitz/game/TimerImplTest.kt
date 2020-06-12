@@ -1,6 +1,6 @@
 package net.borysw.blitz.game
 
-import net.borysw.blitz.game.engine.clock.timer.TimerImpl
+import net.borysw.blitz.game.clock.timer.TimerImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue

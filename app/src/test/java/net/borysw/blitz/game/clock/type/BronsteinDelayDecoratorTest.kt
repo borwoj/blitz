@@ -1,13 +1,12 @@
-package net.borysw.blitz.game.engine.clock.type
+package net.borysw.blitz.game.clock.type
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
-import net.borysw.blitz.game.engine.clock.ChessClock
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player1
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
-import net.borysw.blitz.game.engine.clock.timer.Timer
+import net.borysw.blitz.game.clock.timer.Timer
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue

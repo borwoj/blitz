@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.engine.clock.timer
+package net.borysw.blitz.game.clock.timer
 
 import javax.inject.Inject
 

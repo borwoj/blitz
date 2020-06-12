@@ -1,19 +1,19 @@
-package net.borysw.blitz.game.engine.clock.type
+package net.borysw.blitz.game.clock.type
 
-import net.borysw.blitz.game.engine.clock.ChessClock
-import net.borysw.blitz.game.engine.clock.ChessClock.Player
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player1
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
+import net.borysw.blitz.game.clock.type.ChessClock.Player
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
 import javax.inject.Inject
 
-class FischerDecorator @Inject constructor(private val chessClock: ChessClock) : ChessClock {
+class FischerDecorator @Inject constructor(private val chessClock: ChessClock) :
+    ChessClock {
 
     var incrementBy: Long = -1
 
     override var initialTime: Long
         get() = chessClock.initialTime
         set(value) {
-            if (incrementBy == -1L) throw IllegalStateException("Increment value needs to be set first for compliance with FIDE and US Chess rules") // TODO meh
+            if (incrementBy == -1L) throw IllegalStateException("Delay/increment value needs to be set first")
             chessClock.initialTime = value + incrementBy
         }
 

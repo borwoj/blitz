@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.engine.clock.type
+package net.borysw.blitz.game.clock.type
 
 import org.junit.jupiter.api.Test
 

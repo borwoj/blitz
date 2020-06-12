@@ -9,9 +9,11 @@ import net.borysw.blitz.game.UserAction
 import net.borysw.blitz.game.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
+import net.borysw.blitz.game.clock.ChessClockProvider
+import net.borysw.blitz.game.clock.type.ChessClock
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
 import net.borysw.blitz.game.engine.UserActions
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player1
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
 import net.borysw.blitz.game.engine.time.TimeEngine
 import javax.inject.Inject
 import javax.inject.Named

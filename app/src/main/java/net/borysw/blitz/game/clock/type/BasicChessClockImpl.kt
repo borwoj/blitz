@@ -1,12 +1,11 @@
-package net.borysw.blitz.game.engine.clock.type
+package net.borysw.blitz.game.clock.type
 
-import net.borysw.blitz.game.engine.clock.ChessClock
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player1
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
-import net.borysw.blitz.game.engine.clock.timer.Timer
+import net.borysw.blitz.game.clock.timer.Timer
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
 import javax.inject.Inject
 
-class ChessClockImpl @Inject constructor(
+class BasicChessClockImpl @Inject constructor(
     private val timer1: Timer,
     private val timer2: Timer
 ) : ChessClock {

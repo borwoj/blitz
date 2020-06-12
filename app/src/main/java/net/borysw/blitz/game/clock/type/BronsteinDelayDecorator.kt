@@ -1,18 +1,18 @@
-package net.borysw.blitz.game.engine.clock.type
+package net.borysw.blitz.game.clock.type
 
-import net.borysw.blitz.game.engine.clock.ChessClock
-import net.borysw.blitz.game.engine.clock.ChessClock.Player
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player1
-import net.borysw.blitz.game.engine.clock.ChessClock.Player.Player2
-import net.borysw.blitz.game.engine.clock.timer.Timer
+import net.borysw.blitz.game.clock.timer.Timer
+import net.borysw.blitz.game.clock.type.ChessClock.Player
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
 import javax.inject.Inject
 
-class SimpleDelayDecorator @Inject constructor(
+class BronsteinDelayDecorator @Inject constructor(
     private val chessClock: ChessClock,
     private val delayTimer1: Timer,
     private val delayTimer2: Timer
 ) : ChessClock {
-    var delay: Long = 0
+
+    var delayAndIncrement: Long = -1
         set(value) {
             delayTimer1.initialTime = value
             delayTimer2.initialTime = value
@@ -22,7 +22,8 @@ class SimpleDelayDecorator @Inject constructor(
     override var initialTime: Long
         get() = chessClock.initialTime
         set(value) {
-            chessClock.initialTime = value
+            if (delayAndIncrement == -1L) throw IllegalStateException("Delay/increment value needs to be set first")
+            chessClock.initialTime = value + delayAndIncrement
         }
 
     override val currentPlayer: Player?
@@ -42,10 +43,22 @@ class SimpleDelayDecorator @Inject constructor(
 
     override fun changeTurn(nextPlayer: Player) {
         if (currentPlayer != nextPlayer) {
+            val isFirstMove =
+                currentPlayer == null
+                    && chessClock.remainingTimePlayer1 == chessClock.initialTime
+                    && chessClock.remainingTimePlayer2 == chessClock.initialTime
+
             chessClock.changeTurn(nextPlayer)
-            when (requireNotNull(currentPlayer)) {
-                Player1 -> delayTimer1.reset()
-                Player2 -> delayTimer2.reset()
+
+            if (!isFirstMove) when (requireNotNull(currentPlayer)) {
+                Player1 -> {
+                    chessClock.addTimePlayer2(delayAndIncrement - delayTimer2.remainingTime)
+                    delayTimer2.reset()
+                }
+                Player2 -> {
+                    chessClock.addTimePlayer1(delayAndIncrement - delayTimer1.remainingTime)
+                    delayTimer1.reset()
+                }
             }
         }
     }
@@ -54,11 +67,11 @@ class SimpleDelayDecorator @Inject constructor(
         when (currentPlayer) {
             Player1 -> {
                 if (!delayTimer1.isTimeOver) delayTimer1.advanceTime()
-                else chessClock.advanceTime()
+                chessClock.advanceTime()
             }
             Player2 -> {
                 if (!delayTimer2.isTimeOver) delayTimer2.advanceTime()
-                else chessClock.advanceTime()
+                chessClock.advanceTime()
             }
         }
     }
