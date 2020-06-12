@@ -17,13 +17,13 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class GameEngineImpl @Inject constructor(
-    @Named(COMPUTATION)
-    computationScheduler: Scheduler,
     settings: Settings,
     chessClockEngine: ChessClockEngine,
     soundEngine: SoundEngine,
     userActions: UserActions,
-    private val gameInfoCreator: GameInfoCreator
+    private val gameInfoCreator: GameInfoCreator,
+    @Named(COMPUTATION)
+    computationScheduler: Scheduler
 ) : GameEngine {
 
     private val gameSettingsObservable =
