@@ -25,7 +25,6 @@ import net.borysw.blitz.game.status.GameInfo.Status.Finished
 import net.borysw.blitz.game.status.GameInfo.Status.InProgress
 import net.borysw.blitz.game.status.GameInfo.Status.Paused
 import net.borysw.blitz.game.status.GameInfo.Status.Unstarted
-import timber.log.Timber
 import javax.inject.Inject
 
 class GameFragment : Fragment() {
@@ -55,13 +54,13 @@ class GameFragment : Fragment() {
         settings.setOnClickListener { findNavController().navigate(R.id.action_clockFragment_to_settingsFragment) }
         timerViewA.setOnClickListener { viewModel.onPlayer1Clicked() }
         timerViewB.setOnClickListener { viewModel.onPlayer2Clicked() }
-        subscribe()
+
+        observe()
     }
 
-    private fun subscribe() {
+    private fun observe() {
         viewModel.gameInfo
             .observe(viewLifecycleOwner, Observer { gameStatus ->
-                Timber.d("Game status: $gameStatus")
                 showGameInfo(gameStatus)
             })
         viewModel.dialog
@@ -102,6 +101,7 @@ class GameFragment : Fragment() {
     }
 
     private fun showGamePaused() {
+        // could be in view model
         start.setImageResource(R.drawable.ic_replay_black_24dp)
 
         timerViewA.setActive(false)
@@ -153,6 +153,7 @@ class GameFragment : Fragment() {
             interpolator = AnticipateOvershootInterpolator()
             duration = 1000
         })
+        // TODO could be in view model
         constraintSetProvider.get(gameStatus, requireContext()).applyTo(root)
     }
 }

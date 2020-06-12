@@ -10,6 +10,7 @@ import net.borysw.blitz.game.UserAction.SitAtTable
 import net.borysw.blitz.game.engine.UserActions
 import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.status.GameInfo
+import timber.log.Timber.d
 import timber.log.Timber.e
 import javax.inject.Inject
 
@@ -24,10 +25,12 @@ class GameViewModel @Inject constructor(
     val dialog by lazy { MutableLiveData<Dialog>() }
 
     init {
+        // TODO handle error gracefully
         gameEngine.gameInfo
+            .doOnNext { d("Game info: $it") }
             .subscribe(gameInfo::postValue, ::e)
             .run(timeDisposable::set)
-        // TODO handle error gracefully
+
         userActions.onUserAction(SitAtTable)
     }
 
