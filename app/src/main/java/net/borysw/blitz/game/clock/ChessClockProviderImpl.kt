@@ -25,7 +25,7 @@ class ChessClockProviderImpl @Inject constructor(
         when (val gameType = gameSettings.type) {
             is Standard -> basicChessClockImpl
             is SimpleDelay -> simpleDelayChessClock.apply { delay = gameType.delay }
-            is BronsteinDelay -> bronsteinChessClock.apply { delayAndIncrement = gameType.delay }
+            is BronsteinDelay -> bronsteinChessClock.apply { delay = gameType.delay }
             is Fischer -> fischerChessClock.apply { incrementBy = gameType.incrementBy }
         }.apply {
             initialTime = gameSettings.duration

@@ -12,7 +12,7 @@ class BronsteinDelayDecorator @Inject constructor(
     private val delayTimer2: Timer
 ) : ChessClock {
 
-    var delayAndIncrement: Long = -1
+    var delay: Long = -1
         set(value) {
             delayTimer1.initialTime = value
             delayTimer2.initialTime = value
@@ -22,8 +22,8 @@ class BronsteinDelayDecorator @Inject constructor(
     override var initialTime: Long
         get() = chessClock.initialTime
         set(value) {
-            if (delayAndIncrement == -1L) throw IllegalStateException("Delay/increment value needs to be set first")
-            chessClock.initialTime = value + delayAndIncrement
+            if (delay == -1L) throw IllegalStateException("Delay value needs to be set first")
+            chessClock.initialTime = value + delay
         }
 
     override val currentPlayer: Player?
@@ -52,11 +52,11 @@ class BronsteinDelayDecorator @Inject constructor(
 
             if (!isFirstMove) when (requireNotNull(currentPlayer)) {
                 Player1 -> {
-                    chessClock.addTimePlayer2(delayAndIncrement - delayTimer2.remainingTime)
+                    chessClock.addTimePlayer2(delay - delayTimer2.remainingTime)
                     delayTimer2.reset()
                 }
                 Player2 -> {
-                    chessClock.addTimePlayer1(delayAndIncrement - delayTimer1.remainingTime)
+                    chessClock.addTimePlayer1(delay - delayTimer1.remainingTime)
                     delayTimer1.reset()
                 }
             }
