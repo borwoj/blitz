@@ -42,6 +42,12 @@ internal class GameInfoCreatorImplTest {
         }
         val testedObj = GameInfoCreatorImpl(timeFormatter)
 
-        assertEquals(GameInfo("0", "0", expectedGameStatus), testedObj.get(clockStatus))
+        assertEquals(
+            GameInfo(
+                remainingTimePlayer1 = "0",
+                remainingTimePlayer2 = "0",
+                status = expectedGameStatus
+            ), testedObj.get(clockStatus)
+        )
     }
 }
