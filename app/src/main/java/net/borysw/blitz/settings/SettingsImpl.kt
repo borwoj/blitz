@@ -8,13 +8,16 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import net.borysw.blitz.Schedulers.IO
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.HOURS
+import java.util.concurrent.TimeUnit.MINUTES
+import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 import javax.inject.Named
 
 class SettingsImpl @Inject constructor(
     @Named(IO)
     ioScheduler: Scheduler,
-    rxSharedPreferences: RxSharedPreferences
+    preferences: RxSharedPreferences
 ) : Settings {
 
     private companion object {
@@ -28,19 +31,19 @@ class SettingsImpl @Inject constructor(
 
     private val duration: Observable<Long> =
         combineLatest(
-            rxSharedPreferences
+            preferences
                 .getString(KEY_DURATION)
                 .asObservable()
                 .map { it.toLong() },
-            rxSharedPreferences
+            preferences
                 .getString(KEY_TIME_UNIT)
                 .asObservable()
                 .map { it.toInt() }
                 .map { timeUnit ->
                     when (timeUnit) {
-                        0 -> TimeUnit.SECONDS
-                        1 -> TimeUnit.MINUTES
-                        2 -> TimeUnit.HOURS
+                        0 -> SECONDS
+                        1 -> MINUTES
+                        2 -> HOURS
                         else -> throw IllegalArgumentException("Unsupported time unit: $timeUnit")
                     }
                 },
@@ -49,26 +52,26 @@ class SettingsImpl @Inject constructor(
             })
 
     private val soundEnabled: Observable<Boolean> =
-        rxSharedPreferences
+        preferences
             .getBoolean(KEY_SOUND_ENABLED)
             .asObservable()
 
     private val type: Observable<GameType> =
         combineLatest(
-            rxSharedPreferences
+            preferences
                 .getString(KEY_TYPE)
                 .asObservable()
                 .map { it.toInt() },
-            rxSharedPreferences
+            preferences
                 .getString(KEY_DELAY)
                 .asObservable()
                 .map { it.toLong() }
-                .map { TimeUnit.SECONDS.toMillis(it) },
-            rxSharedPreferences
+                .map { SECONDS.toMillis(it) },
+            preferences
                 .getString(KEY_INCREMENT_BY)
                 .asObservable()
                 .map { it.toLong() }
-                .map { TimeUnit.SECONDS.toMillis(it) },
+                .map { SECONDS.toMillis(it) },
             Function3<Int, Long, Long, GameType> { type, delay, incrementBy ->
                 when (type) {
                     0 -> GameType.Standard
