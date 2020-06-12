@@ -97,7 +97,7 @@ internal class BronsteinDelayDecoratorTest {
     }
 
     @Test
-    @DisplayName("should return remaining time of player 2")
+    @DisplayName("should return is time over")
     fun isTimeOver() {
         val chessClock = mock<ChessClock> {
             on(it.isTimeOver).thenReturn(true)

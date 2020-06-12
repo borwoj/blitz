@@ -86,7 +86,7 @@ internal class SimpleDelayDecoratorTest {
     }
 
     @Test
-    @DisplayName("should return remaining time of player 2")
+    @DisplayName("should return is time over")
     fun isTimeOver() {
         val chessClock = mock<ChessClock> {
             on(it.isTimeOver).thenReturn(true)
@@ -149,7 +149,7 @@ internal class SimpleDelayDecoratorTest {
         }
         val delayTimer1 = mock<Timer>()
         val delayTimer2 = mock<Timer>()
-        val testedObj = BronsteinDelayDecorator(chessClock, delayTimer1, delayTimer2)
+        val testedObj = SimpleDelayDecorator(chessClock, delayTimer1, delayTimer2)
 
         testedObj.changeTurn(Player1)
 
