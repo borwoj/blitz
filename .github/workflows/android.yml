@@ -39,6 +39,8 @@ jobs:
         run: gem install bundler && bundle install
 
       - name: Extract Google Play API Key
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
         run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > ~/google_play_service_account_key.json
 
       - name: Deploy the app
