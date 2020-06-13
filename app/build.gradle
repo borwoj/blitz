@@ -19,7 +19,7 @@ android {
         applicationId "net.borysw.blitz"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 2
+        versionCode Integer.valueOf(System.getenv("GITHUB_RUN_NUMBER") ?: 1)
         versionName "0.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
