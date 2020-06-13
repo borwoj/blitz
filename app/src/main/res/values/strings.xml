@@ -15,10 +15,11 @@
     <string name="game_duration_pref_title">Player time</string>
     <string name="delay_pref_title">Delay (seconds)</string>
     <string name="increment_pref_title">Increment by (seconds)</string>
-
     <string name="game_type_standard">Standard</string>
     <string name="game_type_simple_delay">Simple delay / US delay</string>
     <string name="game_type_bronstein" translatable="false">Bronstein delay</string>
     <string name="game_type_fisher" translatable="false">Fischer / Increment / Bonus</string>
     <string name="duration_input_hint">Time for each player</string>
+    <string name="feedback">Feedback</string>
+    <string name="developer_email" translatable="false">borwoj+blitz@gmail.com</string>
 </resources>

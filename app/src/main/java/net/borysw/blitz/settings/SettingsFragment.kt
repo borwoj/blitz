@@ -1,5 +1,8 @@
 package net.borysw.blitz.settings
 
+import android.content.Intent
+import android.content.Intent.ACTION_SENDTO
+import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
@@ -18,5 +21,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findNavController().navigate(R.id.action_settingsFragment_to_typeSettingsFragment)
             true
         }
+        findPreference<Preference>("feedback")?.setOnPreferenceClickListener {
+            launchEmail()
+            true
+        }
+    }
+
+    private fun launchEmail() {
+        val recipient = getString(R.string.developer_email)
+        val subject = "${getString(R.string.app_name)} - ${getString(R.string.feedback)}"
+        val intent = Intent(ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:$recipient?&subject=$subject")
+        }
+        startActivity(intent)
     }
 }
