@@ -18,7 +18,7 @@ jobs:
       - name: Build the app
         run: ./gradlew build
       - name: Extract Google Play API Key
-        run: echo $google_play_service_account_api_key_json > ~/google_play_service_account_key.json
+        run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > ~/google_play_service_account_key.json
       - name: Deploy the app
         run: bundle exec fastlane deploy
       - name: Delete Google Play API Key
