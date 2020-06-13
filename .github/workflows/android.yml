@@ -51,4 +51,4 @@ jobs:
         run: bundle exec fastlane deploy
 
       - name: Delete Google Play API Key
-        run: rm -f ~/google_play_service_account_key.json
+        run: rm -f google_play_service_account_key.json
