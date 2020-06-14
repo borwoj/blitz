@@ -8,12 +8,12 @@
         <Preference
             android:title="@string/game_duration_pref_title"
             app:icon="@drawable/ic_timer_black_24dp"
-            app:key="time_settings" />
+            app:key="game_time_settings" />
 
         <Preference
             android:title="@string/game_type_pref_title"
             app:icon="@drawable/ic_chess_pawn"
-            app:key="type_settings" />
+            app:key="game_type_settings" />
     </PreferenceCategory>
 
     <PreferenceCategory

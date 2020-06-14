@@ -43,13 +43,13 @@
 
     <fragment
         android:id="@+id/timeSettingsFragment"
-        android:name="net.borysw.blitz.settings.TimeSettingsFragment"
+        android:name="net.borysw.blitz.settings.GameTimeSettingsFragment"
         android:label="fragment_time_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/typeSettingsFragment"
-        android:name="net.borysw.blitz.settings.TypeSettingsFragment"
+        android:name="net.borysw.blitz.settings.GameTypeSettingsFragment"
         android:label="fragment_type_settings"
         tools:layout="@layout/fragment_settings" />
 

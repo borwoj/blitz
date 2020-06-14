@@ -13,15 +13,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
-        findPreference<Preference>("time_settings")?.setOnPreferenceClickListener {
+        findPreference<Preference>("game_time_settings")!!.setOnPreferenceClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_timeSettingsFragment)
             true
         }
-        findPreference<Preference>("type_settings")?.setOnPreferenceClickListener {
+        findPreference<Preference>("game_type_settings")!!.setOnPreferenceClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_typeSettingsFragment)
             true
         }
-        findPreference<Preference>("feedback")?.setOnPreferenceClickListener {
+        findPreference<Preference>("feedback")!!.setOnPreferenceClickListener {
             launchEmail()
             true
         }

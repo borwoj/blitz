@@ -7,6 +7,19 @@ import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import net.borysw.blitz.Schedulers.IO
+import net.borysw.blitz.settings.PreferencesConstants.GAME_TYPE_BRONSTEIN_DELAY
+import net.borysw.blitz.settings.PreferencesConstants.GAME_TYPE_FISCHER
+import net.borysw.blitz.settings.PreferencesConstants.GAME_TYPE_SIMPLE_DELAY
+import net.borysw.blitz.settings.PreferencesConstants.GAME_TYPE_STANDARD
+import net.borysw.blitz.settings.PreferencesConstants.KEY_DELAY
+import net.borysw.blitz.settings.PreferencesConstants.KEY_GAME_DURATION
+import net.borysw.blitz.settings.PreferencesConstants.KEY_GAME_TYPE
+import net.borysw.blitz.settings.PreferencesConstants.KEY_INCREMENT_BY
+import net.borysw.blitz.settings.PreferencesConstants.KEY_SOUND_ENABLED
+import net.borysw.blitz.settings.PreferencesConstants.KEY_TIME_UNIT
+import net.borysw.blitz.settings.PreferencesConstants.TIME_UNIT_HOURS
+import net.borysw.blitz.settings.PreferencesConstants.TIME_UNIT_MINUTES
+import net.borysw.blitz.settings.PreferencesConstants.TIME_UNIT_SECONDS
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.HOURS
 import java.util.concurrent.TimeUnit.MINUTES
@@ -20,30 +33,20 @@ class SettingsImpl @Inject constructor(
     preferences: RxSharedPreferences
 ) : Settings {
 
-    private companion object {
-        const val KEY_DURATION = "game_duration"
-        const val KEY_TYPE = "game_type"
-        const val KEY_SOUND_ENABLED = "sound_enabled"
-        const val KEY_TIME_UNIT = "time_unit"
-        const val KEY_DELAY = "delay"
-        const val KEY_INCREMENT_BY = "increment_by"
-    }
-
     private val duration: Observable<Long> =
         combineLatest(
             preferences
-                .getString(KEY_DURATION)
+                .getString(KEY_GAME_DURATION)
                 .asObservable()
                 .map { it.toLong() },
             preferences
                 .getString(KEY_TIME_UNIT)
                 .asObservable()
-                .map { it.toInt() }
                 .map { timeUnit ->
                     when (timeUnit) {
-                        0 -> SECONDS
-                        1 -> MINUTES
-                        2 -> HOURS
+                        TIME_UNIT_SECONDS -> SECONDS
+                        TIME_UNIT_MINUTES -> MINUTES
+                        TIME_UNIT_HOURS -> HOURS
                         else -> throw IllegalArgumentException("Unsupported time unit: $timeUnit")
                     }
                 },
@@ -59,9 +62,8 @@ class SettingsImpl @Inject constructor(
     private val type: Observable<GameType> =
         combineLatest(
             preferences
-                .getString(KEY_TYPE)
-                .asObservable()
-                .map { it.toInt() },
+                .getString(KEY_GAME_TYPE)
+                .asObservable(),
             preferences
                 .getString(KEY_DELAY)
                 .asObservable()
@@ -72,12 +74,12 @@ class SettingsImpl @Inject constructor(
                 .asObservable()
                 .map { it.toLong() }
                 .map { SECONDS.toMillis(it) },
-            Function3<Int, Long, Long, GameType> { type, delay, incrementBy ->
+            Function3<String, Long, Long, GameType> { type, delay, incrementBy ->
                 when (type) {
-                    0 -> GameType.Standard
-                    1 -> GameType.SimpleDelay(delay)
-                    2 -> GameType.BronsteinDelay(delay)
-                    3 -> GameType.Fischer(incrementBy)
+                    GAME_TYPE_STANDARD -> GameType.Standard
+                    GAME_TYPE_SIMPLE_DELAY -> GameType.SimpleDelay(delay)
+                    GAME_TYPE_BRONSTEIN_DELAY -> GameType.BronsteinDelay(delay)
+                    GAME_TYPE_FISCHER -> GameType.Fischer(incrementBy)
                     else -> throw IllegalArgumentException("Unsupported game type: $type.")
                 }
             }
