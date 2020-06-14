@@ -1,5 +1,6 @@
 package net.borysw.blitz.game.engine
 
+import net.borysw.blitz.game.engine.userActions.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.engine.userActions.UserAction.SitAtTable
 import net.borysw.blitz.game.engine.userActions.UserActionsImpl
 import org.junit.jupiter.api.Test
@@ -12,8 +13,8 @@ internal class UserActionsImplTest {
             UserActionsImpl()
         val testObserver = testedObj.userActions.test()
 
-        testedObj.onUserAction(SitAtTable)
+        testedObj.onUserAction(ActionButtonClicked)
 
-        testObserver.assertValue(SitAtTable).assertNotComplete()
+        testObserver.assertValues(SitAtTable, ActionButtonClicked).assertNotComplete()
     }
 }

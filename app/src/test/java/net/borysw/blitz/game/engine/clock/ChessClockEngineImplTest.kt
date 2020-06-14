@@ -35,8 +35,9 @@ internal class ChessClockEngineImplTest {
             on(it.initialTime).thenReturn(1)
             on(it.remainingTimePlayer1).thenReturn(1)
             on(it.remainingTimePlayer2).thenReturn(1)
-            on(it.isTimeOver).thenReturn(false)
-            on(it.isPaused).thenReturn(false).thenReturn(false).thenReturn(true)
+            on(it.isTimeOver).thenReturn(false).thenReturn(false).thenReturn(false)
+                .thenReturn(false).thenReturn(true)
+            on(it.isPaused).thenReturn(false).thenReturn(false).thenReturn(true).thenReturn(true)
             on(it.currentPlayer).thenReturn(Player2).thenReturn(Player1)
         }
         val chessClockSubject = PublishSubject.create<ChessClock>()
@@ -65,8 +66,13 @@ internal class ChessClockEngineImplTest {
         userActionsSubject.onNext(UserAction.ActionButtonClicked)
         verify(dialogs).showDialog(any<Dialog.ResetConfirmation>())
 
+        userActionsSubject.onNext(UserAction.ActionButtonClicked)
+        verify(chessClock).reset()
+
+
         testObserver.assertValues(
             ClockStatus(1, 1, 1, Player2),
+            ClockStatus(1, 1, 1, Player1),
             ClockStatus(1, 1, 1, Player1),
             ClockStatus(1, 1, 1, Player1),
             ClockStatus(1, 1, 1, Player1)

@@ -10,7 +10,6 @@ import net.borysw.blitz.game.engine.userActions.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer2
 import net.borysw.blitz.game.engine.userActions.UserAction.ResetConfirmed
-import net.borysw.blitz.game.engine.userActions.UserAction.SitAtTable
 import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.game.status.GameInfo
 import timber.log.Timber.d
@@ -38,8 +37,6 @@ class GameViewModel @Inject constructor(
         dialogs.dialogs
             .subscribe(dialog::postValue, ::e)
             .run(disposables::add)
-
-        userActions.onUserAction(SitAtTable)
     }
 
     fun onPlayer1Clicked() = userActions.onUserAction(ClockClickedPlayer1)

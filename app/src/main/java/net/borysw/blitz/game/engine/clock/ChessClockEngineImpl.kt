@@ -55,13 +55,13 @@ class ChessClockEngineImpl @Inject constructor(
                 )
             }
 
+    // TODO extract to separate class
     private fun handleUserAction(action: UserAction, chessClock: ChessClock) {
         when (action) {
             ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player2)
             ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player1)
-            ActionButtonClicked -> if (!chessClock.isPaused) chessClock.pause() else dialogs.showDialog(
-                Dialog.ResetConfirmation()
-            )
+            ActionButtonClicked -> if (!chessClock.isPaused) chessClock.pause() else if (!chessClock.isTimeOver)
+                dialogs.showDialog(Dialog.ResetConfirmation()) else chessClock.reset()
             ResetConfirmed -> chessClock.reset()
         }
     }
