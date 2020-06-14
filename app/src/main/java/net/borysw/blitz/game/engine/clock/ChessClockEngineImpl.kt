@@ -39,7 +39,9 @@ class ChessClockEngineImpl @Inject constructor(
                     timeEngine
                         .time
                         .observeOn(computationScheduler)
-                        .doOnNext { if (!chessClock.isTimeOver && !chessClock.isPaused) chessClock.advanceTime() },
+                        .filter { !chessClock.isTimeOver && !chessClock.isPaused }
+                        .doOnNext { chessClock.advanceTime() }
+                        .startWith(0),
                     userActions
                         .userActions
                         .observeOn(computationScheduler)
