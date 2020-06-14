@@ -5,10 +5,10 @@ import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.schedulers.Schedulers.trampoline
 import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.R
-import net.borysw.blitz.game.UserAction
-import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
-import net.borysw.blitz.game.UserAction.ClockClickedPlayer2
-import net.borysw.blitz.game.engine.UserActions
+import net.borysw.blitz.game.engine.userActions.UserAction
+import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer1
+import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer2
+import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.settings.Settings
 import net.borysw.blitz.settings.Settings.AppSettings
 import org.junit.jupiter.api.DisplayName

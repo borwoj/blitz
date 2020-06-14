@@ -15,8 +15,6 @@ import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.ChessClockProviderImpl
 import net.borysw.blitz.game.clock.timer.Timer
 import net.borysw.blitz.game.clock.timer.TimerImpl
-import net.borysw.blitz.game.engine.UserActions
-import net.borysw.blitz.game.engine.UserActionsImpl
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.audio.SoundEngineImpl
 import net.borysw.blitz.game.engine.audio.SoundPlayer
@@ -27,6 +25,8 @@ import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.engine.game.GameEngineImpl
 import net.borysw.blitz.game.engine.time.TimeEngine
 import net.borysw.blitz.game.engine.time.TimeEngineImpl
+import net.borysw.blitz.game.engine.userActions.UserActions
+import net.borysw.blitz.game.engine.userActions.UserActionsImpl
 import net.borysw.blitz.game.status.GameInfoCreator
 import net.borysw.blitz.game.status.GameInfoCreatorImpl
 import net.borysw.blitz.game.status.SecondsTimeFormatterImpl

@@ -21,7 +21,8 @@ class GameInfoCreatorImpl @Inject constructor(private val timeFormatter: TimeFor
                 remainingTimePlayer1,
                 remainingTimePlayer2,
                 currentPlayer
-            )
+            ),
+            dialog
         )
     }
 

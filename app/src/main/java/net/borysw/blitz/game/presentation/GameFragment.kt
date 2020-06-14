@@ -19,6 +19,7 @@ import dagger.android.support.AndroidSupportInjection.inject
 import kotlinx.android.synthetic.main.fragment_game_initial.*
 import net.borysw.blitz.R
 import net.borysw.blitz.R.layout.fragment_game_initial
+import net.borysw.blitz.game.engine.dialog.Dialog
 import net.borysw.blitz.game.status.GameInfo
 import net.borysw.blitz.game.status.GameInfo.Status
 import net.borysw.blitz.game.status.GameInfo.Status.Finished
@@ -63,17 +64,17 @@ class GameFragment : Fragment() {
             .observe(viewLifecycleOwner, Observer { gameStatus ->
                 showGameInfo(gameStatus)
             })
-        viewModel.dialog
-            .observe(viewLifecycleOwner, Observer { dialog ->
-                if (!dialog.isDismissed) showResetConfirmationDialog()
-            })
+        // viewModel.dialog
+        //     .observe(viewLifecycleOwner, Observer { dialog ->
+        //         if (!dialog.isDismissed) showResetConfirmationDialog()
+        //     })
     }
 
-    private fun showResetConfirmationDialog() {
+    private fun showResetConfirmationDialog(dialog: Dialog.ResetConfirmation) {
         AlertDialog.Builder(requireContext()).setTitle(R.string.reset_confirmation_title)
             .setPositiveButton(R.string.reset) { _, _ -> viewModel.onResetConfirmClicked() }
             .setNegativeButton(R.string.cancel, null)
-            .setOnDismissListener { viewModel.onResetConfirmationDialogDismissed() }
+            .setOnDismissListener { dialog.isDismissed = true }
             .show()
     }
 
@@ -86,6 +87,12 @@ class GameFragment : Fragment() {
             Paused -> showGamePaused()
             InProgress.Player1Turn, InProgress.Player2Turn -> showGameInProgress(gameInfo.status)
             Finished.Player1Won, Finished.Player2Won -> showGameFinished(gameInfo.status)
+        }
+
+        when (val dialog = gameInfo.dialog) {
+            is Dialog.ResetConfirmation -> if (!dialog.isDismissed) showResetConfirmationDialog(
+                dialog
+            )
         }
     }
 

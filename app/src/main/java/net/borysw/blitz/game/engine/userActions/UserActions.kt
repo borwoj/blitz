@@ -1,7 +1,6 @@
-package net.borysw.blitz.game.engine
+package net.borysw.blitz.game.engine.userActions
 
 import io.reactivex.Observable
-import net.borysw.blitz.game.UserAction
 
 interface UserActions {
     val userActions: Observable<UserAction>

@@ -5,11 +5,11 @@ import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.Function3
 import net.borysw.blitz.Schedulers.COMPUTATION
-import net.borysw.blitz.game.UserAction
-import net.borysw.blitz.game.engine.UserActions
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.clock.ChessClockEngine
 import net.borysw.blitz.game.engine.clock.ClockStatus
+import net.borysw.blitz.game.engine.userActions.UserAction
+import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.game.status.GameInfo
 import net.borysw.blitz.game.status.GameInfoCreator
 import net.borysw.blitz.settings.Settings

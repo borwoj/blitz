@@ -1,9 +1,12 @@
 package net.borysw.blitz.game.status
 
+import net.borysw.blitz.game.engine.dialog.Dialog
+
 data class GameInfo(
     val remainingTimePlayer1: String,
     val remainingTimePlayer2: String,
-    val status: Status
+    val status: Status,
+    val dialog: Dialog
 ) {
     sealed class Status {
         object Unstarted : Status()

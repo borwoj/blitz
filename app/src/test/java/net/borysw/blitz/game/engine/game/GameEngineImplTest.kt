@@ -3,12 +3,12 @@ package net.borysw.blitz.game.engine.game
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Observable.just
 import io.reactivex.schedulers.Schedulers.trampoline
-import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
-import net.borysw.blitz.game.engine.UserActions
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.clock.ChessClockEngine
 import net.borysw.blitz.game.engine.clock.ClockStatus
+import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer1
+import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.game.status.GameInfo
 import net.borysw.blitz.game.status.GameInfo.Status.InProgress.Player2Turn
 import net.borysw.blitz.game.status.GameInfoCreator

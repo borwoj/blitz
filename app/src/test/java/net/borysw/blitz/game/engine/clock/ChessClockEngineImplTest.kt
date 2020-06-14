@@ -4,13 +4,13 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.schedulers.Schedulers.trampoline
 import io.reactivex.subjects.PublishSubject
-import net.borysw.blitz.game.UserAction
-import net.borysw.blitz.game.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.type.ChessClock
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
-import net.borysw.blitz.game.engine.UserActions
 import net.borysw.blitz.game.engine.time.TimeEngine
+import net.borysw.blitz.game.engine.userActions.UserAction
+import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer1
+import net.borysw.blitz.game.engine.userActions.UserActions
 import org.junit.jupiter.api.Test
 
 internal class ChessClockEngineImplTest {
