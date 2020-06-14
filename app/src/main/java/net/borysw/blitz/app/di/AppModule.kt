@@ -21,6 +21,8 @@ import net.borysw.blitz.game.engine.audio.SoundPlayer
 import net.borysw.blitz.game.engine.audio.SoundPlayerImpl
 import net.borysw.blitz.game.engine.clock.ChessClockEngine
 import net.borysw.blitz.game.engine.clock.ChessClockEngineImpl
+import net.borysw.blitz.game.engine.dialog.Dialogs
+import net.borysw.blitz.game.engine.dialog.DialogsImpl
 import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.engine.game.GameEngineImpl
 import net.borysw.blitz.game.engine.time.TimeEngine
@@ -79,6 +81,10 @@ class AppModule {
         @Binds
         @Singleton
         fun bindUserActions(implementation: UserActionsImpl): UserActions
+
+        @Binds
+        @Singleton
+        fun bindDialogs(implementation: DialogsImpl): Dialogs
     }
 
     @Provides

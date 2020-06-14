@@ -2,7 +2,9 @@ package net.borysw.blitz.game.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import net.borysw.blitz.SafeDisposable
+import io.reactivex.disposables.CompositeDisposable
+import net.borysw.blitz.game.engine.dialog.Dialog
+import net.borysw.blitz.game.engine.dialog.Dialogs
 import net.borysw.blitz.game.engine.game.GameEngine
 import net.borysw.blitz.game.engine.userActions.UserAction.ActionButtonClicked
 import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer1
@@ -17,20 +19,25 @@ import javax.inject.Inject
 
 class GameViewModel @Inject constructor(
     private val userActions: UserActions,
-    gameEngine: GameEngine
+    gameEngine: GameEngine,
+    dialogs: Dialogs
 ) : ViewModel() {
 
-    private val timeDisposable by lazy { SafeDisposable() }
+    private val disposables by lazy { CompositeDisposable() }
 
     val gameInfo by lazy { MutableLiveData<GameInfo>() }
-    //val dialog by lazy { MutableLiveData<Dialog>() }
+    val dialog by lazy { MutableLiveData<Dialog>() }
 
     init {
         // TODO handle error gracefully
         gameEngine.gameInfo
             .doOnNext { d("Game info: $it") }
             .subscribe(gameInfo::postValue, ::e)
-            .run(timeDisposable::set)
+            .run(disposables::add)
+
+        dialogs.dialogs
+            .subscribe(dialog::postValue, ::e)
+            .run(disposables::add)
 
         userActions.onUserAction(SitAtTable)
     }
@@ -43,5 +50,5 @@ class GameViewModel @Inject constructor(
 
     fun onResetConfirmClicked() = userActions.onUserAction(ResetConfirmed)
 
-    override fun onCleared() = timeDisposable.dispose()
+    override fun onCleared() = disposables.dispose()
 }

@@ -64,10 +64,12 @@ class GameFragment : Fragment() {
             .observe(viewLifecycleOwner, Observer { gameStatus ->
                 showGameInfo(gameStatus)
             })
-        // viewModel.dialog
-        //     .observe(viewLifecycleOwner, Observer { dialog ->
-        //         if (!dialog.isDismissed) showResetConfirmationDialog()
-        //     })
+        viewModel.dialog
+            .observe(viewLifecycleOwner, Observer { dialog ->
+                if (!dialog.isDismissed) when (dialog) {
+                    is Dialog.ResetConfirmation -> showResetConfirmationDialog(dialog)
+                }
+            })
     }
 
     private fun showResetConfirmationDialog(dialog: Dialog.ResetConfirmation) {
@@ -87,12 +89,6 @@ class GameFragment : Fragment() {
             Paused -> showGamePaused()
             InProgress.Player1Turn, InProgress.Player2Turn -> showGameInProgress(gameInfo.status)
             Finished.Player1Won, Finished.Player2Won -> showGameFinished(gameInfo.status)
-        }
-
-        when (val dialog = gameInfo.dialog) {
-            is Dialog.ResetConfirmation -> if (!dialog.isDismissed) showResetConfirmationDialog(
-                dialog
-            )
         }
     }
 

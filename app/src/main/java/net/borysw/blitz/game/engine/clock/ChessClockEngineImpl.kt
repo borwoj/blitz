@@ -10,6 +10,7 @@ import net.borysw.blitz.game.clock.type.ChessClock
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
 import net.borysw.blitz.game.engine.dialog.Dialog
+import net.borysw.blitz.game.engine.dialog.Dialogs
 import net.borysw.blitz.game.engine.time.TimeEngine
 import net.borysw.blitz.game.engine.userActions.UserAction
 import net.borysw.blitz.game.engine.userActions.UserAction.ActionButtonClicked
@@ -24,6 +25,7 @@ class ChessClockEngineImpl @Inject constructor(
     userActions: UserActions,
     timeEngine: TimeEngine,
     chessClockProvider: ChessClockProvider,
+    private val dialogs: Dialogs,
     @Named(COMPUTATION)
     computationScheduler: Scheduler
 ) : ChessClockEngine {
@@ -41,26 +43,26 @@ class ChessClockEngineImpl @Inject constructor(
                     userActions
                         .userActions
                         .observeOn(computationScheduler)
-                        .map { handleUserAction(it, chessClock) },
-                    BiFunction<Long, Dialog, ClockStatus> { _, dialog ->
+                        .doOnNext { handleUserAction(it, chessClock) },
+                    BiFunction<Long, UserAction, ClockStatus> { _, _ ->
                         ClockStatus(
                             chessClock.initialTime,
                             chessClock.remainingTimePlayer1,
                             chessClock.remainingTimePlayer2,
-                            chessClock.currentPlayer,
-                            dialog
+                            chessClock.currentPlayer
                         )
                     }
                 )
             }
 
-    private fun handleUserAction(action: UserAction, chessClock: ChessClock): Dialog {
+    private fun handleUserAction(action: UserAction, chessClock: ChessClock) {
         when (action) {
             ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player2)
             ClockClickedPlayer2 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player1)
-            ActionButtonClicked -> if (!chessClock.isPaused) chessClock.pause() else return Dialog.ResetConfirmation()
+            ActionButtonClicked -> if (!chessClock.isPaused) chessClock.pause() else dialogs.showDialog(
+                Dialog.ResetConfirmation()
+            )
             ResetConfirmed -> chessClock.reset()
         }
-        return Dialog.None
     }
 }
