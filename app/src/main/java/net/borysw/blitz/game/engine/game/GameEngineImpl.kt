@@ -1,9 +1,13 @@
 package net.borysw.blitz.game.engine.game
 
+import android.os.Bundle
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.Function3
+import net.borysw.blitz.Analytics.EVENT_GAME_FINISHED
+import net.borysw.blitz.Analytics.PARAM_GAME_DURATION
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.clock.ChessClockEngine
@@ -13,6 +17,7 @@ import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.game.status.GameInfo
 import net.borysw.blitz.game.status.GameInfoCreator
 import net.borysw.blitz.settings.Settings
+import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -22,6 +27,7 @@ class GameEngineImpl @Inject constructor(
     soundEngine: SoundEngine,
     userActions: UserActions,
     private val gameInfoCreator: GameInfoCreator,
+    private val analytics: FirebaseAnalytics,
     @Named(COMPUTATION)
     computationScheduler: Scheduler
 ) : GameEngine {
@@ -50,8 +56,22 @@ class GameEngineImpl @Inject constructor(
                     soundEngineObservable,
                     chessClockObservable,
                     Function3<UserAction, Unit, ClockStatus, GameInfo> { _, _, clockStatus ->
-                        gameInfoCreator.get(clockStatus)
+                        gameInfoCreator.get(clockStatus).apply {
+                            logEvent(this, clockStatus)
+                        }
                     })
                     .distinctUntilChanged()
             }
+
+    private fun logEvent(gameInfo: GameInfo, clockStatus: ClockStatus) {
+        if (gameInfo.status is GameInfo.Status.Finished)
+            analytics.logEvent(
+                EVENT_GAME_FINISHED,
+                Bundle().apply {
+                    putLong(
+                        PARAM_GAME_DURATION,
+                        MILLISECONDS.toSeconds(clockStatus.initialTime)
+                    )
+                })
+    }
 }

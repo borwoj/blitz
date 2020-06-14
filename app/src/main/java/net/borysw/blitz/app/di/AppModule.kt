@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -107,4 +108,8 @@ class AppModule {
     @Provides
     fun provideRxPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences =
         RxSharedPreferences.create(sharedPreferences)
+
+    @Provides
+    fun provideFirebaseAnalytics(app: Application): FirebaseAnalytics =
+        FirebaseAnalytics.getInstance(app)
 }

@@ -2,6 +2,7 @@ package net.borysw.blitz.app
 
 import android.app.Application
 import androidx.preference.PreferenceManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -26,6 +27,7 @@ class App : Application(), HasAndroidInjector {
         initLogging()
         initCrashlytics()
         initDI()
+        initAnalytics()
         setDefaultSettings()
     }
 
@@ -47,6 +49,10 @@ class App : Application(), HasAndroidInjector {
 
     private fun initCrashlytics() {
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
+    }
+
+    private fun initAnalytics() {
+        FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
