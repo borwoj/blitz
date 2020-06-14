@@ -1,15 +1,20 @@
 package net.borysw.blitz.game.engine.clock
 
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.schedulers.Schedulers.trampoline
 import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.type.ChessClock
+import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
+import net.borysw.blitz.game.engine.dialog.Dialog
+import net.borysw.blitz.game.engine.dialog.Dialogs
 import net.borysw.blitz.game.engine.time.TimeEngine
 import net.borysw.blitz.game.engine.userActions.UserAction
 import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer1
+import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer2
 import net.borysw.blitz.game.engine.userActions.UserActions
 import org.junit.jupiter.api.Test
 
@@ -17,6 +22,7 @@ internal class ChessClockEngineImplTest {
 
     @Test
     fun getClockStatus() {
+        val dialogs = mock<Dialogs>()
         val userActionsSubject = PublishSubject.create<UserAction>()
         val userActions = mock<UserActions> {
             on(it.userActions).thenReturn(userActionsSubject)
@@ -30,15 +36,15 @@ internal class ChessClockEngineImplTest {
             on(it.remainingTimePlayer1).thenReturn(1)
             on(it.remainingTimePlayer2).thenReturn(1)
             on(it.isTimeOver).thenReturn(false)
-            on(it.isPaused).thenReturn(false)
-            on(it.currentPlayer).thenReturn(Player2)
+            on(it.isPaused).thenReturn(false).thenReturn(false).thenReturn(true)
+            on(it.currentPlayer).thenReturn(Player2).thenReturn(Player1)
         }
         val chessClockSubject = PublishSubject.create<ChessClock>()
         val chessClockProvider = mock<ChessClockProvider> {
             on(it.chessClock).thenReturn(chessClockSubject)
         }
         val testedObj =
-            ChessClockEngineImpl(userActions, timeEngine, chessClockProvider, trampoline())
+            ChessClockEngineImpl(userActions, timeEngine, chessClockProvider, dialogs, trampoline())
 
         val testObserver = testedObj.clockStatus.test()
 
@@ -50,6 +56,20 @@ internal class ChessClockEngineImplTest {
         userActionsSubject.onNext(ClockClickedPlayer1)
         verify(chessClock).changeTurn(Player2)
 
-        testObserver.assertValue(ClockStatus(1, 1, 1, Player2))
+        userActionsSubject.onNext(ClockClickedPlayer2)
+        verify(chessClock).changeTurn(Player1)
+
+        userActionsSubject.onNext(UserAction.ActionButtonClicked)
+        verify(chessClock).pause()
+
+        userActionsSubject.onNext(UserAction.ActionButtonClicked)
+        verify(dialogs).showDialog(any<Dialog.ResetConfirmation>())
+
+        testObserver.assertValues(
+            ClockStatus(1, 1, 1, Player2),
+            ClockStatus(1, 1, 1, Player1),
+            ClockStatus(1, 1, 1, Player1),
+            ClockStatus(1, 1, 1, Player1)
+        )
     }
 }
