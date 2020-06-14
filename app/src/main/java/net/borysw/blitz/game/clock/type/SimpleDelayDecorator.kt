@@ -7,7 +7,7 @@ import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
 import javax.inject.Inject
 
 class SimpleDelayDecorator @Inject constructor(
-    private val chessClock: ChessClock,
+    private val chessClock: BasicChessClockImpl,
     private val delayTimer1: Timer,
     private val delayTimer2: Timer
 ) : ChessClock {
