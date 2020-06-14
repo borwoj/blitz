@@ -5,7 +5,7 @@ import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
 import javax.inject.Inject
 
-class FischerDecorator @Inject constructor(private val chessClock: BasicChessClockImpl) :
+class FischerDecorator @Inject constructor(private val chessClock: ChessClock) :
     ChessClock {
 
     var incrementBy: Long = -1

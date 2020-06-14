@@ -15,6 +15,8 @@ import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.ChessClockProviderImpl
 import net.borysw.blitz.game.clock.timer.Timer
 import net.borysw.blitz.game.clock.timer.TimerImpl
+import net.borysw.blitz.game.clock.type.BasicChessClockImpl
+import net.borysw.blitz.game.clock.type.ChessClock
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.audio.SoundEngineImpl
 import net.borysw.blitz.game.engine.audio.SoundPlayer
@@ -43,6 +45,9 @@ class AppModule {
 
     @Module
     interface Binding {
+
+        @Binds
+        fun bindChessClock(implementation: BasicChessClockImpl): ChessClock
 
         @Binds
         fun bindTimer(implementation: TimerImpl): Timer
