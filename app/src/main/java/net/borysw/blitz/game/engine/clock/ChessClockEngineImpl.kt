@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
+import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.type.ChessClock
@@ -29,6 +30,7 @@ class ChessClockEngineImpl @Inject constructor(
     @Named(COMPUTATION)
     computationScheduler: Scheduler
 ) : ChessClockEngine {
+    private val timeEngineToggle = PublishSubject.create<Boolean>()
 
     override val clockStatus: Observable<ClockStatus> =
         chessClockProvider
@@ -36,17 +38,25 @@ class ChessClockEngineImpl @Inject constructor(
             .observeOn(computationScheduler)
             .switchMap { chessClock ->
                 combineLatest(
-                    timeEngine
-                        .time
+                    timeEngineToggle
                         .observeOn(computationScheduler)
-                        .filter { !chessClock.isTimeOver && !chessClock.isPaused }
-                        .doOnNext { chessClock.advanceTime() }
-                        .startWith(0),
+                        .distinctUntilChanged()
+                        .startWith(false)
+                        .switchMap { shouldRunTimeEngine ->
+                            if (shouldRunTimeEngine)
+                                timeEngine
+                                    .time
+                                    .observeOn(computationScheduler)
+                                    .doOnNext { chessClock.advanceTime() }
+                                    .map { Unit }
+                            else Observable.just(Unit)
+                        },
                     userActions
                         .userActions
                         .observeOn(computationScheduler)
-                        .doOnNext { handleUserAction(it, chessClock) },
-                    BiFunction<Long, UserAction, ClockStatus> { _, _ ->
+                        .doOnNext { handleUserAction(it, chessClock) }
+                        .doOnNext { timeEngineToggle.onNext(!chessClock.isTimeOver && !chessClock.isPaused) },
+                    BiFunction<Unit, UserAction, ClockStatus> { _, _ ->
                         ClockStatus(
                             chessClock.initialTime,
                             chessClock.remainingTimePlayer1,
