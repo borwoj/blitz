@@ -67,7 +67,6 @@ class ChessClockEngineImpl @Inject constructor(
                 )
             }
 
-    // TODO extract to separate class
     private fun handleUserAction(action: UserAction, chessClock: ChessClock) {
         when (action) {
             ClockClickedPlayer1 -> if (!chessClock.isTimeOver) chessClock.changeTurn(Player2)

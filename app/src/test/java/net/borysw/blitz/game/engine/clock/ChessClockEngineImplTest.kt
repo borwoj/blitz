@@ -3,6 +3,7 @@ package net.borysw.blitz.game.engine.clock
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.schedulers.Schedulers.trampoline
 import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.game.clock.ChessClockProvider
@@ -35,9 +36,6 @@ internal class ChessClockEngineImplTest {
             on(it.initialTime).thenReturn(1)
             on(it.remainingTimePlayer1).thenReturn(1)
             on(it.remainingTimePlayer2).thenReturn(1)
-            on(it.isTimeOver).thenReturn(false).thenReturn(false).thenReturn(false)
-                .thenReturn(false).thenReturn(true)
-            on(it.isPaused).thenReturn(false).thenReturn(false).thenReturn(true).thenReturn(true)
             on(it.currentPlayer).thenReturn(Player2).thenReturn(Player1)
         }
         val chessClockSubject = PublishSubject.create<ChessClock>()
@@ -50,12 +48,16 @@ internal class ChessClockEngineImplTest {
         val testObserver = testedObj.clockStatus.test()
 
         chessClockSubject.onNext(chessClock)
-        timeSubject.onNext(1)
 
-        verify(chessClock).advanceTime()
+        whenever(chessClock.isTimeOver).thenReturn(false)
+        whenever(chessClock.isPaused).thenReturn(false)
 
         userActionsSubject.onNext(ClockClickedPlayer1)
         verify(chessClock).changeTurn(Player2)
+
+        timeSubject.onNext(1)
+        verify(chessClock).advanceTime()
+
 
         userActionsSubject.onNext(ClockClickedPlayer2)
         verify(chessClock).changeTurn(Player1)
@@ -63,15 +65,20 @@ internal class ChessClockEngineImplTest {
         userActionsSubject.onNext(UserAction.ActionButtonClicked)
         verify(chessClock).pause()
 
+        whenever(chessClock.isPaused).thenReturn(true)
+
         userActionsSubject.onNext(UserAction.ActionButtonClicked)
         verify(dialogs).showDialog(any<Dialog.ResetConfirmation>())
+
+        whenever(chessClock.isTimeOver).thenReturn(true)
 
         userActionsSubject.onNext(UserAction.ActionButtonClicked)
         verify(chessClock).reset()
 
-
         testObserver.assertValues(
             ClockStatus(1, 1, 1, Player2),
+            ClockStatus(1, 1, 1, Player1),
+            ClockStatus(1, 1, 1, Player1),
             ClockStatus(1, 1, 1, Player1),
             ClockStatus(1, 1, 1, Player1),
             ClockStatus(1, 1, 1, Player1),
