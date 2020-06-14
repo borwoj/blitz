@@ -73,7 +73,10 @@ class GameFragment : Fragment() {
     }
 
     private fun showResetConfirmationDialog(dialog: Dialog.ResetConfirmation) {
-        AlertDialog.Builder(requireContext()).setTitle(R.string.reset_confirmation_title)
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.reset_confirmation_title)
+            .setMessage(R.string.reset_confirmation_message)
+            .setIcon(R.drawable.ic_replay_accent_24dp)
             .setPositiveButton(R.string.reset) { _, _ -> viewModel.onResetConfirmClicked() }
             .setNegativeButton(R.string.cancel, null)
             .setOnDismissListener { dialog.isDismissed = true }

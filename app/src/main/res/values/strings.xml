@@ -2,7 +2,8 @@
     <string name="app_name">Blitz</string>
     <string name="reset">Reset</string>
     <string name="cancel">Cancel</string>
-    <string name="reset_confirmation_title">Reset the clock?</string>
+    <string name="reset_confirmation_title">Reset the clock</string>
+    <string name="reset_confirmation_message">Do you really want to reset the clock?</string>
     <string name="game_settings_category_title">Game</string>
     <string name="game_type_pref_title">Game type</string>
     <string name="about">About</string>
