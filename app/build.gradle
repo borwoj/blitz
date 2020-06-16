@@ -12,6 +12,15 @@ apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'com.google.firebase.crashlytics'
 
+def secretPropertiesFile = new File(System.getProperty("user.home"),"secret.properties")
+def secretProperties = new Properties()
+if (secretPropertiesFile.exists()) {
+    secretProperties.load(new FileInputStream(secretPropertiesFile))
+} else {
+    secretProperties.setProperty("upload_keystore_password", "${System.getenv('UPLOAD_KEYSTORE_PASSWORD')}")
+    secretProperties.setProperty("upload_key_password", "${System.getenv('UPLOAD_KEY_PASSWORD')}")
+    secretProperties.setProperty("upload_key_alias", "${System.getenv('UPLOAD_KEY_ALIAS')}")
+}
 
 android {
     compileSdkVersion 29
@@ -26,9 +35,9 @@ android {
     signingConfigs {
         release {
             storeFile file("../upload_keystore.jks")
-            storePassword System.getenv("UPLOAD_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("UPLOAD_KEY_ALIAS")
-            keyPassword System.getenv("UPLOAD_KEY_PASSWORD")
+            storePassword secretProperties.getProperty("upload_keystore_password")
+            keyAlias secretProperties.getProperty("upload_key_alias")
+            keyPassword secretProperties.getProperty("upload_key_password")
         }
     }
     buildTypes {
