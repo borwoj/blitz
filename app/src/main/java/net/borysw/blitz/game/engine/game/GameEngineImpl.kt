@@ -50,7 +50,7 @@ class GameEngineImpl @Inject constructor(
 
     override val gameInfo: Observable<GameInfo> =
         gameSettingsObservable
-            .concatMap {
+            .switchMap {
                 combineLatest(
                     userActionsObservable,
                     soundEngineObservable,
