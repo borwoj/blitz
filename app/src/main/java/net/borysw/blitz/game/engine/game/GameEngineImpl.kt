@@ -16,13 +16,11 @@ import net.borysw.blitz.game.engine.userActions.UserAction
 import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.game.status.GameInfo
 import net.borysw.blitz.game.status.GameInfoCreator
-import net.borysw.blitz.settings.Settings
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
 import javax.inject.Named
 
 class GameEngineImpl @Inject constructor(
-    settings: Settings,
     chessClockEngine: ChessClockEngine,
     soundEngine: SoundEngine,
     userActions: UserActions,
@@ -32,10 +30,6 @@ class GameEngineImpl @Inject constructor(
     computationScheduler: Scheduler
 ) : GameEngine {
 
-    private val gameSettingsObservable =
-        settings.gameSettings
-            .observeOn(computationScheduler)
-
     private val soundEngineObservable =
         soundEngine.sound
             .observeOn(computationScheduler)
@@ -44,34 +38,28 @@ class GameEngineImpl @Inject constructor(
         userActions.userActions
             .observeOn(computationScheduler)
 
-    private val chessClockObservable =
+    private val clockEngineObservable =
         chessClockEngine.clockStatus
             .observeOn(computationScheduler)
 
     override val gameInfo: Observable<GameInfo> =
-        gameSettingsObservable
-            .switchMap {
-                combineLatest(
-                    userActionsObservable,
-                    soundEngineObservable,
-                    chessClockObservable,
-                    Function3<UserAction, Unit, ClockStatus, GameInfo> { _, _, clockStatus ->
-                        gameInfoCreator.get(clockStatus).apply {
-                            logEvent(this, clockStatus)
-                        }
-                    })
-                    .distinctUntilChanged()
-            }
+        combineLatest(
+            userActionsObservable,
+            soundEngineObservable,
+            clockEngineObservable,
+            Function3<UserAction, Unit, ClockStatus, GameInfo> { _, _, clockStatus ->
+                gameInfoCreator.get(clockStatus).apply {
+                    logEvent(this, clockStatus)
+                }
+            })
+            .distinctUntilChanged()
 
     private fun logEvent(gameInfo: GameInfo, clockStatus: ClockStatus) {
         if (gameInfo.status is GameInfo.Status.Finished)
             analytics.logEvent(
                 EVENT_GAME_FINISHED,
                 Bundle().apply {
-                    putLong(
-                        PARAM_GAME_DURATION,
-                        MILLISECONDS.toSeconds(clockStatus.initialTime)
-                    )
+                    putLong(PARAM_GAME_DURATION, MILLISECONDS.toSeconds(clockStatus.initialTime))
                 })
     }
 }

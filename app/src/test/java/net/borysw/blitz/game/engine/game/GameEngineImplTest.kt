@@ -15,17 +15,12 @@ import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.game.status.GameInfo
 import net.borysw.blitz.game.status.GameInfo.Status.Finished.Player2Won
 import net.borysw.blitz.game.status.GameInfoCreator
-import net.borysw.blitz.settings.GameType
-import net.borysw.blitz.settings.Settings
 import org.junit.jupiter.api.Test
 
 internal class GameEngineImplTest {
 
     @Test
     fun getGameInfo() {
-        val settings = mock<Settings> {
-            on(it.gameSettings).thenReturn(just(Settings.GameSettings(1, GameType.Standard)))
-        }
         val clockStatus = ClockStatus(1, 1, 1, Player1)
         val chessClockEngine = mock<ChessClockEngine> {
             on(it.clockStatus).thenReturn(just(clockStatus))
@@ -41,7 +36,6 @@ internal class GameEngineImplTest {
         }
         val analytics = mock<Analytics>()
         val testedObj = GameEngineImpl(
-            settings,
             chessClockEngine,
             soundEngine,
             userActions,
