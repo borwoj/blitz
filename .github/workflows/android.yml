@@ -39,20 +39,17 @@ jobs:
       - name: Install Dependencies
         run: gem install bundler && bundle install
 
-      - name: Set Variables
+      - name: Set Variables and Create Files
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
           UPLOAD_KEYSTORE_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
           UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
           UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
-        run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google_play_service_account_key.json ; echo "$UPLOAD_KEYSTORE_BASE64" | base64 --decode > upload-keystore.jks
+        run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google_play_service_account_key.json ; echo "$UPLOAD_KEYSTORE_BASE64" | base64 --decode > upload_keystore.jks
 
       - name: Deploy the App to Google Play
         run: bundle exec fastlane deploy
 
-      - name: Delete GGoogle Play Service Account Json
-        run: rm -f google_play_service_account_key.json
-
-      - name: Delete Upload Keystore
-        run: rm -f upload-keystore.jks
+      - name: Delete Files
+        run: rm -f google_play_service_account_key.json ; rm -f upload_keystore.jks
