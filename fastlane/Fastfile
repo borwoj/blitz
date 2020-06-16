@@ -3,18 +3,12 @@ opt_out_usage
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
+  desc "Run all the tests"
   lane :test do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  end
-
-  desc "Deploy a new version to the Google Play"
+  desc "Deploy a new version to Google Play"
   lane :deploy do
     gradle(task: "bundleRelease")
     upload_to_play_store(track: 'alpha', aab: 'app/build/outputs/bundle/release/app-release.aab')
