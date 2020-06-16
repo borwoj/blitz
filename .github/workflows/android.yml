@@ -43,7 +43,7 @@ jobs:
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
-        run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google_play_service_account_key.json ; echo $UPLOAD_KEYSTORE_BASE64 > upload_keystore.jks
+        run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google_play_service_account_key.json ; echo $UPLOAD_KEYSTORE_BASE64 | base64 --decode > upload_keystore.jks
 
       - name: Deploy the App to Google Play
         env:
