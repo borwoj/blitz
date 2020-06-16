@@ -23,6 +23,14 @@ android {
         versionName "1.0.${versionCode}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            storeFile file("../upload-keystore.jks")
+            storePassword System.getenv("UPLOAD_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("UPLOAD_KEY_ALIAS")
+            keyPassword System.getenv("UPLOAD_KEY_PASSWORD")
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
