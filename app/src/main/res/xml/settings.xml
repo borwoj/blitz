@@ -36,5 +36,9 @@
             app:key="feedback"
             app:summary="Report technical issues or suggest new features"
             app:title="Send feedback" />
+
+        <Preference
+            app:key="version"
+            app:title="App version" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

@@ -7,9 +7,11 @@ import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import net.borysw.blitz.BuildConfig
 import net.borysw.blitz.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
+    private val appVersion by lazy { BuildConfig.VERSION_NAME }
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
@@ -25,11 +27,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             launchEmail()
             true
         }
+        findPreference<Preference>("version")!!.summary = appVersion
     }
 
     private fun launchEmail() {
         val recipient = getString(R.string.developer_email)
-        val subject = "${getString(R.string.app_name)} - ${getString(R.string.feedback)}"
+        val subject =
+            "${getString(R.string.app_name)} $appVersion - ${getString(R.string.feedback)}"
         val intent = Intent(ACTION_SENDTO).apply {
             data = Uri.parse("mailto:$recipient?&subject=$subject")
         }
