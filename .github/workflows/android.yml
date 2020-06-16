@@ -46,6 +46,7 @@ jobs:
           UPLOAD_KEYSTORE_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
           UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
           UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run:
 
       - name: Extract Google Play Service Account Json
         run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google_play_service_account_key.json
