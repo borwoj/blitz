@@ -1,6 +1,6 @@
-package net.borysw.blitz
+package net.borysw.blitz.analytics
 
-object Analytics {
+object AnalyticsConstants {
     const val EVENT_GAME_FINISHED = "game_finished"
     const val PARAM_GAME_DURATION = "duration"
 }

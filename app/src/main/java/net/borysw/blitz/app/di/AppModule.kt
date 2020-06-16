@@ -12,6 +12,7 @@ import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.Schedulers.IO
+import net.borysw.blitz.analytics.Analytics
 import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.ChessClockProviderImpl
 import net.borysw.blitz.game.clock.timer.Timer
@@ -91,6 +92,9 @@ class AppModule {
         @Binds
         @Singleton
         fun bindDialogs(implementation: DialogsImpl): Dialogs
+
+        @Binds
+        fun bindAnalytics(implementation: net.borysw.blitz.analytics.FirebaseAnalytics): Analytics
     }
 
     @Provides

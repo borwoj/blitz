@@ -33,6 +33,9 @@ android {
             minifyEnabled false
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

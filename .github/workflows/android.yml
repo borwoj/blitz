@@ -21,7 +21,7 @@ jobs:
         run: ./gradlew build
 
   deploy:
-    #needs: build
+    #needs: build TODO
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

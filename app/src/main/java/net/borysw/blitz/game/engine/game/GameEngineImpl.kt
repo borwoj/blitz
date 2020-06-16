@@ -1,14 +1,14 @@
 package net.borysw.blitz.game.engine.game
 
 import android.os.Bundle
-import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.Function3
-import net.borysw.blitz.Analytics.EVENT_GAME_FINISHED
-import net.borysw.blitz.Analytics.PARAM_GAME_DURATION
 import net.borysw.blitz.Schedulers.COMPUTATION
+import net.borysw.blitz.analytics.Analytics
+import net.borysw.blitz.analytics.AnalyticsConstants.EVENT_GAME_FINISHED
+import net.borysw.blitz.analytics.AnalyticsConstants.PARAM_GAME_DURATION
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.clock.ChessClockEngine
 import net.borysw.blitz.game.engine.clock.ClockStatus
@@ -27,7 +27,7 @@ class GameEngineImpl @Inject constructor(
     soundEngine: SoundEngine,
     userActions: UserActions,
     private val gameInfoCreator: GameInfoCreator,
-    private val analytics: FirebaseAnalytics,
+    private val analytics: Analytics,
     @Named(COMPUTATION)
     computationScheduler: Scheduler
 ) : GameEngine {
