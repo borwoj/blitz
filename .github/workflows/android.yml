@@ -44,8 +44,8 @@ jobs:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
         run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google_play_service_account_key.json
 
-      - name: Deploy the app
-        run: bundle exec fastlane deploy
-
       - name: Delete Google Play API Key
         run: rm -f google_play_service_account_key.json
+
+      - name: Deploy the app
+        run: bundle exec fastlane deploy
