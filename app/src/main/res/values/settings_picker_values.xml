@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="game_types">
+        <item>@string/game_type_standard</item>
+        <item>@string/game_type_simple_delay</item>
+        <item>@string/game_type_bronstein</item>
+        <item>@string/game_type_fisher</item>
+    </string-array>
+
+    <string-array name="game_types_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="time_units">
+        <item>@string/seconds</item>
+        <item>@string/minutes</item>
+        <item>@string/hours</item>
+    </string-array>
+
+    <string-array name="time_units_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

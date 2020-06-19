@@ -1,0 +1,91 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "de.mannodermaus.android-junit5"
+
+apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'com.google.firebase.crashlytics'
+
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "net.borysw.blitz"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode Integer.valueOf(System.getenv("GITHUB_RUN_NUMBER") ?: 1)
+        versionName "1.0.${versionCode}"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file("../upload_keystore.jks")
+            storePassword System.getenv("UPLOAD_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("UPLOAD_KEY_ALIAS")
+            keyPassword System.getenv("UPLOAD_KEY_PASSWORD")
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+    def lifecycle_version = "2.2.0"
+    def nav_version = "1.3.0-alpha06"
+    def dagger = "2.28"
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.preference:preference:1.1.1"
+    implementation "androidx.fragment:fragment-ktx:$nav_version"
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0'
+    implementation "com.google.dagger:dagger:$dagger"
+    implementation "com.google.dagger:dagger-android-support:$dagger"
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    kapt "com.google.dagger:dagger-android-processor:$dagger"
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.4.3'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
+
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.6.2")
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+}

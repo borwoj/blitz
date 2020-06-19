@@ -1,0 +1,16 @@
+# update_fastlane
+opt_out_usage
+default_platform(:android)
+
+platform :android do
+  desc "Run all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Deploy a new version to Google Play"
+  lane :deploy do
+    gradle(task: "bundleRelease")
+    upload_to_play_store(track: 'alpha', aab: 'app/build/outputs/bundle/release/app-release.aab')
+  end
+end

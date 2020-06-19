@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "177676416737",
+    "firebase_url": "https://blitz-91cbd.firebaseio.com",
+    "project_id": "blitz-91cbd",
+    "storage_bucket": "blitz-91cbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177676416737:android:ce01a78322083bf1b829a0",
+        "android_client_info": {
+          "package_name": "net.borysw.blitz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177676416737-q588v5k5hh7remf6298ibquspiesbr0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJMXkHjAyEvYLE_Bv65oIo0v2mofLtzOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177676416737-q588v5k5hh7remf6298ibquspiesbr0p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
