@@ -9,9 +9,9 @@ import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.analytics.Analytics
 import net.borysw.blitz.analytics.AnalyticsConstants.EVENT_GAME_FINISHED
 import net.borysw.blitz.analytics.AnalyticsConstants.PARAM_GAME_DURATION
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.clock.ChessClockEngine
-import net.borysw.blitz.game.engine.clock.ClockStatus
 import net.borysw.blitz.game.engine.userActions.UserAction
 import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.game.status.GameInfo

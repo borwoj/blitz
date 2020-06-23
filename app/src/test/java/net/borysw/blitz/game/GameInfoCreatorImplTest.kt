@@ -2,9 +2,9 @@ package net.borysw.blitz.game
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
-import net.borysw.blitz.game.engine.clock.ClockStatus
 import net.borysw.blitz.game.status.GameInfo
 import net.borysw.blitz.game.status.GameInfo.Status
 import net.borysw.blitz.game.status.GameInfo.Status.Finished

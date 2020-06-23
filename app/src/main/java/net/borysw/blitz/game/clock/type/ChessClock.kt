@@ -1,5 +1,7 @@
 package net.borysw.blitz.game.clock.type
 
+import net.borysw.blitz.game.clock.ClockStatus
+
 interface ChessClock {
     sealed class Player {
         object Player1 : Player()
@@ -12,6 +14,7 @@ interface ChessClock {
     val remainingTimePlayer2: Long
     val isTimeOver: Boolean
     val isPaused: Boolean
+    val status: ClockStatus
 
     fun changeTurn(nextPlayer: Player)
     fun advanceTime()

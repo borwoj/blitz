@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.schedulers.Schedulers.trampoline
 import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.game.clock.ChessClockProvider
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.type.ChessClock
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
@@ -37,6 +38,7 @@ internal class ChessClockEngineImplTest {
             on(it.remainingTimePlayer1).thenReturn(1)
             on(it.remainingTimePlayer2).thenReturn(1)
             on(it.currentPlayer).thenReturn(Player2).thenReturn(Player1)
+            on(it.status).thenReturn(ClockStatus(1, 1, 1, Player2), ClockStatus(1, 1, 1, Player1))
         }
         val chessClockSubject = PublishSubject.create<ChessClock>()
         val chessClockProvider = mock<ChessClockProvider> {
@@ -57,7 +59,6 @@ internal class ChessClockEngineImplTest {
 
         timeSubject.onNext(1)
         verify(chessClock).advanceTime()
-
 
         userActionsSubject.onNext(ClockClickedPlayer2)
         verify(chessClock).changeTurn(Player1)

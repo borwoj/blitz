@@ -1,4 +1,4 @@
-package net.borysw.blitz.game.engine.clock
+package net.borysw.blitz.game.clock
 
 import net.borysw.blitz.game.clock.type.ChessClock
 

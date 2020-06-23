@@ -4,6 +4,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.timer.Timer
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
@@ -105,6 +106,17 @@ internal class SimpleDelayDecoratorTest {
         val testedObj = SimpleDelayDecorator(chessClock, mock(), mock())
 
         assertTrue(testedObj.isPaused)
+    }
+
+    @Test
+    @DisplayName("should return clock status")
+    fun status() {
+        val chessClock = mock<ChessClock> {
+            on(it.status).thenReturn(ClockStatus(3, 2, 1, Player1))
+        }
+        val testedObj = SimpleDelayDecorator(chessClock, mock(), mock())
+
+        assertEquals(ClockStatus(3, 2, 1, Player1), testedObj.status)
     }
 
     @Test

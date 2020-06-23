@@ -1,5 +1,6 @@
 package net.borysw.blitz.game.clock.type
 
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.timer.Timer
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
@@ -30,6 +31,9 @@ class BasicChessClockImpl @Inject constructor(
 
     override val isPaused: Boolean
         get() = currentPlayer == null
+
+    override val status: ClockStatus
+        get() = ClockStatus(initialTime, remainingTimePlayer1, remainingTimePlayer2, currentPlayer)
 
     override fun advanceTime() {
         when (currentPlayer) {
