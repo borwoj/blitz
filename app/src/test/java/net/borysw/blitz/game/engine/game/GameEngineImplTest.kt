@@ -6,10 +6,10 @@ import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Observable.just
 import io.reactivex.schedulers.Schedulers.trampoline
 import net.borysw.blitz.analytics.Analytics
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.engine.audio.SoundEngine
 import net.borysw.blitz.game.engine.clock.ChessClockEngine
-import net.borysw.blitz.game.engine.clock.ClockStatus
 import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.engine.userActions.UserActions
 import net.borysw.blitz.game.status.GameInfo
@@ -21,7 +21,8 @@ internal class GameEngineImplTest {
 
     @Test
     fun getGameInfo() {
-        val clockStatus = ClockStatus(1, 1, 1, Player1)
+        val clockStatus =
+            ClockStatus(1, 1, 1, Player1)
         val chessClockEngine = mock<ChessClockEngine> {
             on(it.clockStatus).thenReturn(just(clockStatus))
         }

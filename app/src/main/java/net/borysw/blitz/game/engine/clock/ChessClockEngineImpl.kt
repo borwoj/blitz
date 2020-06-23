@@ -7,6 +7,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.game.clock.ChessClockProvider
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.type.ChessClock
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
@@ -57,12 +58,7 @@ class ChessClockEngineImpl @Inject constructor(
                         .doOnNext { handleUserAction(it, chessClock) }
                         .doOnNext { timeEngineToggle.onNext(!chessClock.isTimeOver && !chessClock.isPaused) },
                     BiFunction<Unit, UserAction, ClockStatus> { _, _ ->
-                        ClockStatus(
-                            chessClock.initialTime,
-                            chessClock.remainingTimePlayer1,
-                            chessClock.remainingTimePlayer2,
-                            chessClock.currentPlayer
-                        )
+                        chessClock.status
                     }
                 )
             }

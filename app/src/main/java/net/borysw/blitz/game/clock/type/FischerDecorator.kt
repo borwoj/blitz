@@ -1,5 +1,6 @@
 package net.borysw.blitz.game.clock.type
 
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.type.ChessClock.Player
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player1
 import net.borysw.blitz.game.clock.type.ChessClock.Player.Player2
@@ -31,6 +32,9 @@ class FischerDecorator @Inject constructor(private val chessClock: ChessClock) :
 
     override val isPaused: Boolean
         get() = chessClock.isPaused
+
+    override val status: ClockStatus
+        get() = chessClock.status
 
     override fun changeTurn(nextPlayer: Player) {
         if (currentPlayer != nextPlayer) {

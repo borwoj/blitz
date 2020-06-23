@@ -4,6 +4,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
+import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.timer.Timer
 import net.borysw.blitz.game.clock.type.BasicChessClockImpl
 import net.borysw.blitz.game.clock.type.ChessClock
@@ -143,6 +144,23 @@ internal class BasicChessClockImplTest {
         val testedObj = BasicChessClockImpl(timer1, timer2)
 
         assertTrue(testedObj.isTimeOver)
+    }
+
+    @Test
+    @DisplayName("should return clock status")
+    fun status() {
+        val timer1 = mock<Timer> {
+            on(it.remainingTime).thenReturn(2)
+        }
+        val timer2 = mock<Timer> {
+            on(it.remainingTime).thenReturn(1)
+        }
+        val testedObj = BasicChessClockImpl(timer1, timer2)
+
+        testedObj.initialTime = 3
+        testedObj.changeTurn(ChessClock.Player.Player1)
+
+        assertEquals(ClockStatus(3, 2, 1, ChessClock.Player.Player1), testedObj.status)
     }
 
     @Test
