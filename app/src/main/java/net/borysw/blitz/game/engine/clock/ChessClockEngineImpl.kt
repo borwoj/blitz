@@ -8,7 +8,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.Schedulers.COMPUTATION
 import net.borysw.blitz.analytics.Analytics
-import net.borysw.blitz.analytics.AnalyticsConstants.EVENT_GAME_FINISHED
+import net.borysw.blitz.analytics.AnalyticsConstants.EVENT_TIME_OVER
 import net.borysw.blitz.analytics.AnalyticsConstants.PARAM_GAME_DURATION
 import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.ClockStatus
@@ -86,7 +86,7 @@ class ChessClockEngineImpl @Inject constructor(
     }
 
     private fun logGameFinishedEvent(initialTime: Long) {
-        analytics.logEvent(EVENT_GAME_FINISHED, Bundle().apply {
+        analytics.logEvent(EVENT_TIME_OVER, Bundle().apply {
             putLong(
                 PARAM_GAME_DURATION,
                 MILLISECONDS.toSeconds(initialTime)
