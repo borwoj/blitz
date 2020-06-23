@@ -1,10 +1,6 @@
 name: Android CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: push
 
 jobs:
   build:
@@ -23,6 +19,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
 
