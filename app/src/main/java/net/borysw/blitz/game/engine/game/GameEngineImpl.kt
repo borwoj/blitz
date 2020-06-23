@@ -24,10 +24,10 @@ class GameEngineImpl @Inject constructor(
     chessClockEngine: ChessClockEngine,
     soundEngine: SoundEngine,
     userActions: UserActions,
-    private val gameInfoCreator: GameInfoCreator,
-    private val analytics: Analytics,
     @Named(COMPUTATION)
-    computationScheduler: Scheduler
+    computationScheduler: Scheduler,
+    private val gameInfoCreator: GameInfoCreator,
+    private val analytics: Analytics
 ) : GameEngine {
 
     private val soundEngineObservable =

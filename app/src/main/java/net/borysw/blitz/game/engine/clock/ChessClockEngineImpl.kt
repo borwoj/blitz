@@ -27,9 +27,9 @@ class ChessClockEngineImpl @Inject constructor(
     userActions: UserActions,
     timeEngine: TimeEngine,
     chessClockProvider: ChessClockProvider,
-    private val dialogs: Dialogs,
     @Named(COMPUTATION)
-    computationScheduler: Scheduler
+    computationScheduler: Scheduler,
+    private val dialogs: Dialogs
 ) : ChessClockEngine {
     private val timeEngineToggle = PublishSubject.create<Boolean>()
 
