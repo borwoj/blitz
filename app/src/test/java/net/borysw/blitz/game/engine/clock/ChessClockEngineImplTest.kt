@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.schedulers.Schedulers.trampoline
 import io.reactivex.subjects.PublishSubject
+import net.borysw.blitz.analytics.Analytics
 import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.type.ChessClock
@@ -44,8 +45,17 @@ internal class ChessClockEngineImplTest {
         val chessClockProvider = mock<ChessClockProvider> {
             on(it.chessClock).thenReturn(chessClockSubject)
         }
+        val analytics = mock<Analytics>()
+
         val testedObj =
-            ChessClockEngineImpl(userActions, timeEngine, chessClockProvider, dialogs, trampoline())
+            ChessClockEngineImpl(
+                userActions,
+                timeEngine,
+                chessClockProvider,
+                trampoline(),
+                dialogs,
+                analytics
+            )
 
         val testObserver = testedObj.clockStatus.test()
 

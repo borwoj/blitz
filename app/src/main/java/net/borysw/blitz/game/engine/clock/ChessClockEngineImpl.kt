@@ -1,11 +1,15 @@
 package net.borysw.blitz.game.engine.clock
 
+import android.os.Bundle
 import io.reactivex.Observable
 import io.reactivex.Observable.combineLatest
 import io.reactivex.Scheduler
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
 import net.borysw.blitz.Schedulers.COMPUTATION
+import net.borysw.blitz.analytics.Analytics
+import net.borysw.blitz.analytics.AnalyticsConstants.EVENT_GAME_FINISHED
+import net.borysw.blitz.analytics.AnalyticsConstants.PARAM_GAME_DURATION
 import net.borysw.blitz.game.clock.ChessClockProvider
 import net.borysw.blitz.game.clock.ClockStatus
 import net.borysw.blitz.game.clock.type.ChessClock
@@ -20,6 +24,7 @@ import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer1
 import net.borysw.blitz.game.engine.userActions.UserAction.ClockClickedPlayer2
 import net.borysw.blitz.game.engine.userActions.UserAction.ResetConfirmed
 import net.borysw.blitz.game.engine.userActions.UserActions
+import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -29,7 +34,8 @@ class ChessClockEngineImpl @Inject constructor(
     chessClockProvider: ChessClockProvider,
     @Named(COMPUTATION)
     computationScheduler: Scheduler,
-    private val dialogs: Dialogs
+    private val dialogs: Dialogs,
+    private val analytics: Analytics
 ) : ChessClockEngine {
     private val timeEngineToggle = PublishSubject.create<Boolean>()
 
@@ -50,6 +56,11 @@ class ChessClockEngineImpl @Inject constructor(
                                     .observeOn(computationScheduler)
                                     .filter { !chessClock.isTimeOver && !chessClock.isPaused }
                                     .doOnNext { chessClock.advanceTime() }
+                                    .doOnNext {
+                                        if (chessClock.isTimeOver) logGameFinishedEvent(
+                                            chessClock.initialTime
+                                        )
+                                    }
                                     .map { Unit }
                             else Observable.just(Unit)
                         },
@@ -72,5 +83,14 @@ class ChessClockEngineImpl @Inject constructor(
                 dialogs.showDialog(Dialog.ResetConfirmation()) else chessClock.reset()
             ResetConfirmed -> chessClock.reset()
         }
+    }
+
+    private fun logGameFinishedEvent(initialTime: Long) {
+        analytics.logEvent(EVENT_GAME_FINISHED, Bundle().apply {
+            putLong(
+                PARAM_GAME_DURATION,
+                MILLISECONDS.toSeconds(initialTime)
+            )
+        })
     }
 }
