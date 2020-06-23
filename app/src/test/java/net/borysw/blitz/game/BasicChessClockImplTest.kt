@@ -147,6 +147,34 @@ internal class BasicChessClockImplTest {
     }
 
     @Test
+    @DisplayName("when no current player, clock should be paused")
+    fun isPausedTrue() {
+        val testedObj = BasicChessClockImpl(mock(), mock())
+
+        assertTrue(testedObj.isPaused)
+    }
+
+    @Test
+    @DisplayName("when current player is 1, clock should not be paused")
+    fun isPausedFalsePlayer1() {
+        val testedObj = BasicChessClockImpl(mock(), mock())
+
+        testedObj.changeTurn(ChessClock.Player.Player1)
+
+        assertFalse(testedObj.isPaused)
+    }
+
+    @Test
+    @DisplayName("when current player is 2, clock should not be paused")
+    fun isPausedFalsePlayer2() {
+        val testedObj = BasicChessClockImpl(mock(), mock())
+
+        testedObj.changeTurn(ChessClock.Player.Player2)
+
+        assertFalse(testedObj.isPaused)
+    }
+
+    @Test
     @DisplayName("should return clock status")
     fun status() {
         val timer1 = mock<Timer> {
