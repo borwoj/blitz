@@ -13,7 +13,7 @@ import net.borysw.blitz.R
 class SettingsFragment : PreferenceFragmentCompat() {
     private val appVersion by lazy { BuildConfig.VERSION_NAME }
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.settings, rootKey)
+        setPreferencesFromResource(R.xml.app_settings, rootKey)
 
         findPreference<Preference>("game_time_settings")!!.setOnPreferenceClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_timeSettingsFragment)

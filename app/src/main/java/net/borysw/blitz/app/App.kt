@@ -32,9 +32,13 @@ class App : Application(), HasAndroidInjector {
     }
 
     private fun setDefaultSettings() {
-        PreferenceManager.setDefaultValues(this, R.xml.settings, true);
-        PreferenceManager.setDefaultValues(this, R.xml.game_time_settings, true);
-        PreferenceManager.setDefaultValues(this, R.xml.game_type_settings, true);
+        setOf(
+            R.xml.app_settings,
+            R.xml.game_time_settings,
+            R.xml.game_type_settings
+        ).forEach { settingsFileId ->
+            PreferenceManager.setDefaultValues(this, settingsFileId, true)
+        }
     }
 
     private fun initDI() {
