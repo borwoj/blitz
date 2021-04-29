@@ -1,0 +1,27 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: com.google.firebase:firebase-crashlytics
+    versions:
+    - 17.3.1
+    - 17.4.0
+  - dependency-name: com.google.firebase:firebase-crashlytics-gradle
+    versions:
+    - 2.4.1
+    - 2.5.0
+    - 2.5.1
+  - dependency-name: org.junit.jupiter:junit-jupiter-api
+    versions:
+    - 5.7.0
+  - dependency-name: org.junit.jupiter:junit-jupiter-engine
+    versions:
+    - 5.7.0
+  - dependency-name: org.junit.jupiter:junit-jupiter-params
+    versions:
+    - 5.7.0
