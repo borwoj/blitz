@@ -86,6 +86,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.6.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.7.2")
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 }
